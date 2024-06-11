@@ -24,7 +24,7 @@ public class CheeseController : MonoBehaviour
             transform.position = cheeseHolder.transform.position;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isHeld)
+        if (Input.GetKeyDown(KeyCode.E) && isHeld)
         {
             isHeld = false;
             rb.isKinematic = false;
@@ -37,13 +37,16 @@ public class CheeseController : MonoBehaviour
     {
         transform.position = cheeseHolder.transform.position;
         rb.isKinematic = true;
+        Debug.Log("Hold");
         isHeld = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject == player && !isHeld)
+        Debug.Log("hureteru");
+        if (collision.gameObject == player && !isHeld&&Input.GetKeyDown(KeyCode.Z))
         {
+            
             // Cheeseがプレイヤーに触れたら元の位置に戻る
             HoldCheese();
         }
