@@ -9,11 +9,16 @@ public class CheeseController : MonoBehaviour
     public float launchForce = 10f;
     public float upwardForce = 2f;
     private Rigidbody2D rb;
+<<<<<<< HEAD
     private bool isHeld = true;//Ž‚Á‚Ä‚éó‘Ô‚©
     private bool isTouchingPlayer = false;//Player‚ÉG‚ê‚Ä‚¢‚é‚©
 
 
     public bool IsHeld { get { return isHeld; } }
+=======
+    private bool isHeld = true;
+    private bool isTouchingPlayer=false;
+>>>>>>> 87d45056c25b300a243733d4832dde6de4fe9d09
 
     void Start()
     {
@@ -47,7 +52,11 @@ public class CheeseController : MonoBehaviour
         rb.isKinematic = true;
         Debug.Log("Hold");
         isHeld = true;
+<<<<<<< HEAD
         isTouchingPlayer = false;
+=======
+        isTouchingPlayer = false; 
+>>>>>>> 87d45056c25b300a243733d4832dde6de4fe9d09
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
