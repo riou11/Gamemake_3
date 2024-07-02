@@ -1211,8 +1211,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575304e0ce9173a4bb9108d9952ac8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   speed: 12
-  dushSpeed: 10
+  dushSpeed: 5
   StageLayer:
     serializedVersion: 2
     m_Bits: 64
