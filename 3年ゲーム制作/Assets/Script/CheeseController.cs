@@ -13,6 +13,7 @@ public class CheeseController : MonoBehaviour
     private bool isTouchingPlayer = false;
 
     public bool IsHeld { get { return isHeld; } }
+    public int lives = 3;//チーズの残機
 
     void Start()
     {
@@ -38,6 +39,11 @@ public class CheeseController : MonoBehaviour
         {
             HoldCheese();
         }
+        // チーズが画面外に出たら消す処理
+        if (transform.position.x < Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).x)
+        {
+            LoseCheese();
+        }
     }
 
     void HoldCheese()
@@ -49,7 +55,6 @@ public class CheeseController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("hureteru");
         if (collision.gameObject == player && !isHeld)
         {
             isTouchingPlayer = true; // プレイヤーに触れている状態を記録
@@ -62,6 +67,32 @@ public class CheeseController : MonoBehaviour
         {
             isTouchingPlayer = false; // プレイヤーから離れた状態を記録
         }
+    }
+
+    private void LoseCheese()
+    {
+
+        lives--;
+        if(lives>0)
+        {
+            Invoke("HoldNewCheese", 0.5f);
+        }
+        else
+        {
+            Debug.Log("Game Over");
+            //ゲームオーバー処理入れるならここに
+        }
+        Destroy(gameObject);
+    }
+
+    private void HoldNewCheese()
+    {
+        Debug.Log("New Cheese");
+        //新しいチーズを持つ処理
+        GameObject newCheese = Instantiate(gameObject, cheeseHolder.transform.position, Quaternion.identity);
+        newCheese.GetComponent<CheeseController>().player = player;
+        newCheese.GetComponent<CheeseController>().cheeseHolder = cheeseHolder;
+        newCheese.GetComponent<CheeseController>().lives = lives;
     }
 }
 
