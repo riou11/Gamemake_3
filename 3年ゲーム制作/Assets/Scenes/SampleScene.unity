@@ -804,6 +804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 12
+  dushSpeed: 2
   StageLayer:
     serializedVersion: 2
     m_Bits: 64

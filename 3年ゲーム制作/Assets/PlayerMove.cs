@@ -2,29 +2,61 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Windows.Speech;
 
 public class PlayerMove : MonoBehaviour
 {
+    //enumでネズミの状態をStateとして管理
+    public enum State { 
+        normal,
+        catchRope,
+        releaseRope
+    }
+
+    public State state;
+
     public float speed = 8f;
-    public float dushSpeed = 10f;
+    public float dushSpeed = 1.5f; 
+    private float currentSpeed = 0f; //現在の速度
     public LayerMask StageLayer;
 
     void Start()
     {
-        
+        state = State.normal;
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveRight();
-        MoveJump();
+        if (state == State.normal)
+        {
+            MoveRight();
+            MoveJump();
+        }
+        else if(state == State.catchRope)
+        {
+
+        }
+        else {
+
+        }
     }
 
     //左右移動関数
     private void MoveRight()
     {
-        transform.Translate(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, 0);
+        //Xボタンが押されたときに、速度を変更（ダッシュ）
+
+        if (Input.GetKey(KeyCode.X))
+        {
+            currentSpeed = speed * dushSpeed;
+        }
+        else
+        {
+            currentSpeed = speed;
+        }
+
+        transform.Translate(Input.GetAxisRaw("Horizontal") * currentSpeed * Time.deltaTime, 0, 0);
     }
 
     //ジャンプ関数
@@ -33,7 +65,7 @@ public class PlayerMove : MonoBehaviour
         if (GroundChk())
         {
             // ジャンプ操作
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Z))
             {// ジャンプ開始
              // ジャンプ力を計算
                 float jumpPower = 10.0f;
@@ -55,4 +87,5 @@ public class PlayerMove : MonoBehaviour
         // Physics2D.Linecastを使い、ベクトルとStageLayerが接触していたらTrueを返す
         return Physics2D.Linecast(startposition, endposition, StageLayer);
     }
+
 }
