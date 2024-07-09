@@ -49,7 +49,7 @@ public class CheeseController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("hureteru");
+        Debug.Log("G‚ê‚Ä‚¢‚é");
         if (collision.gameObject == player && !isHeld)
         {
             isTouchingPlayer = true; // ƒvƒŒƒCƒ„[‚ÉG‚ê‚Ä‚¢‚éó‘Ô‚ğ‹L˜^
