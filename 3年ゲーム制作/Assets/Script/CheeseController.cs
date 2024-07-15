@@ -43,7 +43,9 @@ public class CheeseController : MonoBehaviour
         {
             isHeld = false;
             rb.isKinematic = false;
-
+            //一旦速度をリセット
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0f;
 
             Vector2 forwardDirection = new Vector2(player.transform.right.x, 0).normalized;
             Vector2 upwardDirection = new Vector2(0, 1).normalized;
@@ -57,7 +59,7 @@ public class CheeseController : MonoBehaviour
         {
             HoldCheese();
         }
-        // チーズが画面外に出たら通知
+        // チーズが画面外に出たらのやつ
         if (transform.position.x < Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).x)
         {
             cheeseManager.LoseCheese();
@@ -73,6 +75,8 @@ public class CheeseController : MonoBehaviour
         if (cheeseHolder != null)
         {
             transform.position = cheeseHolder.transform.position;
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0f;
             rb.isKinematic = true;
             isHeld = true;
         }
