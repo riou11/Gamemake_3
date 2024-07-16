@@ -39,7 +39,7 @@ public class CheeseController : MonoBehaviour
             transform.position = cheeseHolder.transform.position;
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && isHeld)
+        if (Input.GetKeyDown(KeyCode.E) && isHeld)
         {
             isHeld = false;
             rb.isKinematic = false;
@@ -55,7 +55,7 @@ public class CheeseController : MonoBehaviour
 
 
         }
-        if (isTouchingPlayer && !isHeld && Input.GetKeyDown(KeyCode.Z))
+        if (isTouchingPlayer && !isHeld && Input.GetKeyDown(KeyCode.E))
         {
             HoldCheese();
         }
@@ -64,7 +64,7 @@ public class CheeseController : MonoBehaviour
         {
             cheeseManager.LoseCheese();
         }
-        if(Vector2.Distance(player.transform.position,transform.position)>respawnDistance&&Input.GetKeyDown(KeyCode.Z))
+        if(Vector2.Distance(player.transform.position,transform.position)>respawnDistance&&Input.GetKeyDown(KeyCode.E))
         {
             cheeseManager.LoseCheese();
         }

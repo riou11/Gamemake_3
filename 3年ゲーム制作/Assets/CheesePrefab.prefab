@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   cheeseHolder: {fileID: 0}
-  forwardForce: 6
+  forwardForce: 7
   upwardForce: 7
   respawnDistance: 5
 --- !u!50 &5044892021907664490
