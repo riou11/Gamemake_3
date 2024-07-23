@@ -13,6 +13,7 @@ public class StageCtrl : MonoBehaviour
     private bool doGameOver = false;
     private bool retryGame = false;
     private int nextStageNum;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,24 +38,31 @@ public class StageCtrl : MonoBehaviour
 
     public void OnCheeseCollected()
     {
-        Debug.Log("チーズが取得されました！");
+        Debug.Log("爆弾チーズが取得されました！");
         gameOverObj.SetActive(true);
         doGameOver = true;
     }
 
-    public void Retry()
+    public void OnEnemyCollected()
     {
-        ChangeScene(1); //最初のステージに戻るので１
+        Debug.Log("敵とプレイヤーが接触しました！");
+        gameOverObj.SetActive(true);
+        doGameOver = true;
+    }
+    public void Retry0()
+    {
         retryGame = true;
+        ChangeScene(0); //最初のステージに戻るので1
+    }
+    public void Retry1()
+    {
+        retryGame = true;
+        ChangeScene(1); //最初のステージに戻るので1
     }
 
     public void ChangeScene(int num)
     {
-        
-            nextStageNum = num;
-            
-           
-        
+        nextStageNum = num;
+        SceneManager.LoadScene(nextStageNum); // シーンを変更する
     }
-
 }
