@@ -19,11 +19,16 @@ public class PlayerMove : MonoBehaviour
     public float speed = 8f;
     public float dushSpeed = 1.5f;
     private float currentSpeed = 0f; //現在の速度
+    private Animator anim = null;
     public LayerMask StageLayer;
+
+    private Rigidbody2D rb;
 
     void Start()
     {
         state = State.normal;
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -36,19 +41,36 @@ public class PlayerMove : MonoBehaviour
         }
         else if (state == State.catchRope)
         {
-
+            // catchRope状態の処理
         }
         else
         {
-
+            // その他の状態の処理
         }
     }
 
     //左右移動関数
     private void MoveRight()
     {
-        //Xボタンが押されたときに、速度を変更（ダッシュ）
+        float horizontalKey = Input.GetAxis("Horizontal");
 
+        if (horizontalKey > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            anim.SetBool("run", true);
+        }
+        else if (horizontalKey < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+            anim.SetBool("run", true);
+        }
+        else
+        {
+            anim.SetBool("run", false);
+        }
+
+
+        //Xボタンが押されたときに、速度を変更（ダッシュ）
         if (Input.GetKey(KeyCode.X))
         {
             currentSpeed = speed * dushSpeed;
@@ -68,11 +90,11 @@ public class PlayerMove : MonoBehaviour
         {
             // ジャンプ操作
             if (Input.GetKeyDown(KeyCode.Z))
-            {// ジャンプ開始
-             // ジャンプ力を計算
+            {
+                // ジャンプ開始
                 float jumpPower = 10.0f;
                 // ジャンプ力を適用
-                this.GetComponent<Rigidbody2D>().velocity = new Vector2(this.GetComponent<Rigidbody2D>().velocity.x, jumpPower);
+                rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             }
         }
     }
@@ -80,14 +102,13 @@ public class PlayerMove : MonoBehaviour
     //地面接地検知関数
     bool GroundChk()
     {
-        Vector3 startposition = transform.position;                     // Playerの中心を始点とする
-        Vector3 endposition = transform.position - transform.up; // Playerの足元を終点とする
+        Vector3 startPosition = transform.position;
+        Vector3 endPosition = transform.position - new Vector3(0, 1.0f, 0); // 1ユニット下の位置を終点とする
 
         // Debug用に始点と終点を表示する
-        Debug.DrawLine(startposition, endposition, Color.red);
+        Debug.DrawLine(startPosition, endPosition, Color.red);
 
         // Physics2D.Linecastを使い、ベクトルとStageLayerが接触していたらTrueを返す
-        return Physics2D.Linecast(startposition, endposition, StageLayer);
+        return Physics2D.Linecast(startPosition, endPosition, StageLayer);
     }
-
 }
