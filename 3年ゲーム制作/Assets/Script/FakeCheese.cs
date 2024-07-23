@@ -50,7 +50,7 @@ public class FakeCheese : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("プレイヤーに触れました");
+        Debug.Log("爆弾チーズがプレイヤーに触れました");
         if (collision.gameObject == player && !isHeld)
         {
             isTouchingPlayer = true; // プレイヤーに触れている状態を記録

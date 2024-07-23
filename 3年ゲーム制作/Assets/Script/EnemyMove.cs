@@ -7,6 +7,7 @@ public class EnemyMove : MonoBehaviour
     public GameObject player;
     public int speed;
     private bool isStopped = false;
+    public StageCtrl stageCtrl; // StageCtrlÇ÷ÇÃéQè∆
 
     void FixedUpdate()
     {
@@ -42,5 +43,13 @@ public class EnemyMove : MonoBehaviour
         isStopped = true;
         yield return new WaitForSeconds(duration);
         isStopped = false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject == player)
+        {
+            stageCtrl.OnEnemyCollected();
+        }
     }
 }

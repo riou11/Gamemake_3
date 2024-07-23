@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class StageCtrl : MonoBehaviour
 {
-    [Header("ƒvƒŒƒCƒ„[ƒQ[ƒ€ƒIƒuƒWƒFƒNƒg")]
+    [Header("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")]
     public GameObject playerObj;
-    [Header("ƒQ[ƒ€ƒI[ƒo[")]
+    [Header("ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼")]
     public GameObject gameOverObj;
 
     private bool doGameOver = false;
@@ -23,7 +23,7 @@ public class StageCtrl : MonoBehaviour
         }
         else
         {
-            Debug.Log("İ’è‚ª‘«‚è‚Ä‚È‚¢‚æI");
+            Debug.Log("è¨­å®šãŒè¶³ã‚Šã¦ãªã„ã‚ˆï¼");
         }
     }
 
@@ -32,26 +32,38 @@ public class StageCtrl : MonoBehaviour
     {
         if (doGameOver)
         {
-            // ƒQ[ƒ€ƒI[ƒo[‚Ìˆ—‚ğ‚±‚±‚É’Ç‰Á
+            // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼æ™‚ã®å‡¦ç†ã‚’ã“ã“ã«è¿½åŠ 
         }
     }
 
     public void OnCheeseCollected()
     {
-        Debug.Log("”š’eƒ`[ƒY‚ªæ“¾‚³‚ê‚Ü‚µ‚½I");
+        Debug.Log("çˆ†å¼¾ãƒãƒ¼ã‚ºãŒå–å¾—ã•ã‚Œã¾ã—ãŸï¼");
         gameOverObj.SetActive(true);
         doGameOver = true;
     }
 
-    public void Retry()
+    public void OnEnemyCollected()
+    {
+        Debug.Log("æ•µã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ¥è§¦ã—ã¾ã—ãŸï¼");
+        gameOverObj.SetActive(true);
+        doGameOver = true;
+    }
+    public void Retry0()
     {
         retryGame = true;
-        ChangeScene(0); //Å‰‚ÌƒXƒe[ƒW‚É–ß‚é‚Ì‚Å1
+        ChangeScene(0); //æœ€åˆã®ã‚¹ãƒ†ãƒ¼ã‚¸ã«æˆ»ã‚‹ã®ã§1
+    }
+    public void Retry1()
+    {
+        retryGame = true;
+        ChangeScene(1); //æœ€åˆã®ã‚¹ãƒ†ãƒ¼ã‚¸ã«æˆ»ã‚‹ã®ã§1
+
     }
 
     public void ChangeScene(int num)
     {
         nextStageNum = num;
-        SceneManager.LoadScene(nextStageNum); // ƒV[ƒ“‚ğ•ÏX‚·‚é
+        SceneManager.LoadScene(nextStageNum); // ã‚·ãƒ¼ãƒ³ã‚’å¤‰æ›´ã™ã‚‹
     }
 }
