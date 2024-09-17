@@ -93,7 +93,7 @@ public class PlayerMove : MonoBehaviour
         Debug.DrawLine(startPosition, endPosition, Color.red);
 
         // Physics2D.Linecastを使い、ベクトルとStageLayerが接触していたらTrueを返す
-        return Physics2D.Linecast(startposition, endposition, StageLayer);
+        return Physics2D.Linecast(startPosition, endPosition, StageLayer);
 
         
     }
