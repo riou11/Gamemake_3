@@ -6,6 +6,9 @@ using UnityEngine.Windows.Speech;
 
 public class PlayerMove : MonoBehaviour
 {
+
+    private Animator anim = null;
+
     //enumでネズミの状態をStateとして管理
     public enum State
     {
@@ -28,6 +31,7 @@ public class PlayerMove : MonoBehaviour
     {
         state = State.normal;
         initialRotation = gameObject.transform.rotation;
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -46,6 +50,26 @@ public class PlayerMove : MonoBehaviour
         {
             // その他の状態の処理
         }
+
+
+        float horizontalKey = Input.GetAxis("Horizontal");
+
+        if (horizontalKey > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            anim.SetBool("run", true);
+        }
+        else if (horizontalKey < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+            anim.SetBool("run", true);
+        }
+        else
+        {
+            anim.SetBool("run", false);
+        }
+
+
     }
 
     //左右移動関数
