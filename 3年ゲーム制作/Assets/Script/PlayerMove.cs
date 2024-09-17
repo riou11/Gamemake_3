@@ -32,6 +32,7 @@ public class PlayerMove : MonoBehaviour
         state = State.normal;
         initialRotation = gameObject.transform.rotation;
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -109,7 +110,7 @@ public class PlayerMove : MonoBehaviour
     bool GroundChk()
     {
         Vector3 startPosition = transform.position;
-        Vector3 endPosition = transform.position - new Vector3(0, 1.0f, 0); // 1ユニット下の位置を終点とする
+        Vector3 endPosition = transform.position - new Vector3(0, 2.0f, 0); // 1ユニット下の位置を終点とする
 
         gameObject.transform.rotation = initialRotation;
 
