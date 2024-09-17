@@ -6,7 +6,7 @@ using UnityEngine.Windows.Speech;
 
 public class PlayerMove : MonoBehaviour
 {
-    //enum‚ÅƒlƒYƒ~‚Ìó‘Ô‚ğState‚Æ‚µ‚ÄŠÇ—
+    //enumã§ãƒã‚ºãƒŸã®çŠ¶æ…‹ã‚’Stateã¨ã—ã¦ç®¡ç†
     public enum State
     {
         normal,
@@ -18,9 +18,11 @@ public class PlayerMove : MonoBehaviour
 
     public float speed = 8f;
     public float dushSpeed = 1.5f;
-    private float currentSpeed = 0f; //Œ»İ‚Ì‘¬“x
+    private float currentSpeed = 0f; //ç¾åœ¨ã®é€Ÿåº¦
     private Quaternion initialRotation;
     public LayerMask StageLayer;
+
+    private Rigidbody2D rb;
 
     void Start()
     {
@@ -38,18 +40,18 @@ public class PlayerMove : MonoBehaviour
         }
         else if (state == State.catchRope)
         {
-
+            // catchRopeçŠ¶æ…‹ã®å‡¦ç†
         }
         else
         {
-
+            // ãã®ä»–ã®çŠ¶æ…‹ã®å‡¦ç†
         }
     }
 
-    //¶‰EˆÚ“®ŠÖ”
+    //å·¦å³ç§»å‹•é–¢æ•°
     private void MoveRight()
     {
-        //Xƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Æ‚«‚ÉA‘¬“x‚ğ•ÏXiƒ_ƒbƒVƒ…j
+        float horizontalKey = Input.GetAxis("Horizontal");
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -63,37 +65,36 @@ public class PlayerMove : MonoBehaviour
         transform.Translate(Input.GetAxisRaw("Horizontal") * currentSpeed * Time.deltaTime, 0, 0);
     }
 
-    //ƒWƒƒƒ“ƒvŠÖ”
+    //ã‚¸ãƒ£ãƒ³ãƒ—é–¢æ•°
     private void MoveJump()
     {
         if (GroundChk())
         {
-            // ƒWƒƒƒ“ƒv‘€ì
+            // ã‚¸ãƒ£ãƒ³ãƒ—æ“ä½œ
             if (Input.GetKeyDown(KeyCode.Space))
-            {// ƒWƒƒƒ“ƒvŠJn
-             // ƒWƒƒƒ“ƒv—Í‚ğŒvZ
+            {// ã‚¸ãƒ£ãƒ³ãƒ—é–‹å§‹
+             // ã‚¸ãƒ£ãƒ³ãƒ—åŠ›ã‚’è¨ˆç®—
                 float jumpPower = 10.0f;
-                // ƒWƒƒƒ“ƒv—Í‚ğ“K—p
-                this.GetComponent<Rigidbody2D>().velocity = new Vector2(this.GetComponent<Rigidbody2D>().velocity.x, jumpPower);
+                // ã‚¸ãƒ£ãƒ³ãƒ—åŠ›ã‚’é©ç”¨
+                rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             }
         }
     }
 
-    //’n–ÊÚ’nŒŸ’mŠÖ”
+    //åœ°é¢æ¥åœ°æ¤œçŸ¥é–¢æ•°
     bool GroundChk()
     {
-        Vector3 startposition = transform.position;                     // Player‚Ì’†S‚ğn“_‚Æ‚·‚é
-        Vector3 endposition = transform.position - transform.up; // Player‚Ì‘«Œ³‚ğI“_‚Æ‚·‚é
+        Vector3 startPosition = transform.position;
+        Vector3 endPosition = transform.position - new Vector3(0, 1.0f, 0); // 1ãƒ¦ãƒ‹ãƒƒãƒˆä¸‹ã®ä½ç½®ã‚’çµ‚ç‚¹ã¨ã™ã‚‹
 
         gameObject.transform.rotation = initialRotation;
 
-        // Debug—p‚Én“_‚ÆI“_‚ğ•\¦‚·‚é
-        Debug.DrawLine(startposition, endposition, Color.red);
+        // Debugç”¨ã«å§‹ç‚¹ã¨çµ‚ç‚¹ã‚’è¡¨ç¤ºã™ã‚‹
+        Debug.DrawLine(startPosition, endPosition, Color.red);
 
-        // Physics2D.Linecast‚ğg‚¢AƒxƒNƒgƒ‹‚ÆStageLayer‚ªÚG‚µ‚Ä‚¢‚½‚çTrue‚ğ•Ô‚·
+        // Physics2D.Linecastã‚’ä½¿ã„ã€ãƒ™ã‚¯ãƒˆãƒ«ã¨StageLayerãŒæ¥è§¦ã—ã¦ã„ãŸã‚‰Trueã‚’è¿”ã™
         return Physics2D.Linecast(startposition, endposition, StageLayer);
 
         
     }
-
 }

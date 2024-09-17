@@ -6,50 +6,84 @@ public class CheeseController : MonoBehaviour
 {
     public GameObject player; // プレイヤーオブジェクト
     public GameObject cheeseHolder; // 空のGameObject（プレイヤーの子オブジェクト）
-    public float launchForce = 10f;
-    public float upwardForce = 2f;
+    public float forwardForce = 10f;//前方向の力
+    public float upwardForce = 2f;//上方向の力
+    public float respawnDistance = 5f;
     private Rigidbody2D rb;
     private bool isHeld = true;
     private bool isTouchingPlayer = false;
+    private CheeseManager cheeseManager;
 
+    private Vector2 playerLastPosition;
+    private Vector2 playerVelocity;
     public bool IsHeld { get { return isHeld; } }
 
-    void Start()
+
+    public void Initialize(GameObject player, GameObject cheeseHolder, CheeseManager cheeseManager)
     {
+        this.player = player;
+        this.cheeseHolder = cheeseHolder;
+        this.cheeseManager = cheeseManager;
         rb = GetComponent<Rigidbody2D>();
         HoldCheese();
+        playerLastPosition = player.transform.position;
     }
 
     void Update()
     {
+        // プレイヤーの速度を計算
+        playerVelocity = ((Vector2)player.transform.position - playerLastPosition) / Time.deltaTime;
+        playerLastPosition = player.transform.position;
         if (isHeld)
         {
             transform.position = cheeseHolder.transform.position;
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && isHeld)
+        if (Input.GetKeyDown(KeyCode.E) && isHeld)
         {
             isHeld = false;
             rb.isKinematic = false;
-            Vector2 launchDirection = new Vector2(player.transform.right.x, player.transform.right.y + upwardForce).normalized;
-            rb.AddForce(launchDirection * launchForce, ForceMode2D.Impulse);
+            //一旦速度をリセット
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+
+            Vector2 forwardDirection = new Vector2(player.transform.right.x, 0).normalized;
+            Vector2 upwardDirection = new Vector2(0, 1).normalized;
+
+            rb.AddForce(forwardDirection * forwardForce + upwardDirection * upwardForce, ForceMode2D.Impulse);
+            rb.AddForce(playerVelocity, ForceMode2D.Impulse);//プレイヤーの速度を追加
+
+
         }
-        if (isTouchingPlayer && !isHeld && Input.GetKeyDown(KeyCode.Z))
+        if (isTouchingPlayer && !isHeld && Input.GetKeyDown(KeyCode.E))
         {
             HoldCheese();
+        }
+        // チーズが画面外に出たらのやつ
+        if (transform.position.x < Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)).x)
+        {
+            cheeseManager.LoseCheese();
+        }
+        if (Vector2.Distance(player.transform.position, transform.position) > respawnDistance && Input.GetKeyDown(KeyCode.E))
+        {
+            cheeseManager.LoseCheese();
         }
     }
 
     void HoldCheese()
     {
-        transform.position = cheeseHolder.transform.position;
-        rb.isKinematic = true;
-        isHeld = true;
+        if (cheeseHolder != null)
+        {
+            transform.position = cheeseHolder.transform.position;
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.isKinematic = true;
+            isHeld = true;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("触れている");
         if (collision.gameObject == player && !isHeld)
         {
             isTouchingPlayer = true; // プレイヤーに触れている状態を記録
@@ -63,5 +97,13 @@ public class CheeseController : MonoBehaviour
             isTouchingPlayer = false; // プレイヤーから離れた状態を記録
         }
     }
-}
 
+    void OnDrawGizmos()
+    {
+        if (player != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(player.transform.position, respawnDistance);
+        }
+    }
+}
