@@ -8,6 +8,7 @@ TagManager:
   - StopObject
   - Enemy
   - cheese
+  - Rope
   layers:
   - Default
   - TransparentFX
