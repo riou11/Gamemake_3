@@ -20,7 +20,7 @@ public class TailHook : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             if (isHooked)
             {
@@ -42,7 +42,9 @@ public class TailHook : MonoBehaviour
             isHooked = true;
             tailHingeJoint.connectedBody = hit.collider.attachedRigidbody;
             tailHingeJoint.connectedAnchor = hit.point - new Vector2(hit.collider.transform.position.x, hit.collider.transform.position.y);
+            
             tailHingeJoint.enabled = true; // Hinge Joint‚ð—LŒø‰»
+
         }
     }
 

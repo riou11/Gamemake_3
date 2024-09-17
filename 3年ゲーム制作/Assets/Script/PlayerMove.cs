@@ -19,11 +19,13 @@ public class PlayerMove : MonoBehaviour
     public float speed = 8f;
     public float dushSpeed = 1.5f;
     private float currentSpeed = 0f; //現在の速度
+    private Quaternion initialRotation;
     public LayerMask StageLayer;
 
     void Start()
     {
         state = State.normal;
+        initialRotation = gameObject.transform.rotation;
     }
 
     // Update is called once per frame
@@ -49,7 +51,7 @@ public class PlayerMove : MonoBehaviour
     {
         //Xボタンが押されたときに、速度を変更（ダッシュ）
 
-        if (Input.GetKey(KeyCode.X))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             currentSpeed = speed * dushSpeed;
         }
@@ -67,7 +69,7 @@ public class PlayerMove : MonoBehaviour
         if (GroundChk())
         {
             // ジャンプ操作
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Space))
             {// ジャンプ開始
              // ジャンプ力を計算
                 float jumpPower = 10.0f;
@@ -83,11 +85,15 @@ public class PlayerMove : MonoBehaviour
         Vector3 startposition = transform.position;                     // Playerの中心を始点とする
         Vector3 endposition = transform.position - transform.up; // Playerの足元を終点とする
 
+        gameObject.transform.rotation = initialRotation;
+
         // Debug用に始点と終点を表示する
         Debug.DrawLine(startposition, endposition, Color.red);
 
         // Physics2D.Linecastを使い、ベクトルとStageLayerが接触していたらTrueを返す
         return Physics2D.Linecast(startposition, endposition, StageLayer);
+
+        
     }
 
 }
