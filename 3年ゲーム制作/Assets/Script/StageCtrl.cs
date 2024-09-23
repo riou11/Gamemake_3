@@ -9,6 +9,8 @@ public class StageCtrl : MonoBehaviour
     public GameObject playerObj;
     [Header("ゲームオーバー")]
     public GameObject gameOverObj;
+    [Header("ステージクリア")]
+    public GameObject stageClrObj;
 
     private bool doGameOver = false;
     private bool retryGame = false;
@@ -20,6 +22,7 @@ public class StageCtrl : MonoBehaviour
         if (playerObj != null && gameOverObj != null)
         {
             gameOverObj.SetActive(false);
+            stageClrObj.SetActive(false);
         }
         else
         {
@@ -63,7 +66,8 @@ public class StageCtrl : MonoBehaviour
 
     public void ChangeScene(int num)
     {
-        nextStageNum = num;
-        SceneManager.LoadScene(nextStageNum); // シーンを変更する
+        stageClrObj.SetActive(true);
+        //nextStageNum = num;
+        //SceneManager.LoadScene(nextStageNum); // シーンを変更する
     }
 }
