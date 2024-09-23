@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour
 {
 
     private Animator anim = null;
+    public StageCtrl stageCtrl;
 
     //enumでネズミの状態をStateとして管理
     public enum State
@@ -32,6 +33,7 @@ public class PlayerMove : MonoBehaviour
         state = State.normal;
         initialRotation = gameObject.transform.rotation;
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -98,7 +100,7 @@ public class PlayerMove : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {// ジャンプ開始
              // ジャンプ力を計算
-                float jumpPower = 10.0f;
+                float jumpPower = 7.0f;
                 // ジャンプ力を適用
                 rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             }
@@ -109,7 +111,7 @@ public class PlayerMove : MonoBehaviour
     bool GroundChk()
     {
         Vector3 startPosition = transform.position;
-        Vector3 endPosition = transform.position - new Vector3(0, 1.0f, 0); // 1ユニット下の位置を終点とする
+        Vector3 endPosition = transform.position - new Vector3(0, 2.0f, 0); // 1ユニット下の位置を終点とする
 
         gameObject.transform.rotation = initialRotation;
 
@@ -120,5 +122,13 @@ public class PlayerMove : MonoBehaviour
         return Physics2D.Linecast(startPosition, endPosition, StageLayer);
 
         
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Goal")
+        {
+            stageCtrl.ChangeScene(0);
+        }
     }
 }
