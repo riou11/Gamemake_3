@@ -22,8 +22,16 @@ public class PlayerMove : MonoBehaviour
         initialRotation = gameObject.transform.rotation;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+<<<<<<< HEAD
+<<<<<<< HEAD
         hingeJoint = gameObject.AddComponent<HingeJoint2D>();
         hingeJoint.enabled = false; // 初期は無効
+=======
+>>>>>>> develop
+=======
+        hingeJoint = gameObject.AddComponent<HingeJoint2D>();
+        hingeJoint.enabled = false; // 初期は無効
+>>>>>>> 5ad230708783ba5be079b4397863204fc7223391
     }
 
     void Update()
@@ -107,8 +115,24 @@ public class PlayerMove : MonoBehaviour
     {
         if (GroundChk() && Input.GetKeyDown(KeyCode.C))
         {
+<<<<<<< HEAD
+<<<<<<< HEAD
             float jumpPower = 10.0f;
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+=======
+            // ジャンプ操作
+            if (Input.GetKeyDown(KeyCode.Space))
+            {// ジャンプ開始
+             // ジャンプ力を計算
+                float jumpPower = 7.0f;
+                // ジャンプ力を適用
+                rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+            }
+>>>>>>> develop
+=======
+            float jumpPower = 10.0f;
+            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+>>>>>>> 5ad230708783ba5be079b4397863204fc7223391
         }
     }
 
@@ -116,7 +140,15 @@ public class PlayerMove : MonoBehaviour
     bool GroundChk()
     {
         Vector3 startPosition = transform.position;
+<<<<<<< HEAD
+<<<<<<< HEAD
         Vector3 endPosition = transform.position - new Vector3(0, 2.0f, 0);
+=======
+        Vector3 endPosition = transform.position - new Vector3(0, 2.0f, 0); // 1ユニット下の位置を終点とする
+>>>>>>> develop
+=======
+        Vector3 endPosition = transform.position - new Vector3(0, 2.0f, 0);
+>>>>>>> 5ad230708783ba5be079b4397863204fc7223391
 
         gameObject.transform.rotation = initialRotation;
         Debug.DrawLine(startPosition, endPosition, Color.red);
