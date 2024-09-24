@@ -128,7 +128,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.gameObject.name == "Goal")
         {
-            stageCtrl.ChangeScene(0);
+            stageCtrl.arrivedGoal();
         }
     }
 }
