@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour
     private HingeJoint2D hingeJoint;
     private bool isAttached = false;
     private Animator anim = null;
+    public StageCtrl stageCtrl;
 
     public float speed = 8f;
     public float dushSpeed = 1.5f;
@@ -21,8 +22,11 @@ public class PlayerMove : MonoBehaviour
         initialRotation = gameObject.transform.rotation;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+<<<<<<< HEAD
         hingeJoint = gameObject.AddComponent<HingeJoint2D>();
         hingeJoint.enabled = false; // 初期は無効
+=======
+>>>>>>> develop
     }
 
     void Update()
@@ -106,8 +110,19 @@ public class PlayerMove : MonoBehaviour
     {
         if (GroundChk() && Input.GetKeyDown(KeyCode.C))
         {
+<<<<<<< HEAD
             float jumpPower = 10.0f;
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+=======
+            // ジャンプ操作
+            if (Input.GetKeyDown(KeyCode.Space))
+            {// ジャンプ開始
+             // ジャンプ力を計算
+                float jumpPower = 7.0f;
+                // ジャンプ力を適用
+                rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+            }
+>>>>>>> develop
         }
     }
 
@@ -115,11 +130,23 @@ public class PlayerMove : MonoBehaviour
     bool GroundChk()
     {
         Vector3 startPosition = transform.position;
+<<<<<<< HEAD
         Vector3 endPosition = transform.position - new Vector3(0, 2.0f, 0);
+=======
+        Vector3 endPosition = transform.position - new Vector3(0, 2.0f, 0); // 1ユニット下の位置を終点とする
+>>>>>>> develop
 
         gameObject.transform.rotation = initialRotation;
         Debug.DrawLine(startPosition, endPosition, Color.red);
 
         return Physics2D.Linecast(startPosition, endPosition, StageLayer);
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Goal")
+        {
+            stageCtrl.arrivedGoal();
+        }
     }
 }
