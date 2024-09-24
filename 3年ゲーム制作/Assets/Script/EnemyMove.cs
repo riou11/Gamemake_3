@@ -8,6 +8,12 @@ public class EnemyMove : MonoBehaviour
     public int speed;
     private bool isStopped = false;
     public StageCtrl stageCtrl; // StageCtrlへの参照
+    private Animator anim = null;
+
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     void FixedUpdate()
     {
@@ -17,11 +23,13 @@ public class EnemyMove : MonoBehaviour
             Vector2 targeting = (player.transform.position - this.transform.position).normalized;
             if (targeting.x > 0)
             {
-                this.GetComponent<SpriteRenderer>().flipX = true;
+                this.GetComponent<SpriteRenderer>().flipX = false;
+                anim.SetBool("run", true);
             }
             else
             {
-                this.GetComponent<SpriteRenderer>().flipX = false;
+                this.GetComponent<SpriteRenderer>().flipX = true;
+                anim.SetBool("run", true);
             }
             // x方向にのみプレイヤーを追う
             this.GetComponent<Rigidbody2D>().velocity = new Vector2((targeting.x * speed), 0);
@@ -30,6 +38,7 @@ public class EnemyMove : MonoBehaviour
         {
             // 停止中は速度をゼロにする
             this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            anim.SetBool("run", false);
         }
     }
 
