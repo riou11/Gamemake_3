@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class FollowCamera2 : MonoBehaviour
+public class kariFollowCamera2 : MonoBehaviour
 {
 
     GameObject playerObj;

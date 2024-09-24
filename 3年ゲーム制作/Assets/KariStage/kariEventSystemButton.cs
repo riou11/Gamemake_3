@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EventSystemButton : MonoBehaviour
+public class kariEventSystemButton : MonoBehaviour
 {
+    [Header("ÉvÉåÉCÉÑÅ[ÇÃîªíË")] public PlayerTriggerCheck playerCheck;
     [SerializeField] Material defaultButtonMaterial;
     [SerializeField] Material pushedButtonMaterial;
     [SerializeField] UnityEvent onButtonPressed;
@@ -24,23 +25,22 @@ public class EventSystemButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "cheese")
+        if (playerCheck.isOn)
         {
-            CheeseController cheese = collision.gameObject.GetComponent<CheeseController>();
-            if (cheese != null && !cheese.IsHeld && !isPressed)
-            {
-                isPressed = true;
-                GetComponent<Renderer>().material = pushedButtonMaterial;
-                onButtonPressed.Invoke();
-                StartCoroutine(PressButton());
-            }
+            GetComponent<Renderer>().material = pushedButtonMaterial;
+            onButtonPressed.Invoke();
+            StartCoroutine(PressButton());
+            //CheeseController cheese = collision.gameObject.GetComponent<CheeseController>();
+            //if (cheese != null && !cheese.IsHeld && !isPressed)
+            //{
+            //    isPressed = true;
+            //    GetComponent<Renderer>().material = pushedButtonMaterial;
+            //    onButtonPressed.Invoke();
+            //    StartCoroutine(PressButton());
+            //}
         }
     }
+
 
     private IEnumerator PressButton()
     {
