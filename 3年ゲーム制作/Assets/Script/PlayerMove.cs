@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour
     private HingeJoint2D hingeJoint;
     private bool isAttached = false;
     private Animator anim = null;
+    public StageCtrl stageCtrl;
 
     public float speed = 8f;
     public float dushSpeed = 1.5f;
@@ -121,5 +122,13 @@ public class PlayerMove : MonoBehaviour
         Debug.DrawLine(startPosition, endPosition, Color.red);
 
         return Physics2D.Linecast(startPosition, endPosition, StageLayer);
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Goal")
+        {
+            stageCtrl.arrivedGoal();
+        }
     }
 }
