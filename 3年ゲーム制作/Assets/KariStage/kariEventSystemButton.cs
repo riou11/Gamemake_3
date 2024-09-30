@@ -25,8 +25,9 @@ public class kariEventSystemButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerCheck.isOn)
+        if (playerCheck.isOn&&!isPressed)
         {
+            isPressed = true;
             GetComponent<Renderer>().material = pushedButtonMaterial;
             onButtonPressed.Invoke();
             StartCoroutine(PressButton());

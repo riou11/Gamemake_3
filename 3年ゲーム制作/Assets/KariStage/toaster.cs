@@ -6,6 +6,7 @@ public class toaster : MonoBehaviour
 {
     [SerializeField] private float distance = 1.0f;
     [SerializeField] private float moveDuration = 1.0f;
+    [SerializeField] private float waitBeforeMove = 2.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,16 +31,22 @@ public class toaster : MonoBehaviour
 
     private IEnumerator Move()
     {
+        // 指定秒数待機
+        yield return new WaitForSeconds(waitBeforeMove);
+
         Vector2 startPosition = transform.position;
         Vector2 endPosition = startPosition + new Vector2(0, distance);
-        float elapsedtime = 0;
+        float elapsedTime = 0;
 
-        while (elapsedtime < moveDuration)
+        // パンを指定時間かけて移動させる
+        while (elapsedTime < moveDuration)
         {
-            transform.position = Vector2.Lerp(startPosition, endPosition, elapsedtime / moveDuration);
-            elapsedtime += Time.deltaTime;
+            transform.position = Vector2.Lerp(startPosition, endPosition, elapsedTime / moveDuration);
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        // 最終位置に移動
         transform.position = endPosition;
     }
 }
