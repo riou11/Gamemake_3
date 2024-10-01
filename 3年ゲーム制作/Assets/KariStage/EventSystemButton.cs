@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class kariEventSystemButton : MonoBehaviour
+public class EventSystemButton : MonoBehaviour
 {
     [Header("ƒvƒŒƒCƒ„[‚Ì”»’è")] public PlayerTriggerCheck playerCheck;
     [SerializeField] Material defaultButtonMaterial;
