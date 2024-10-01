@@ -22,10 +22,6 @@ public class PlayerMove : MonoBehaviour
         initialRotation = gameObject.transform.rotation;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        hingeJoint = gameObject.AddComponent<HingeJoint2D>();
-        hingeJoint.enabled = false; // 初期は無効
-
-
     }
 
     void Update()
@@ -126,6 +122,7 @@ public class PlayerMove : MonoBehaviour
     bool GroundChk()
     {
         Vector3 startPosition = transform.position;
+
 
         Vector3 endPosition = transform.position - new Vector3(0, 2.0f, 0); // 1ユニット下の位置を終点とする
 
