@@ -916,13 +916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1eaec06ae41284fbd1cade37a9ae37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultButtonMaterial: {fileID: 2100000, guid: 739ed21e2dedda74081a33e2c6ca170f, type: 2}
-  pushedButtonMaterial: {fileID: 2100000, guid: a7eefcf06463f2e4694f4d628be6b087, type: 2}
-  onButtonPressed:
-    m_PersistentCalls:
-      m_Calls: []
-  buttonPressDepth: 0.1
-  buttonPressDuration: 0.2
 --- !u!1001 &1886963258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1089,7 +1082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: nextStage
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: playerObj
@@ -1141,7 +1134,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 97985037890177910, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Retry0
+      value: Retry1
+      objectReference: {fileID: 0}
+    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1952396058}
+    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToNextStage
+      objectReference: {fileID: 0}
+    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StageCtrl, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7605246756413005795, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_IsActive

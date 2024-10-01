@@ -21,6 +21,8 @@ public class StageCtrl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1.0f;
+
         if (playerObj != null && gameOverObj != null)
         {
             gameOverObj.SetActive(false);
@@ -66,6 +68,12 @@ public class StageCtrl : MonoBehaviour
 
     }
 
+    public void Retry2()
+    {
+        retryGame = true;
+        ChangeScene(2);
+    }
+
     public void ChangeScene(int num)
     {
         nextStageNum = num;
@@ -75,6 +83,7 @@ public class StageCtrl : MonoBehaviour
     public void arrivedGoal()
     {
         stageClrObj.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     public void ToNextStage()
