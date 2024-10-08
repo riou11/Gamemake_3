@@ -8,7 +8,6 @@ public class PlayerMove : MonoBehaviour
     private HingeJoint2D hingeJoint;
     private bool isAttached = false;
     private Animator anim = null;
-    public StageCtrl stageCtrl;
 
     public float speed = 8f;
     public float dushSpeed = 1.5f;
@@ -22,6 +21,8 @@ public class PlayerMove : MonoBehaviour
         initialRotation = gameObject.transform.rotation;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        hingeJoint = gameObject.AddComponent<HingeJoint2D>();
+        hingeJoint.enabled = false; // 初期は無効
     }
 
     void Update()
@@ -58,8 +59,17 @@ public class PlayerMove : MonoBehaviour
                 anim.SetBool("run", false);
             }
         }
-    }
 
+        if (GroundChk())
+        {
+            anim.ResetTrigger("Jump"); // 地面に着いたらジャンプをリセット
+            anim.SetBool("Jumping", false); // 空中状態のフラグを解除
+        }
+        else
+        {
+            anim.SetBool("Jumping", true); // 空中状態にフラグを立てる
+        }
+    }
 
     // 衝突処理で紐に接触した際の挙動
     void OnCollisionEnter2D(Collision2D collision)
@@ -67,11 +77,6 @@ public class PlayerMove : MonoBehaviour
         if (collision.gameObject.tag == "Rope" && !isAttached)
         {
             AttachToRope(collision.gameObject);
-        }
-
-        if (collision.gameObject.name == "Goal")
-        {
-            stageCtrl.arrivedGoal();
         }
     }
 
@@ -85,6 +90,7 @@ public class PlayerMove : MonoBehaviour
     void ReleaseRope()
     {
         hingeJoint.enabled = false;
+        hingeJoint.connectedBody = null;
         isAttached = false;
     }
 
@@ -108,13 +114,11 @@ public class PlayerMove : MonoBehaviour
     // ジャンプ関数
     private void MoveJump()
     {
-        if (GroundChk() && Input.GetKeyDown(KeyCode.C))
+        if (GroundChk() && Input.GetKeyDown(KeyCode.Space))
         {
-
             float jumpPower = 10.0f;
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-
-          
+            anim.SetTrigger("Jump");
         }
     }
 
@@ -122,16 +126,11 @@ public class PlayerMove : MonoBehaviour
     bool GroundChk()
     {
         Vector3 startPosition = transform.position;
-
-
-        Vector3 endPosition = transform.position - new Vector3(0, 2.0f, 0); // 1ユニット下の位置を終点とする
-
+        Vector3 endPosition = transform.position - new Vector3(0, 2.0f, 0);
 
         gameObject.transform.rotation = initialRotation;
         Debug.DrawLine(startPosition, endPosition, Color.red);
 
         return Physics2D.Linecast(startPosition, endPosition, StageLayer);
     }
-
-   
 }
