@@ -171,7 +171,6 @@ GameObject:
   - component: {fileID: 5437183754393103880}
   - component: {fileID: 5437183754393103883}
   - component: {fileID: 5437183754393103925}
-  - component: {fileID: 5437183754393103882}
   m_Layer: 7
   m_Name: hook rope
   m_TagString: Rope
@@ -187,7 +186,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5437183754393103924}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.06369972, y: -1.2910999, z: 0}
+  m_LocalPosition: {x: 0.022, y: -1.207, z: 0}
   m_LocalScale: {x: 0.11485205, y: 1.3224056, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -293,27 +292,3 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!233 &5437183754393103882
-HingeJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5437183754393103924}
-  m_Enabled: 0
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 0.49999925, y: -0.00000011920929}
-  m_ConnectedAnchor: {x: 13.929845, y: 3.0899308}
-  m_UseMotor: 0
-  m_Motor:
-    m_MotorSpeed: 0
-    m_MaximumMotorForce: 10000
-  m_UseLimits: 1
-  m_AngleLimits:
-    m_LowerAngle: 11
-    m_UpperAngle: 167.4
