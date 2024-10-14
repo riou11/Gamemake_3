@@ -240,7 +240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402732, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 12.36
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402732, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2690,6 +2690,9 @@ MonoBehaviour:
   player: {fileID: 716025153}
   speed: 10
   stageCtrl: {fileID: 1153152352}
+  rayDistance: 2
+  obstacleTag: Obstacle
+  rayColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1342410743
 GameObject:
   m_ObjectHideFlags: 0
@@ -5100,6 +5103,10 @@ PrefabInstance:
     - target: {fileID: 7039997374645477703, guid: 56713b060ac62aa4d8fe83aad6862d00, type: 3}
       propertyPath: m_Name
       value: toaster0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039997374645477703, guid: 56713b060ac62aa4d8fe83aad6862d00, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
       objectReference: {fileID: 0}
     - target: {fileID: 7039997374645477704, guid: 56713b060ac62aa4d8fe83aad6862d00, type: 3}
       propertyPath: m_RootOrder
