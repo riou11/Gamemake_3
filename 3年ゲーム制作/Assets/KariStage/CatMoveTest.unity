@@ -240,7 +240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402732, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.36
+      value: 63.28
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402732, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2249,7 +2249,7 @@ GameObject:
   - component: {fileID: 1201712054}
   m_Layer: 6
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2613,7 +2613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8156267355620311011, guid: f8910d1d12ca48945befc70d6bca20ec, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -40.35
+      value: -3.04
       objectReference: {fileID: 0}
     - target: {fileID: 8156267355620311011, guid: f8910d1d12ca48945befc70d6bca20ec, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2693,6 +2693,9 @@ MonoBehaviour:
   rayDistance: 2
   obstacleTag: Obstacle
   rayColor: {r: 1, g: 0, b: 0, a: 1}
+  StageLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1342410743
 GameObject:
   m_ObjectHideFlags: 0

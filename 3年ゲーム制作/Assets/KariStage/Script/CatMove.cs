@@ -14,12 +14,15 @@ public class CatMove : MonoBehaviour
     public Color rayColor = Color.red; // デバッグ用のRayの色
     private Rigidbody2D rb;
     private Collider2D myCollider; // 自分自身のCollider
+    private Quaternion initialRotation;
+    public LayerMask StageLayer;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>(); // 自分のColliderを取得
+        initialRotation = gameObject.transform.rotation;
     }
 
     void FixedUpdate()
@@ -52,8 +55,9 @@ public class CatMove : MonoBehaviour
         else
         {
             // 障害物があった場合の処理をここに追加
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            anim.SetBool("run", false);
+            //rb.velocity = new Vector2(0, rb.velocity.y);
+            //anim.SetBool("run", false);
+            MoveJump();
         }
 
         // Rayを可視化（デバッグ用）
@@ -73,21 +77,21 @@ public class CatMove : MonoBehaviour
         // 自分自身にRayが当たらないようにする
         if (hit.collider != null && hit.collider != myCollider)
         {
-            Debug.Log("Raycast hit object: " + hit.collider.gameObject.name + " with tag: " + hit.collider.tag);
+            //Debug.Log("Raycast hit object: " + hit.collider.gameObject.name + " with tag: " + hit.collider.tag);
 
             // 障害物のタグを確認
             if (hit.collider.CompareTag(obstacleTag))
             {
-                Debug.Log("Obstacle detected by tag!");
+                //Debug.Log("Obstacle detected by tag!");
                 return true;
             }
         }
         if (hit.collider != null)
         {
-            Debug.Log("Raycast hit object: " + hit.collider.gameObject.name + " with tag: " + hit.collider.tag);
+            //Debug.Log("Raycast hit object: " + hit.collider.gameObject.name + " with tag: " + hit.collider.tag);
             if (hit.collider.CompareTag(obstacleTag))
             {
-                Debug.Log("Obstacle detected by tag!");
+                //Debug.Log("Obstacle detected by tag!");
                 return true;
             }
         }
@@ -113,5 +117,32 @@ public class CatMove : MonoBehaviour
         {
             stageCtrl.OnEnemyCollected();
         }
+    }
+    private void MoveJump()
+    {
+        if (GroundChk())
+        {
+
+            float jumpPower = 10.0f;
+            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+
+
+        }
+    }
+
+    // 地面接地検知関数
+    bool GroundChk()
+    {
+        Vector3 startPosition = transform.position;
+
+
+        Vector3 endPosition = transform.position - new Vector3(0, 5.0f, 0); // 1ユニット下の位置を終点とする
+
+
+        gameObject.transform.rotation = initialRotation;
+        Debug.DrawLine(startPosition, endPosition, Color.red);
+        bool hoge = Physics2D.Linecast(startPosition, endPosition, StageLayer);
+        Debug.Log(hoge);
+        return Physics2D.Linecast(startPosition, endPosition, StageLayer);
     }
 }
