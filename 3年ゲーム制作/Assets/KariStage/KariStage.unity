@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &13594052 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 13594052, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+  m_PrefabInstance: {fileID: 97985037716405868}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &15385070
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +440,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &81945368
 PrefabInstance:
@@ -464,7 +475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402732, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -31.31
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402732, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_LocalPosition.y
@@ -611,7 +622,7 @@ GameObject:
   - component: {fileID: 169610073}
   - component: {fileID: 169610072}
   - component: {fileID: 169610074}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1340,7 +1351,7 @@ GameObject:
   - component: {fileID: 563830774}
   - component: {fileID: 563830773}
   - component: {fileID: 563830775}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1890,7 +1901,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getSE: {fileID: 0}
-  myScore: 0
   playerCheck: {fileID: 718881899}
 --- !u!114 &718881899
 MonoBehaviour:
@@ -1971,7 +1981,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &851993470
 GameObject:
@@ -2273,7 +2283,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1154449869
 GameObject:
@@ -2399,13 +2409,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1eaec06ae41284fbd1cade37a9ae37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultButtonMaterial: {fileID: 2100000, guid: 739ed21e2dedda74081a33e2c6ca170f, type: 2}
-  pushedButtonMaterial: {fileID: 2100000, guid: a7eefcf06463f2e4694f4d628be6b087, type: 2}
-  onButtonPressed:
-    m_PersistentCalls:
-      m_Calls: []
-  buttonPressDepth: 0.1
-  buttonPressDuration: 0.2
 --- !u!1 &1201712051
 GameObject:
   m_ObjectHideFlags: 0
@@ -2655,7 +2658,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getSE: {fileID: 0}
-  myScore: 0
   playerCheck: {fileID: 1221153539}
 --- !u!114 &1221153539
 MonoBehaviour:
@@ -3057,7 +3059,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getSE: {fileID: 0}
-  myScore: 0
   playerCheck: {fileID: 1363756428}
 --- !u!114 &1363756428
 MonoBehaviour:
@@ -3299,7 +3300,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getSE: {fileID: 0}
-  myScore: 100
   playerCheck: {fileID: 1393933291}
 --- !u!58 &1393933293
 CircleCollider2D:
@@ -3697,7 +3697,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getSE: {fileID: 0}
-  myScore: 100
   playerCheck: {fileID: 1575655427}
 --- !u!58 &1575655429
 CircleCollider2D:
@@ -3767,6 +3766,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1662832072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1662832074}
+  - component: {fileID: 1662832073}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1662832073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662832072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 656b1e58d40aab34aaa02b0703485255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stages: []
+  cheeseParameters: {fileID: 13594052}
+--- !u!4 &1662832074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662832072}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 30.116657, y: 3.7984076, z: -10.062133}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1695857360
 GameObject:
   m_ObjectHideFlags: 0
@@ -4289,7 +4334,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getSE: {fileID: 0}
-  myScore: 0
   playerCheck: {fileID: 1868848166}
 --- !u!114 &1868848166
 MonoBehaviour:
@@ -4403,7 +4447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575304e0ce9173a4bb9108d9952ac8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
+  stageCtrl: {fileID: 0}
   speed: 12
   dushSpeed: 10
   StageLayer:
@@ -4573,7 +4617,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getSE: {fileID: 0}
-  myScore: 0
   playerCheck: {fileID: 1911160675}
 --- !u!114 &1911160675
 MonoBehaviour:
@@ -4970,13 +5013,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 13594052, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 13594052, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 13594052, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_Color.r
+      value: 0.94362855
+      objectReference: {fileID: 0}
     - target: {fileID: 97985036304551285, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_Name
       value: StageCtrl
-      objectReference: {fileID: 0}
-    - target: {fileID: 97985036304551285, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: playerObj
@@ -4984,7 +5035,7 @@ PrefabInstance:
       objectReference: {fileID: 1903220903}
     - target: {fileID: 97985036304551287, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 97985036304551287, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5026,10 +5077,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 97985037890177910, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Retry0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
 --- !u!1001 &3130281587106656978
@@ -5049,7 +5096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3130281587647525764, guid: 191b8e89b531e2947b895d75b72a5000, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3130281587647525764, guid: 191b8e89b531e2947b895d75b72a5000, type: 3}
       propertyPath: m_LocalPosition.x

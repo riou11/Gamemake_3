@@ -17,11 +17,14 @@ public class PlayerMove : MonoBehaviour
     public LayerMask StageLayer;
     private Rigidbody2D rb;
 
+    GameManager gameManager;
+
     void Start()
     {
         initialRotation = gameObject.transform.rotation;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     void Update()

@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 1f3fc49ed7de74c4c90dc360940f894b
   - enabled: 1
+    path: Assets/KariStage/KariStage.unity
+    guid: 7f01acabeafc3c54598f09524974a411
+  - enabled: 1
     path: Assets/Scenes/stage1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/stage2.unity
     guid: 6b97cd57fd7384541b847442fdf9b098
+  - enabled: 1
+    path: Assets/Scenes/stage3.unity
+    guid: 91e9b03361a05b940a8bd7ac376826e3
   m_configObjects: {}
