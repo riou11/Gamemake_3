@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - cheese
   - Rope
+  - Obstacle
   layers:
   - Default
   - TransparentFX
