@@ -123,7 +123,7 @@ public class CatMove : MonoBehaviour
         if (GroundChk())
         {
 
-            float jumpPower = 10.0f;
+            float jumpPower = 35.0f;
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
 
 
