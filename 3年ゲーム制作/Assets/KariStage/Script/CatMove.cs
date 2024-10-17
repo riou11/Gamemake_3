@@ -16,6 +16,8 @@ public class CatMove : MonoBehaviour
     private Collider2D myCollider; // 自分自身のCollider
     private Quaternion initialRotation;
     public LayerMask StageLayer;
+    public float knockbackForce = 500f; // 跳ね返りの力
+    public float stopDuration = 1.0f; // 停止時間
 
     void Start()
     {
@@ -27,36 +29,37 @@ public class CatMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isStopped)
+        {
+            anim.SetBool("run", false); // 停止中はアニメーションを停止
+            return; // 停止中は何もしない
+        }
+
         // Rayの方向を決定
         Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 
         // Raycastで障害物検知
         if (!DetectObstacle(direction))
         {
-            if (!isStopped)
-            {
-                // プレイヤー-敵キャラの位置関係から方向を取得し、速度を一定化
-                Vector2 targeting = (player.transform.position - this.transform.position).normalized;
+            // プレイヤー-敵キャラの位置関係から方向を取得し、速度を一定化
+            Vector2 targeting = (player.transform.position - this.transform.position).normalized;
 
-                if (targeting.x > 0)
-                {
-                    GetComponent<SpriteRenderer>().flipX = false;
-                    anim.SetBool("run", true);
-                }
-                else
-                {
-                    GetComponent<SpriteRenderer>().flipX = true;
-                    anim.SetBool("run", true);
-                }
-                // x方向にのみプレイヤーを追う
-                rb.velocity = new Vector2((targeting.x * speed), rb.velocity.y);
+            if (targeting.x > 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+                anim.SetBool("run", true); // アニメーションを再生
             }
+            else
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+                anim.SetBool("run", true); // アニメーションを再生
+            }
+            // x方向にのみプレイヤーを追う
+            rb.velocity = new Vector2((targeting.x * speed), rb.velocity.y);
         }
         else
         {
-            // 障害物があった場合の処理をここに追加
-            //rb.velocity = new Vector2(0, rb.velocity.y);
-            //anim.SetBool("run", false);
+            // 障害物があった場合の処理
             MoveJump();
         }
 
@@ -77,21 +80,8 @@ public class CatMove : MonoBehaviour
         // 自分自身にRayが当たらないようにする
         if (hit.collider != null && hit.collider != myCollider)
         {
-            //Debug.Log("Raycast hit object: " + hit.collider.gameObject.name + " with tag: " + hit.collider.tag);
-
-            // 障害物のタグを確認
             if (hit.collider.CompareTag(obstacleTag))
             {
-                //Debug.Log("Obstacle detected by tag!");
-                return true;
-            }
-        }
-        if (hit.collider != null)
-        {
-            //Debug.Log("Raycast hit object: " + hit.collider.gameObject.name + " with tag: " + hit.collider.tag);
-            if (hit.collider.CompareTag(obstacleTag))
-            {
-                //Debug.Log("Obstacle detected by tag!");
                 return true;
             }
         }
@@ -106,8 +96,15 @@ public class CatMove : MonoBehaviour
 
     private IEnumerator StopChasingCoroutine(float duration)
     {
+        // 移動を止める
         isStopped = true;
+        rb.velocity = Vector2.zero; // 速度をリセットして停止する
+        anim.SetBool("run", false); // 停止中はアニメーションも停止
+
+        // 停止する時間を待つ
         yield return new WaitForSeconds(duration);
+
+        // 再び動けるようにする
         isStopped = false;
     }
 
@@ -117,16 +114,25 @@ public class CatMove : MonoBehaviour
         {
             stageCtrl.OnEnemyCollected();
         }
+
+        // Trapタグのオブジェクトにぶつかった場合の処理
+        if (collision.gameObject.CompareTag("Trap"))
+        {
+            // 斜め後ろに跳ね返る処理
+            Vector2 knockbackDirection = transform.localScale.x > 0 ? new Vector2(-1, 1) : new Vector2(1, 1); // 左右と上方向に跳ね返る
+            rb.AddForce(knockbackDirection.normalized * knockbackForce); // AddForceで力を加えて跳ね返す
+
+            // 一時停止
+            StopChasing(stopDuration);
+        }
     }
+
     private void MoveJump()
     {
         if (GroundChk())
         {
-
             float jumpPower = 35.0f;
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-
-
         }
     }
 
@@ -134,15 +140,10 @@ public class CatMove : MonoBehaviour
     bool GroundChk()
     {
         Vector3 startPosition = transform.position;
-
-
         Vector3 endPosition = transform.position - new Vector3(0, 5.0f, 0); // 1ユニット下の位置を終点とする
-
 
         gameObject.transform.rotation = initialRotation;
         Debug.DrawLine(startPosition, endPosition, Color.red);
-        bool hoge = Physics2D.Linecast(startPosition, endPosition, StageLayer);
-        Debug.Log(hoge);
         return Physics2D.Linecast(startPosition, endPosition, StageLayer);
     }
 }
