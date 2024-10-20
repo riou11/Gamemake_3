@@ -21,7 +21,7 @@ public class PlayerMove : MonoBehaviour
         initialRotation = gameObject.transform.rotation;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        hingeJoint = gameObject.AddComponent<HingeJoint2D>();
+        hingeJoint = GetComponent<HingeJoint2D>();
         hingeJoint.enabled = false; // 初期は無効
     }
 
@@ -34,9 +34,17 @@ public class PlayerMove : MonoBehaviour
             MoveJump();
         }
 
-        if (isAttached && Input.GetKeyDown(KeyCode.Space))
+        if (isAttached && Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
         {
+            anim.SetBool("hook", false);
             ReleaseRope(); // ロープを離す
+
+        }
+
+        if (isAttached)
+        {
+
+            anim.SetBool("hook", true);
         }
 
         // アニメーション処理（ここもロープに掴まっていない場合のみ）
