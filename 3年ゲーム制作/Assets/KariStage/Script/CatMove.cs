@@ -10,6 +10,7 @@ public class CatMove : MonoBehaviour
     public StageCtrl stageCtrl; // StageCtrlへの参照
     private Animator anim = null;
     public float rayDistance = 1.0f; // Rayの距離
+    public float rayHeightOffset = 1.0f; // 射出点の高さのオフセット
     public string obstacleTag = "Obstacle"; // 障害物のタグ
     public Color rayColor = Color.red; // デバッグ用のRayの色
     private Rigidbody2D rb;
@@ -22,6 +23,7 @@ public class CatMove : MonoBehaviour
     public float maxDistanceFromCamera = 10.0f; // カメラからの最大距離
     public Vector3 warpOffset = new Vector3(0, -10, 0); // キッチンの床へのオフセット位置
     public float jumpPower = 35.0f; // ジャンプの力
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -69,8 +71,8 @@ public class CatMove : MonoBehaviour
         }
 
         // Rayを可視化（デバッグ用）
-        Vector2 rayOrigin = (Vector2)transform.position + direction * 5.5f; // 始点を少し前にオフセット
-        Debug.DrawRay(rayOrigin, direction * rayDistance, rayColor); // オフセットした位置からRayを描画
+       Vector2 rayOrigin = (Vector2)transform.position + direction * 5.5f + new Vector2(0, rayHeightOffset); 
+    Debug.DrawRay(rayOrigin, direction * rayDistance, rayColor); // オフセットした位置からRayを描画
     }
 
     // カメラからの距離をチェックする関数
@@ -116,8 +118,8 @@ public class CatMove : MonoBehaviour
     // Raycastで障害物を検知する関数（タグで検知）
     private bool DetectObstacle(Vector2 direction)
     {
-        // Rayの始点を少し前にオフセット
-        Vector2 rayOrigin = (Vector2)transform.position + direction * 5.5f;
+        // Rayの始点を少し前にオフセットし、高さも調整
+        Vector2 rayOrigin = (Vector2)transform.position + direction * 5.5f + new Vector2(0, rayHeightOffset);
 
         // Rayを発射して前方の障害物を検知
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin, direction, rayDistance);

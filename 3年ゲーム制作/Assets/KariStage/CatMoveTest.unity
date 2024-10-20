@@ -1541,7 +1541,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: -10}
+  m_LocalPosition: {x: -27.4, y: 1.5, z: -10}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1617,7 +1617,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712881018}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 75, y: -1.1, z: 0}
+  m_LocalPosition: {x: 75, y: -2.47, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2155,7 +2155,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &1109621664
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2533,7 +2533,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1201712051}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 50, y: -1.6, z: 0}
+  m_LocalPosition: {x: 50, y: -2.97, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2907,9 +2907,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 716025153}
-  speed: 14
+  speed: 13
   stageCtrl: {fileID: 1153152352}
   rayDistance: 3
+  rayHeightOffset: -3.5
   obstacleTag: Obstacle
   rayColor: {r: 1, g: 0, b: 0, a: 1}
   StageLayer:
@@ -2919,7 +2920,7 @@ MonoBehaviour:
   stopDuration: 3
   mainCamera: {fileID: 519420031}
   maxDistanceFromCamera: 50
-  warpOffset: {x: 0, y: -7.5, z: 0}
+  warpOffset: {x: 0, y: -8, z: 0}
   jumpPower: 50
 --- !u!1 &1342410743
 GameObject:
@@ -3588,7 +3589,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510231612}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 71.5, y: -1.6, z: 0}
+  m_LocalPosition: {x: 71.5, y: -2.97, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
