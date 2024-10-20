@@ -122,7 +122,7 @@ public class PlayerMove : MonoBehaviour
     // ジャンプ関数
     private void MoveJump()
     {
-        if (GroundChk() && Input.GetKeyDown(KeyCode.Space))
+        if (GroundChk() && Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
         {
             float jumpPower = 10.0f;
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
