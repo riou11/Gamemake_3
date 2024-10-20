@@ -18,7 +18,10 @@ public class CatMove : MonoBehaviour
     public LayerMask StageLayer;
     public float knockbackForce = 500f; // 跳ね返りの力
     public float stopDuration = 1.0f; // 停止時間
-
+    public Camera mainCamera;  // メインカメラへの参照
+    public float maxDistanceFromCamera = 10.0f; // カメラからの最大距離
+    public Vector3 warpOffset = new Vector3(0, -10, 0); // キッチンの床へのオフセット位置
+    public float jumpPower = 35.0f; // ジャンプの力
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -29,6 +32,8 @@ public class CatMove : MonoBehaviour
 
     void FixedUpdate()
     {
+        CheckDistanceFromCamera();
+
         if (isStopped)
         {
             anim.SetBool("run", false); // 停止中はアニメーションを停止
@@ -66,6 +71,46 @@ public class CatMove : MonoBehaviour
         // Rayを可視化（デバッグ用）
         Vector2 rayOrigin = (Vector2)transform.position + direction * 5.5f; // 始点を少し前にオフセット
         Debug.DrawRay(rayOrigin, direction * rayDistance, rayColor); // オフセットした位置からRayを描画
+    }
+
+    // カメラからの距離をチェックする関数
+    private void CheckDistanceFromCamera()
+    {
+        float distanceFromCamera = Vector2.Distance(transform.position, mainCamera.transform.position);
+
+        // カメラから一定距離離れたらワープ処理
+        if (distanceFromCamera > maxDistanceFromCamera)
+        {
+            WarpToPlayer();
+        }
+    }
+
+    // プレイヤーの位置にワープし、キッチンの下からジャンプする処理
+    private void WarpToPlayer()
+    {
+        // プレイヤーの位置にワープし、キッチンの床に設定
+        transform.position = player.transform.position + warpOffset;
+
+        // 一定時間待ってからジャンプ
+        StartCoroutine(JumpAfterDelay(2.0f)); // 0.5秒待機
+    }
+
+    // ジャンプを行うコルーチン
+    private IEnumerator JumpAfterDelay(float delay)
+    {
+
+        yield return new WaitForSeconds(delay); // 指定された時間待つ
+                                                // コライダーを無効にする
+        myCollider.enabled = false;
+
+        // ジャンプしてステージに戻る
+        rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+
+        // ジャンプが始まった後、少し待ってからコライダーを再度有効にする
+        yield return new WaitForSeconds(0.5f); // ジャンプのための時間を待つ（必要に応じて調整）
+
+        // コライダーを有効にする
+        myCollider.enabled = true;
     }
 
     // Raycastで障害物を検知する関数（タグで検知）
