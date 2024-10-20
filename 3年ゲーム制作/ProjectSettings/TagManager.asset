@@ -10,6 +10,7 @@ TagManager:
   - cheese
   - Rope
   - Obstacle
+  - Trap
   layers:
   - Default
   - TransparentFX

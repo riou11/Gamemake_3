@@ -8,21 +8,23 @@ public class toaster : MonoBehaviour
     [SerializeField] private float distance = 1.0f;
     [SerializeField] private float moveDuration = 1.0f;
     [SerializeField] private float waitBeforeMove = 2.0f;
+    [SerializeField] private string newTag = "Trap"; // 新しいタグをInspectorから設定できる
     [Header("プレイヤーの判定")] public PlayerTriggerCheck playerCheck;
     [SerializeField] AudioClip SE = null;
     AudioSource audioSource;
 
-    private bool isMoved=false;
-    // Start is called before the first frame update
+    private bool isMoved = false;
+    private Collider2D col;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        col = GetComponent<Collider2D>(); // 自分のコライダー取得
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (playerCheck.isOn&&!isMoved)
+        if (playerCheck.isOn && !isMoved)
         {
             isMoved = true;
             StartCoroutine(Move());
@@ -34,7 +36,7 @@ public class toaster : MonoBehaviour
         Debug.Log("Gimmick activated");
     }
 
-    public void MoveObject()//ボタン使うならこれで作動
+    public void MoveObject() // ボタン使うならこれで作動
     {
         StartCoroutine(Move());
     }
@@ -47,9 +49,9 @@ public class toaster : MonoBehaviour
         Vector2 upPosition = startPosition + new Vector2(0, distance); // 最終的に上に移動する位置
 
         float elapsedTime = 0;
-
-        // 下に移動する（短い時間で）
         float downDuration = moveDuration / 2; // 半分の時間で下に移動
+
+        // 下に移動する
         while (elapsedTime < downDuration)
         {
             transform.position = Vector2.Lerp(startPosition, downPosition, elapsedTime / downDuration);
@@ -63,8 +65,10 @@ public class toaster : MonoBehaviour
         // 指定秒数待機
         yield return new WaitForSeconds(waitBeforeMove);
 
-        // 上に移動する
-        elapsedTime = 0; // 時間リセット
+        // 上に移動開始（ここでタグを変更）
+        gameObject.tag = newTag; // タグ変更
+        elapsedTime = 0;
+
         while (elapsedTime < moveDuration)
         {
             transform.position = Vector2.Lerp(downPosition, upPosition, elapsedTime / moveDuration);
@@ -72,7 +76,41 @@ public class toaster : MonoBehaviour
             yield return null;
         }
 
-        // 最終位置に到達
         transform.position = upPosition;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // 猫に当たったときに一定時間後にコライダー無効＆タグ変更
+            StartCoroutine(DisableColliderAndChangeTagAfterDelay());
+        }
+    }
+
+    private IEnumerator DisableColliderAndChangeTagAfterDelay()
+    {
+        yield return new WaitForSeconds(0.5f); // 少し待つ
+        col.enabled = false; // コライダー無効
+        gameObject.tag = "Untagged"; // タグもリセット
+        StartCoroutine(FadeOut()); // 見えなくする処理
+    }
+
+    private IEnumerator FadeOut()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        float fadeDuration = 1.0f;
+        float elapsedTime = 0;
+
+        while (elapsedTime < fadeDuration)
+        {
+            float alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // 完全に見えなくなったらオブジェクトを非アクティブに
+        gameObject.SetActive(false);
     }
 }
