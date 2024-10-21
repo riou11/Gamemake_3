@@ -293,7 +293,11 @@ PrefabInstance:
     - target: {fileID: 6646916755745402735, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: stageCtrl
       value: 
-      objectReference: {fileID: 1153152352}
+      objectReference: {fileID: 0}
+    - target: {fileID: 6646916755745402735, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 878904727}
     - target: {fileID: 6646916755745402771, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_Name
       value: Player (1)
@@ -600,7 +604,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnMaterial: {fileID: 2100000, guid: 507ecd6ce905df14aacd78e18df600de, type: 2}
   Offmaterial: {fileID: 2100000, guid: addf5723edf81ce48ae35e30621c1c18, type: 2}
-  stageCtrl: {fileID: 1153152352}
+  stageCtrl: {fileID: 0}
   playerCheck: {fileID: 169676272}
   isOn: 0
 --- !u!114 &169676272
@@ -751,6 +755,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   penaltyScore: 200
   playerCheck: {fileID: 259060554}
+  stageCtrl: {fileID: 0}
 --- !u!95 &259060553
 Animator:
   serializedVersion: 5
@@ -2129,6 +2134,10 @@ PrefabInstance:
       propertyPath: cheeseParameters
       value: 
       objectReference: {fileID: 97985037716405869}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: healthGaugeSlider
+      value: 
+      objectReference: {fileID: 950509593}
     - target: {fileID: 1538473632820727213, guid: 65183304ce22fea419549381db356ea5, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -2179,15 +2188,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65183304ce22fea419549381db356ea5, type: 3}
---- !u!114 &1153152352 stripped
+--- !u!114 &878904727 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-  m_PrefabInstance: {fileID: 781049907}
+  m_CorrespondingSourceObject: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+  m_PrefabInstance: {fileID: 869429831}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90bf978319ca5d340b2ca6408c48493f, type: 3}
+  m_Script: {fileID: 11500000, guid: 656b1e58d40aab34aaa02b0703485255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &950509593 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 950509593, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+  m_PrefabInstance: {fileID: 97985037716405868}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1175661079
@@ -2663,7 +2683,7 @@ PrefabInstance:
     - target: {fileID: 8156267355620311008, guid: f8910d1d12ca48945befc70d6bca20ec, type: 3}
       propertyPath: stageCtrl
       value: 
-      objectReference: {fileID: 1153152352}
+      objectReference: {fileID: 0}
     - target: {fileID: 8156267355620311011, guid: f8910d1d12ca48945befc70d6bca20ec, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -4355,8 +4375,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575304e0ce9173a4bb9108d9952ac8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
-  dushSpeed: 10
   StageLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -4539,17 +4557,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOn: 0
---- !u!114 &1952396058 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-  m_PrefabInstance: {fileID: 97985037716405868}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90bf978319ca5d340b2ca6408c48493f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2007506840
 GameObject:
   m_ObjectHideFlags: 0
@@ -4675,7 +4682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 716025153}
-  stageCtrl: {fileID: 1153152352}
+  stageCtrl: {fileID: 0}
 --- !u!1 &2105146391
 GameObject:
   m_ObjectHideFlags: 0
@@ -4945,7 +4952,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnMaterial: {fileID: 2100000, guid: 507ecd6ce905df14aacd78e18df600de, type: 2}
   Offmaterial: {fileID: 2100000, guid: addf5723edf81ce48ae35e30621c1c18, type: 2}
-  stageCtrl: {fileID: 1153152352}
+  stageCtrl: {fileID: 0}
   playerCheck: {fileID: 2132774172}
   isOn: 1
 --- !u!114 &2132774172
@@ -4994,13 +5001,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1882724682, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 97985036304551285, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_Name
       value: StageCtrl
-      objectReference: {fileID: 0}
-    - target: {fileID: 97985036304551285, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: playerObj
@@ -5050,22 +5057,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 97985037890177910, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Retry0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1813823434962299782, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -338
-      objectReference: {fileID: 0}
-    - target: {fileID: 1813823434962299782, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 117
-      objectReference: {fileID: 0}
-    - target: {fileID: 2109649098224126552, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_FillAmount
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: playerObj
+      value: 
+      objectReference: {fileID: 716025153}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
 --- !u!114 &97985037716405869 stripped
@@ -5145,7 +5140,7 @@ PrefabInstance:
     - target: {fileID: 3130281587647525766, guid: 191b8e89b531e2947b895d75b72a5000, type: 3}
       propertyPath: stageCtrl
       value: 
-      objectReference: {fileID: 1952396058}
+      objectReference: {fileID: 0}
     - target: {fileID: 3130281587647525766, guid: 191b8e89b531e2947b895d75b72a5000, type: 3}
       propertyPath: cheeseHolder
       value: 

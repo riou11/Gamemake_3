@@ -5,19 +5,23 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    GameManager gameManager;
+
     private HingeJoint2D hingeJoint;
     private bool isAttached = false;
     private Animator anim = null;
-
-    public float speed = 8f;
-    public float dushSpeed = 1.5f;
+    private float speed = 0f;
+    private float dushSpeed = 1.5f;
     private float currentSpeed = 0f;
     private Quaternion initialRotation;
     public LayerMask StageLayer;
     private Rigidbody2D rb;
+    
+    private bool IsDushing = false;
 
     void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
         initialRotation = gameObject.transform.rotation;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -28,7 +32,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         // プレイヤーがロープに掴まっていない場合のみ移動とジャンプを許可
-        if (!isAttached)
+        if (!isAttached && gameManager != null) 
         {
             MoveRight();
             MoveJump();
@@ -79,6 +83,17 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    //プレイヤーが走っているかを、アニメーションのStateから判断し、真偽を返す
+    public bool IsRunningPlayer()
+    {
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Player_run"))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     // 衝突処理で紐に接触した際の挙動
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -107,22 +122,33 @@ public class PlayerMove : MonoBehaviour
     {
         float horizontalKey = Input.GetAxis("Horizontal");
 
+        //GameManagerから返ってきた、currentSpeedを適用
+        speed = gameManager.GetCurrentSpeed();
+        Debug.Log(speed);
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             currentSpeed = speed * dushSpeed;
+            IsDushing = true;
         }
         else
         {
             currentSpeed = speed;
+            IsDushing = false;
         }
 
         transform.Translate(Input.GetAxisRaw("Horizontal") * currentSpeed * Time.deltaTime, 0, 0);
     }
 
+    public bool IsPlayerDushing()
+    {
+        return IsDushing;
+    }
+
     // ジャンプ関数
     private void MoveJump()
     {
-        if (GroundChk() && Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
+        if (GroundChk() && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))) 
         {
             float jumpPower = 10.0f;
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
