@@ -2,31 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+//インゲーム中の、進行度等に応じたUI遷移の管理クラス
 
 public class StageCtrl : MonoBehaviour
 {
+    [Header("チーズパラメーターUI")]
+    [SerializeField] public Image cheeseParameters;
+    [Header("体力ゲージUI")]
+    [SerializeField] public Slider healthGaugeSlider;
+
     [Header("プレイヤーゲームオブジェクト")]
     public GameObject playerObj;
     [Header("ゲームオーバー")]
     public GameObject gameOverObj;
     [Header("ステージクリア")]
     public GameObject stageClrObj;
+    [Header("インゲームUI")]
+    public GameObject InGameUIObj;
     [Header("次のステージ")]
     public int nextStage;
 
-    private bool doGameOver = false;
+    public bool doGameOver = false;
     private bool retryGame = false;
     private int nextStageNum;
+
+    GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
         Time.timeScale = 1.0f;
 
-        if (playerObj != null && gameOverObj != null)
+        gameManager = FindObjectOfType<GameManager>();
+
+        if (playerObj != null && gameOverObj != null && stageClrObj != null && InGameUIObj != null)
         {
             gameOverObj.SetActive(false);
             stageClrObj.SetActive(false);
+            InGameUIObj.SetActive(true);
+            doGameOver = false;
         }
         else
         {
@@ -37,25 +53,34 @@ public class StageCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (doGameOver)
-        {
-            // ゲームオーバー時の処理をここに追加
-        }
+
     }
 
+    //爆弾チーズを獲ってしまった時のゲームオーバー処理
     public void OnCheeseCollected()
     {
         Debug.Log("爆弾チーズが取得されました！");
+        InGameUIObj.SetActive(false);
         gameOverObj.SetActive(true);
         doGameOver = true;
+        Time.timeScale = 0f;
     }
 
+    //敵に捕まった時のゲームオーバー処理
     public void OnEnemyCollected()
     {
         Debug.Log("敵とプレイヤーが接触しました！");
+        InGameUIObj.SetActive(false);
         gameOverObj.SetActive(true);
         doGameOver = true;
+        Time.timeScale = 0f;
     }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene("CatMoveTest");
+    }
+
     public void Retry0()
     {
         retryGame = true;
