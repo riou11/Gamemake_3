@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     private int[] cheeseScores = { 8, 0, 0 };
     private int stgNum = 0;
 
+    public float percentCheese { get; private set; }
+
     //シングルトンの実装
     private void Awake()
     {
@@ -65,10 +67,10 @@ public class GameManager : MonoBehaviour
     void UpdateCheeseParameter()
     {
         //獲得チーズ数とステージに配置されたチーズ数を除算した結果を、チーズパラメーターに反映
-        float fillAmount_ = (float)cheeseScore / (float)cheeseScores[stgNum];
-        cheeseParameters.fillAmount = fillAmount_;
+        percentCheese = (float)cheeseScore / (float)cheeseScores[stgNum];
+        cheeseParameters.fillAmount = percentCheese;
         Debug.Log(cheeseScore);
-        Debug.Log(fillAmount_);
+        Debug.Log(percentCheese);
     }
 
     // ステージデータをセーブする
