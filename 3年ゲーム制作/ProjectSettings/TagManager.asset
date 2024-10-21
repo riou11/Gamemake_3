@@ -11,6 +11,7 @@ TagManager:
   - Rope
   - Obstacle
   - Trap
+  - NoCatZone
   layers:
   - Default
   - TransparentFX
