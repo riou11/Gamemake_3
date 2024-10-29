@@ -92,13 +92,15 @@ public class CatMove : MonoBehaviour
     {
         // プレイヤーの位置にワープし、キッチンの床に設定
         transform.position = new Vector3(player.transform.position.x, warpOffset.y, player.transform.position.z);
-
-        // 一定時間待ってからジャンプ
-        StartCoroutine(JumpAfterDelay(2.0f)); // 0.5秒待機
+        if (!isStopped)
+        {
+            // 一定時間待ってからジャンプ
+            StartCoroutine(JumpAfterDelay(2.0f)); // 0.5秒待機
+        }
     }
 
-    // ジャンプを行うコルーチン
-    private IEnumerator JumpAfterDelay(float delay)
+        // ジャンプを行うコルーチン
+        private IEnumerator JumpAfterDelay(float delay)
     {
 
         yield return new WaitForSeconds(delay); // 指定された時間待つ
@@ -176,7 +178,7 @@ public class CatMove : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // 特定の範囲に入った場合の処理
-        if (other.CompareTag("NoCatZone")) // ここを適切なタグに置き換えてください
+        if (other.CompareTag("NoCatZone"))
         {
             // アニメーションを停止
             anim.SetBool("run", false);
@@ -187,11 +189,12 @@ public class CatMove : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         // 特定の範囲を抜けた場合の処理
-        if (other.CompareTag("StopZone")) // 設定したタグに置き換えます
+        if (other.CompareTag("NoCatZone")) // 設定したタグに置き換えます
         {
             // アニメーションを再開
             anim.SetBool("run", true);
             isStopped = false; // 動ける状態に戻す
+            StartCoroutine(JumpAfterDelay(2.0f));
         }
     }
 
