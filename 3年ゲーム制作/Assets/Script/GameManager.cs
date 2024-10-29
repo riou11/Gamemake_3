@@ -169,15 +169,15 @@ public class GameManager : MonoBehaviour
     {
         if (player != null)
         {
-            if (player.IsRunningPlayer())
+            if (player.IsRunningPlayer()) //プレイヤーが走っていたら
             {
                 if (cheeseScore != 0)
                 {
-                    if (player.IsPlayerDushing())
+                    if (player.IsPlayerDushing()) //ダッシュしているとき
                     {
                         stageCtrl.healthGaugeSlider.value -= Time.deltaTime * speedRunning;
                     }
-                    else
+                    else //通常の走りのとき
                     {
                         stageCtrl.healthGaugeSlider.value -= Time.deltaTime * normalRunning;
                     }
@@ -235,6 +235,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("StageSelect");
     }
 
+    //チーズを獲得したときのスコア更新
     public void getCheese(int cheese)
     {
         cheeseScore += cheese;
