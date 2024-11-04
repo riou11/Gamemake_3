@@ -23,6 +23,7 @@ public class CatMove : MonoBehaviour
     public float maxDistanceFromCamera = 10.0f; // カメラからの最大距離
     public Vector3 warpOffset = new Vector3(0, -10, 0); // キッチンの床へのオフセット位置
     public float jumpPower = 35.0f; // ジャンプの力
+    private bool inNoCatZone = false; // NoCatZoneにいるかどうかを判定するフラグ
 
     void Start()
     {
@@ -90,17 +91,23 @@ public class CatMove : MonoBehaviour
     // プレイヤーの位置にワープし、キッチンの下からジャンプする処理
     private void WarpToPlayer()
     {
-        // プレイヤーの位置にワープし、キッチンの床に設定
         transform.position = new Vector3(player.transform.position.x, warpOffset.y, player.transform.position.z);
+
+        // NoCatZoneにいる場合は移動再開しない
+        if (inNoCatZone)
+        {
+            return;
+        }
+
         if (!isStopped)
         {
-            // 一定時間待ってからジャンプ
-            StartCoroutine(JumpAfterDelay(2.0f)); // 0.5秒待機
+            ForceExitNoCatZone();
+            StartCoroutine(JumpAfterDelay(2.0f));
         }
     }
 
-        // ジャンプを行うコルーチン
-        private IEnumerator JumpAfterDelay(float delay)
+    // ジャンプを行うコルーチン
+    private IEnumerator JumpAfterDelay(float delay)
     {
 
         yield return new WaitForSeconds(delay); // 指定された時間待つ
@@ -177,25 +184,33 @@ public class CatMove : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 特定の範囲に入った場合の処理
         if (other.CompareTag("NoCatZone"))
         {
-            // アニメーションを停止
             anim.SetBool("run", false);
             isStopped = true; // 停止状態に設定
-            rb.velocity = Vector2.zero; // 速度をリセット
+            inNoCatZone = true; // NoCatZoneにいると判定
+            rb.velocity = Vector2.zero;
         }
     }
+
     private void OnTriggerExit2D(Collider2D other)
     {
-        // 特定の範囲を抜けた場合の処理
-        if (other.CompareTag("NoCatZone")) // 設定したタグに置き換えます
+        if (other.CompareTag("NoCatZone") && !inNoCatZone) // フラグが立っていないときのみ実行
         {
-            // アニメーションを再開
             anim.SetBool("run", true);
-            isStopped = false; // 動ける状態に戻す
+            isStopped = false;
             StartCoroutine(JumpAfterDelay(2.0f));
         }
+    }
+
+    // ワープ処理でフラグが維持されるように修正
+
+
+    // 強制的にNoCatZoneから離れたときの処理
+    public void ForceExitNoCatZone()
+    {
+        inNoCatZone = false;
+        isStopped = false;
     }
 
     private void MoveJump()
