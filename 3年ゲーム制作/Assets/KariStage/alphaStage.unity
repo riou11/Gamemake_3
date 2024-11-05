@@ -416,13 +416,17 @@ PrefabInstance:
       value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402735, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
+      propertyPath: Enemy
+      value: 
+      objectReference: {fileID: 1324410068}
+    - target: {fileID: 6646916755745402735, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: speed
       value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402735, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: stageCtrl
       value: 
-      objectReference: {fileID: 1153152352}
+      objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402771, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_Name
       value: Player (1)
@@ -482,7 +486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnMaterial: {fileID: 0}
   Offmaterial: {fileID: 0}
-  stageCtrl: {fileID: 1153152352}
+  stageCtrl: {fileID: 0}
   playerCheck: {fileID: 128692409}
   isOn: 0
 --- !u!95 &128692411
@@ -895,7 +899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnMaterial: {fileID: 2100000, guid: 507ecd6ce905df14aacd78e18df600de, type: 2}
   Offmaterial: {fileID: 2100000, guid: addf5723edf81ce48ae35e30621c1c18, type: 2}
-  stageCtrl: {fileID: 1153152352}
+  stageCtrl: {fileID: 0}
   playerCheck: {fileID: 169676272}
   isOn: 0
 --- !u!114 &169676272
@@ -1121,6 +1125,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   penaltyScore: 200
   playerCheck: {fileID: 259060554}
+  stageCtrl: {fileID: 0}
 --- !u!95 &259060553
 Animator:
   serializedVersion: 5
@@ -3075,6 +3080,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &670621270 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+  m_PrefabInstance: {fileID: 97985037716405868}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90bf978319ca5d340b2ca6408c48493f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &712881018
 GameObject:
   m_ObjectHideFlags: 0
@@ -4610,17 +4626,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1153152352 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-  m_PrefabInstance: {fileID: 781049907}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90bf978319ca5d340b2ca6408c48493f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1178240411
 GameObject:
   m_ObjectHideFlags: 0
@@ -4780,7 +4785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnMaterial: {fileID: 0}
   Offmaterial: {fileID: 0}
-  stageCtrl: {fileID: 1153152352}
+  stageCtrl: {fileID: 0}
   playerCheck: {fileID: 1178682130}
   isOn: 1
 --- !u!95 &1178682132
@@ -5404,7 +5409,7 @@ PrefabInstance:
     - target: {fileID: 8156267355620311008, guid: f8910d1d12ca48945befc70d6bca20ec, type: 3}
       propertyPath: stageCtrl
       value: 
-      objectReference: {fileID: 1153152352}
+      objectReference: {fileID: 0}
     - target: {fileID: 8156267355620311011, guid: f8910d1d12ca48945befc70d6bca20ec, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -5511,7 +5516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 716025153}
   speed: 15
-  stageCtrl: {fileID: 1153152352}
+  stageCtrl: {fileID: 670621270}
   rayDistance: 3
   rayHeightOffset: -3.5
   obstacleTag: Obstacle
@@ -8368,8 +8373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575304e0ce9173a4bb9108d9952ac8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
-  dushSpeed: 10
+  Enemy: {fileID: 0}
   StageLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -8610,17 +8614,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 38
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1952396058 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-  m_PrefabInstance: {fileID: 97985037716405868}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90bf978319ca5d340b2ca6408c48493f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1988206955
 GameObject:
   m_ObjectHideFlags: 0
@@ -8893,7 +8886,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnMaterial: {fileID: 2100000, guid: 507ecd6ce905df14aacd78e18df600de, type: 2}
   Offmaterial: {fileID: 2100000, guid: addf5723edf81ce48ae35e30621c1c18, type: 2}
-  stageCtrl: {fileID: 1153152352}
+  stageCtrl: {fileID: 0}
   playerCheck: {fileID: 2007506844}
   isOn: 1
 --- !u!1 &2094457277
@@ -9408,7 +9401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnMaterial: {fileID: 2100000, guid: 507ecd6ce905df14aacd78e18df600de, type: 2}
   Offmaterial: {fileID: 2100000, guid: addf5723edf81ce48ae35e30621c1c18, type: 2}
-  stageCtrl: {fileID: 1153152352}
+  stageCtrl: {fileID: 0}
   playerCheck: {fileID: 2132774172}
   isOn: 1
 --- !u!114 &2132774172
@@ -9457,13 +9450,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1882724682, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 97985036304551285, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_Name
       value: StageCtrl
       objectReference: {fileID: 0}
     - target: {fileID: 97985036304551285, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: playerObj
@@ -9585,7 +9582,7 @@ PrefabInstance:
     - target: {fileID: 3130281587647525766, guid: 191b8e89b531e2947b895d75b72a5000, type: 3}
       propertyPath: stageCtrl
       value: 
-      objectReference: {fileID: 1952396058}
+      objectReference: {fileID: 0}
     - target: {fileID: 3130281587647525766, guid: 191b8e89b531e2947b895d75b72a5000, type: 3}
       propertyPath: cheeseHolder
       value: 

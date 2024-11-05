@@ -71,6 +71,14 @@ public class StageCtrl : MonoBehaviour
     {
         Debug.Log("敵とプレイヤーが接触しました！");
         InGameUIObj.SetActive(false);
+
+        StartCoroutine(ShowGameOverWithDelay());
+    }
+
+    private IEnumerator ShowGameOverWithDelay()
+    {
+        yield return new WaitForSeconds(2.0f); // 2秒待つ（必要に応じて変更）
+
         gameOverObj.SetActive(true);
         doGameOver = true;
         Time.timeScale = 0f;
