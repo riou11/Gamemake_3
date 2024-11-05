@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -16,7 +17,24 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
     public List<StageData> stages;
+    //public StageData[] stages;
 
+    public GameObject stageSelectFirstButton;
+
+    public enum GameScene
+    {
+        Title,
+        Menu,
+        StageSelect,
+        Option,
+        PlayGuide,
+        FirstStage,
+        SecondStage,
+        ThirdStage
+    }
+
+    private Dictionary<GameScene, bool> stageDatas = new();
+    
     //private bool retryGame = false;
     private int nextStageNum;
 
@@ -33,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     //firstStageの速度一覧
     private float[] firstStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f };
+    //private float[] secondStgPlySpeeds = { };
 
     //現在のプレイヤー速度保管用
     private float currentSpeed = 0f;
@@ -60,11 +79,15 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        //LoadStagesData();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        LoadStageData();
+
         //セットアップ
         SetUp();
     }
@@ -72,15 +95,26 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //シーン遷移があったときの処理（データの初期化）
         if ((stageCtrl == null) || (player == null)) 
         {
-            SetUp();
+            //ステージセレクト画面にいる時
+            if (SceneManager.GetActiveScene().name == "StageSelect")
+            {
+                SelectStage();
+            }
+            else //プレイステージにいる時
+            {
+                SetUp();
+            }
         }
 
+        //stageCtrlがある（インゲーム中）ときの処理
         if (stageCtrl != null)
         {
-            if (!stageCtrl.doGameOver)
+            if (!stageCtrl.doGameOver) //ゲームオーバーでなければ
             {
+                //stageCtrlを取得するまで行わないようにする
                 if (IsStageCtrlGet)
                 {
                     //チーズゲージの更新
@@ -97,12 +131,87 @@ public class GameManager : MonoBehaviour
                     StageCtrlSetUp();
                 }
             }
-            else
+            else //ゲームオーバーになったら
             {
 
             }
         } 
     }
+
+
+
+    //-----------------------------------ステージ遷移に関する処理-----------------------------------//
+
+    //void LoadStagesData()
+    //{
+    //    foreach(var stageData in stages)
+    //    {
+    //        stageDatas[stageData.stageNum] = stageData.isUnlocked;
+    //    }
+    //}
+
+
+    //StageSelect画面にいるときに実行される処理
+    void SelectStage()
+    {
+        if (stageSelectFirstButton != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(stageSelectFirstButton);
+        }
+    }
+
+
+
+    // ステージデータをセーブする
+    public void SaveStageData()
+    {
+        // データをシリアライズして保存
+        PlayerPrefs.SetString("StageData", JsonUtility.ToJson(this));
+    }
+
+    // ステージデータをロードする
+    public void LoadStageData()
+    {
+        if (PlayerPrefs.HasKey("StageData"))
+        {
+            JsonUtility.FromJsonOverwrite(PlayerPrefs.GetString("StageData"), this);
+        }
+        else
+        {
+            // 初回起動時に最初のステージのみ解放
+            stages[0].isUnlocked = true;
+        }
+    }
+
+    public void LoatStageScene()
+    {
+
+    }
+
+    // ステージクリア時に次のステージをアンロック
+    public void UnlockNextStage(int clearedStageNumber)
+    {
+        if (clearedStageNumber < stages.Count - 1)
+        {
+            stages[clearedStageNumber + 1].isUnlocked = true;
+            SaveStageData();
+        }
+    }
+
+    public void StageCleared(int stageNumber)
+    {
+        UnlockNextStage(stageNumber);
+        SceneManager.LoadScene("StageSelect");
+    }
+
+
+
+
+    //-----------------------------------ステージプレイ処理-----------------------------------//
+
+
+
 
     //セットアップ関数
     void SetUp()
@@ -183,10 +292,18 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                //走っていなければスタミナ回復
+                if (stageCtrl.healthGaugeSlider.value < 1)
+                {
+                    stageCtrl.healthGaugeSlider.value += Time.deltaTime * normalRunning;
+                }
+            }
         }
         else
         {
-
+            
         }
 
         if (stageCtrl.healthGaugeSlider.value <= 0)
@@ -198,42 +315,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ステージデータをセーブする
-    public void SaveStageData()
-    {
-        // データをシリアライズして保存
-        PlayerPrefs.SetString("StageData", JsonUtility.ToJson(this));
-    }
-
-    // ステージデータをロードする
-    public void LoadStageData()
-    {
-        if (PlayerPrefs.HasKey("StageData"))
-        {
-            JsonUtility.FromJsonOverwrite(PlayerPrefs.GetString("StageData"), this);
-        }
-        else
-        {
-            // 初回起動時に最初のステージのみ解放
-            stages[0].isUnlocked = true;
-        }
-    }
-
-    // ステージクリア時に次のステージをアンロック
-    public void UnlockNextStage(int clearedStageNumber)
-    {
-        if (clearedStageNumber < stages.Count - 1)
-        {
-            stages[clearedStageNumber + 1].isUnlocked = true;
-            SaveStageData();
-        }
-    }
-
-    public void StageCleared(int stageNumber)
-    {
-        UnlockNextStage(stageNumber);
-        SceneManager.LoadScene("StageSelect");
-    }
+    
 
     //チーズを獲得したときのスコア更新
     public void getCheese(int cheese)
