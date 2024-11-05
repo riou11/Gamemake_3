@@ -5,6 +5,7 @@ using UnityEngine;
 public class CatMove : MonoBehaviour
 {
     public GameObject player;
+    private PlayerCollision playerCollision;
     public int speed;
     private bool isStopped = false;
     public StageCtrl stageCtrl; // StageCtrlへの参照
@@ -23,12 +24,14 @@ public class CatMove : MonoBehaviour
     public float maxDistanceFromCamera = 10.0f; // カメラからの最大距離
     public Vector3 warpOffset = new Vector3(0, -10, 0); // キッチンの床へのオフセット位置
     public float jumpPower = 35.0f; // ジャンプの力
-
+    private bool inNoCatZone = false; // NoCatZoneにいるかどうかを判定するフラグ
+    private bool ignoreTrigger = false;
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>(); // 自分のColliderを取得
+        playerCollision = player.GetComponent<PlayerCollision>();
         initialRotation = gameObject.transform.rotation;
     }
 
@@ -78,6 +81,10 @@ public class CatMove : MonoBehaviour
     // カメラからの距離をチェックする関数
     private void CheckDistanceFromCamera()
     {
+        if(playerCollision.isInNoCatZone)
+        {
+            return;
+        }
         float distanceFromCamera = Vector2.Distance(transform.position, mainCamera.transform.position);
 
         // カメラから一定距離離れたらワープ処理
@@ -90,11 +97,15 @@ public class CatMove : MonoBehaviour
     // プレイヤーの位置にワープし、キッチンの下からジャンプする処理
     private void WarpToPlayer()
     {
-        // プレイヤーの位置にワープし、キッチンの床に設定
         transform.position = new Vector3(player.transform.position.x, warpOffset.y, player.transform.position.z);
-
-        // 一定時間待ってからジャンプ
-        StartCoroutine(JumpAfterDelay(2.0f)); // 0.5秒待機
+        ForceExitNoCatZone();
+        // OnTriggerEnterを無効化してから再有効化するコルーチンを開始
+        StartCoroutine(IgnoreTriggerTemporary());
+        if (!isStopped)
+        {
+            
+            StartCoroutine(JumpAfterDelay(2.0f));
+        }
     }
 
     // ジャンプを行うコルーチン
@@ -134,6 +145,13 @@ public class CatMove : MonoBehaviour
         }
 
         return false;
+    }
+    // OnTriggerEnterを一時的に無効にするコルーチン
+    private IEnumerator IgnoreTriggerTemporary()
+    {
+        ignoreTrigger = true; // Triggerを無効化
+        yield return new WaitForSeconds(0.5f); // 0.5秒待つ（必要に応じて調整）
+        ignoreTrigger = false; // Triggerを再度有効化
     }
 
     public void StopChasing(float duration)
@@ -175,24 +193,22 @@ public class CatMove : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 特定の範囲に入った場合の処理
-        if (other.CompareTag("NoCatZone")) // ここを適切なタグに置き換えてください
+        if (ignoreTrigger) return;
+
+        if (other.CompareTag("NoCatZone"))
         {
-            // アニメーションを停止
             anim.SetBool("run", false);
             isStopped = true; // 停止状態に設定
-            rb.velocity = Vector2.zero; // 速度をリセット
+            inNoCatZone = true; // NoCatZoneにいると判定
+            rb.velocity = Vector2.zero;
         }
     }
-    private void OnTriggerExit2D(Collider2D other)
+
+    // 強制的にNoCatZoneから離れたときの処理
+    public void ForceExitNoCatZone()
     {
-        // 特定の範囲を抜けた場合の処理
-        if (other.CompareTag("StopZone")) // 設定したタグに置き換えます
-        {
-            // アニメーションを再開
-            anim.SetBool("run", true);
-            isStopped = false; // 動ける状態に戻す
-        }
+        inNoCatZone = false;
+        isStopped = false;
     }
 
     private void MoveJump()
