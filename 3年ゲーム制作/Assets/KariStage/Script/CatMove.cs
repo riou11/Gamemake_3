@@ -5,6 +5,7 @@ using UnityEngine;
 public class CatMove : MonoBehaviour
 {
     public GameObject player;
+    private PlayerCollision playerCollision;
     public int speed;
     private bool isStopped = false;
     public StageCtrl stageCtrl; // StageCtrlへの参照
@@ -24,12 +25,13 @@ public class CatMove : MonoBehaviour
     public Vector3 warpOffset = new Vector3(0, -10, 0); // キッチンの床へのオフセット位置
     public float jumpPower = 35.0f; // ジャンプの力
     private bool inNoCatZone = false; // NoCatZoneにいるかどうかを判定するフラグ
-
+    private bool ignoreTrigger = false;
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>(); // 自分のColliderを取得
+        playerCollision = player.GetComponent<PlayerCollision>();
         initialRotation = gameObject.transform.rotation;
     }
 
@@ -79,6 +81,10 @@ public class CatMove : MonoBehaviour
     // カメラからの距離をチェックする関数
     private void CheckDistanceFromCamera()
     {
+        if(playerCollision.isInNoCatZone)
+        {
+            return;
+        }
         float distanceFromCamera = Vector2.Distance(transform.position, mainCamera.transform.position);
 
         // カメラから一定距離離れたらワープ処理
@@ -92,16 +98,12 @@ public class CatMove : MonoBehaviour
     private void WarpToPlayer()
     {
         transform.position = new Vector3(player.transform.position.x, warpOffset.y, player.transform.position.z);
-
-        // NoCatZoneにいる場合は移動再開しない
-        if (inNoCatZone)
-        {
-            return;
-        }
-
+        ForceExitNoCatZone();
+        // OnTriggerEnterを無効化してから再有効化するコルーチンを開始
+        StartCoroutine(IgnoreTriggerTemporary());
         if (!isStopped)
         {
-            ForceExitNoCatZone();
+            
             StartCoroutine(JumpAfterDelay(2.0f));
         }
     }
@@ -144,6 +146,13 @@ public class CatMove : MonoBehaviour
 
         return false;
     }
+    // OnTriggerEnterを一時的に無効にするコルーチン
+    private IEnumerator IgnoreTriggerTemporary()
+    {
+        ignoreTrigger = true; // Triggerを無効化
+        yield return new WaitForSeconds(0.5f); // 0.5秒待つ（必要に応じて調整）
+        ignoreTrigger = false; // Triggerを再度有効化
+    }
 
     public void StopChasing(float duration)
     {
@@ -184,6 +193,8 @@ public class CatMove : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (ignoreTrigger) return;
+
         if (other.CompareTag("NoCatZone"))
         {
             anim.SetBool("run", false);
@@ -192,19 +203,6 @@ public class CatMove : MonoBehaviour
             rb.velocity = Vector2.zero;
         }
     }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("NoCatZone") && !inNoCatZone) // フラグが立っていないときのみ実行
-        {
-            anim.SetBool("run", true);
-            isStopped = false;
-            StartCoroutine(JumpAfterDelay(2.0f));
-        }
-    }
-
-    // ワープ処理でフラグが維持されるように修正
-
 
     // 強制的にNoCatZoneから離れたときの処理
     public void ForceExitNoCatZone()
