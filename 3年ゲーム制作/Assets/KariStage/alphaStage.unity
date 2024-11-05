@@ -427,6 +427,10 @@ PrefabInstance:
       value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402735, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
+      propertyPath: Enemy
+      value: 
+      objectReference: {fileID: 1324410068}
+    - target: {fileID: 6646916755745402735, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: speed
       value: 13
       objectReference: {fileID: 0}
@@ -3087,6 +3091,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &670621270 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+  m_PrefabInstance: {fileID: 97985037716405868}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90bf978319ca5d340b2ca6408c48493f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &712881018
 GameObject:
   m_ObjectHideFlags: 0
@@ -5512,7 +5527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 716025153}
   speed: 15
-  stageCtrl: {fileID: 35042661}
+  stageCtrl: {fileID: 670621270}
   rayDistance: 3
   rayHeightOffset: -3.5
   obstacleTag: Obstacle
@@ -8369,6 +8384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575304e0ce9173a4bb9108d9952ac8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Enemy: {fileID: 0}
   StageLayer:
     serializedVersion: 2
     m_Bits: 0

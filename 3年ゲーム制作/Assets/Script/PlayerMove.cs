@@ -6,9 +6,9 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     GameManager gameManager;
-
-    private HingeJoint2D hingeJoint;
+    public GameObject Enemy;
     private bool isAttached = false;
+    private bool isControllable = true; // 操作可能かどうかのフラグ
     private Animator anim = null;
     private float speed = 0f;
     private float dushSpeed = 1.5f;
@@ -16,8 +16,10 @@ public class PlayerMove : MonoBehaviour
     private Quaternion initialRotation;
     public LayerMask StageLayer;
     private Rigidbody2D rb;
-    
+    private Collider2D playerCollider;
+
     private bool IsDushing = false;
+    private Transform attachedObject; // 固定するオブジェクトの位置を保持
 
     void Start()
     {
@@ -25,33 +27,35 @@ public class PlayerMove : MonoBehaviour
         initialRotation = gameObject.transform.rotation;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        hingeJoint = GetComponent<HingeJoint2D>();
-        hingeJoint.enabled = false; // 初期は無効
+        playerCollider = GetComponent<Collider2D>(); // プレイヤーのコライダーを取得
+        isControllable = true;
     }
 
     void Update()
     {
-        // プレイヤーがロープに掴まっていない場合のみ移動とジャンプを許可
-        if (!isAttached && gameManager != null) 
+        // プレイヤーが固定されていない場合のみ移動とジャンプを許可
+        if (isControllable&&!isAttached && gameManager != null)
         {
             MoveRight();
             MoveJump();
         }
 
-        if (isAttached && Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))
+        // Spaceキーで解放とジャンプ
+        if (isAttached && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")))
         {
             anim.SetBool("hook", false);
-            ReleaseRope(); // ロープを離す
-
+            ReleaseObject(); // 固定を解除
         }
 
         if (isAttached)
         {
-
             anim.SetBool("hook", true);
+            // 固定中のオブジェクトの位置にプレイヤーを固定
+            if (attachedObject != null)
+                transform.position = attachedObject.position;
         }
 
-        // アニメーション処理（ここもロープに掴まっていない場合のみ）
+        // アニメーション処理（固定されていない場合のみ）
         if (!isAttached)
         {
             float horizontalKey = Input.GetAxis("Horizontal");
@@ -83,6 +87,41 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    // 衝突処理で特定タグのオブジェクトに接触した際の挙動
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Rope") && !isAttached)
+        {
+            AttachToObject(collision.gameObject.transform);
+        }
+
+        if (collision.gameObject == Enemy)
+        {
+            StartCoroutine(OnEnemyCollision()); 
+        }
+
+    }
+
+
+    private IEnumerator OnEnemyCollision()
+    {
+        isControllable = false; // 操作不可
+        anim.SetBool("Death", true); // デスアニメーションを再生
+
+        // 少し待ってから上に打ち上げる
+        yield return new WaitForSeconds(0.5f);
+        rb.velocity = new Vector2(0, 30f); // 上方向に力を加える
+
+        // 当たり判定を無効化
+        playerCollider.enabled = false;
+
+        // 必要に応じて一定時間後にリセット
+        yield return new WaitForSeconds(1.0f); // アニメーション再生後の待機時間
+        anim.SetBool("Death", false); // アニメーションを停止
+        // isControllable = true;
+    }
+
+
     //プレイヤーが走っているかを、アニメーションのStateから判断し、真偽を返す
     public bool IsRunningPlayer()
     {
@@ -94,34 +133,38 @@ public class PlayerMove : MonoBehaviour
         return false;
     }
 
-    // 衝突処理で紐に接触した際の挙動
-    void OnCollisionEnter2D(Collision2D collision)
+    void AttachToObject(Transform objTransform)
     {
-        if (collision.gameObject.tag == "Rope" && !isAttached)
-        {
-            AttachToRope(collision.gameObject);
-        }
-    }
-
-    void AttachToRope(GameObject rope)
-    {
-        hingeJoint.connectedBody = rope.GetComponent<Rigidbody2D>();
-        hingeJoint.enabled = true;
+        attachedObject = objTransform;
         isAttached = true;
     }
 
-    void ReleaseRope()
+    void ReleaseObject()
     {
-        hingeJoint.enabled = false;
-        hingeJoint.connectedBody = null;
         isAttached = false;
+
+        // オブジェクトから少し離れた位置に移動して衝突を避ける
+        if (attachedObject != null)
+        {
+            Vector2 offset = new Vector2(0, 0.5f); // 少し上に離す
+            transform.position = (Vector2)attachedObject.position + offset;
+            attachedObject = null;
+        }
+
+        // 完全に停止してからジャンプ
+        rb.velocity = Vector2.zero;
+
+        // ジャンプ処理
+        float jumpPower = 22.5f;
+        rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
+        anim.SetTrigger("Jump");
     }
+
 
     // 左右移動関数
     private void MoveRight()
     {
         float horizontalKey = Input.GetAxis("Horizontal");
-
         //GameManagerから返ってきた、currentSpeedを適用
         speed = gameManager.GetCurrentSpeed();
         Debug.Log(speed);
@@ -148,10 +191,10 @@ public class PlayerMove : MonoBehaviour
     // ジャンプ関数
     private void MoveJump()
     {
-        if (GroundChk() && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))) 
+        if (GroundChk() && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")))
         {
             float jumpPower = 22.5f;
-            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+            rb.velocity = new Vector2(0, jumpPower);
             anim.SetTrigger("Jump");
         }
     }
@@ -167,4 +210,6 @@ public class PlayerMove : MonoBehaviour
 
         return Physics2D.Linecast(startPosition, endPosition, StageLayer);
     }
+
+
 }
