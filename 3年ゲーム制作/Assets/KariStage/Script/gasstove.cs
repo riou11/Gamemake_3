@@ -34,7 +34,6 @@ public class gasstove : MonoBehaviour
         //animator.SetBool("isOn", !animator.GetBool("isOn"));
         boxCollider.isTrigger=!boxCollider.isTrigger;
         //isOn = !isOn;
-        Debug.Log("SwitchStove executed. isOn: " + !currentStatus + ", isTrigger: " + boxCollider.isTrigger);
     }
 
 }
