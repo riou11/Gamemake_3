@@ -7,21 +7,21 @@ public class gasstove : MonoBehaviour
     public StageCtrl stageCtrl;
     [Header("プレイヤーの判定")] public PlayerTriggerCheck playerCheck;
     [Header("スタート時の状態")] public bool isStart;
-    private Animator isOn;
-    private BoxCollider2D BoxCollider;
+    private Animator animator;
+    private BoxCollider2D boxCollider;
     // Start is called before the first frame update
     void Start()
     {
-        isOn = GetComponent<Animator>();
-        isOn.SetBool("isOn",isStart);
-        BoxCollider = GetComponent<BoxCollider2D>();
-        BoxCollider.isTrigger=!isStart;
+        animator = GetComponent<Animator>();
+        animator.SetBool("isOn",isStart);
+        boxCollider = GetComponent<BoxCollider2D>();
+        boxCollider.isTrigger=!isStart;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerCheck.isOn&&isOn.GetBool("isOn"))
+        if (playerCheck.isOn&&animator.GetBool("isOn"))
         {
             //stageCtrl.OnEnemyCollected();
         }
@@ -29,9 +29,12 @@ public class gasstove : MonoBehaviour
 
     public void SwitchStove()
     {
-        isOn.SetBool("isOn", !isOn.GetBool("isOn"));
-        BoxCollider.isTrigger=!BoxCollider.isTrigger;
+        bool currentStatus = animator.GetBool("isOn");
+        animator.SetBool("isOn", !currentStatus);
+        //animator.SetBool("isOn", !animator.GetBool("isOn"));
+        boxCollider.isTrigger=!boxCollider.isTrigger;
         //isOn = !isOn;
+        Debug.Log("SwitchStove executed. isOn: " + !currentStatus + ", isTrigger: " + boxCollider.isTrigger);
     }
 
 }

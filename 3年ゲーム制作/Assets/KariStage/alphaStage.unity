@@ -1617,7 +1617,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 894929894}
         m_TargetAssemblyTypeName: gasstove, Assembly-CSharp
         m_MethodName: SwitchStove
         m_Mode: 1
@@ -2958,6 +2958,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65183304ce22fea419549381db356ea5, type: 3}
+--- !u!114 &894929894 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3188991089721192254, guid: e609fb1d104360e429be4bb5d672771b, type: 3}
+  m_PrefabInstance: {fileID: 1315599000}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4c72b55d1a77e4a9fe83e2316c2708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1021161183
 GameObject:
   m_ObjectHideFlags: 0
@@ -3606,6 +3617,10 @@ PrefabInstance:
       propertyPath: isStart
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3188991089721192254, guid: e609fb1d104360e429be4bb5d672771b, type: 3}
+      propertyPath: stageCtrl
+      value: 
+      objectReference: {fileID: 2130878995}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e609fb1d104360e429be4bb5d672771b, type: 3}
 --- !u!1 &1322978438
@@ -3789,7 +3804,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8156267355620311023, guid: f8910d1d12ca48945befc70d6bca20ec, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8156267355620311008, guid: f8910d1d12ca48945befc70d6bca20ec, type: 3}
@@ -3904,7 +3919,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1342410743}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 68.1, y: -4.02, z: 0}
+  m_LocalPosition: {x: 70.08, y: -4.02, z: 0}
   m_LocalScale: {x: 1.2, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
