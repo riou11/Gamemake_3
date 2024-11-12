@@ -75,7 +75,7 @@ public class StageCtrl : MonoBehaviour
         StartCoroutine(ShowGameOverWithDelay());
     }
 
-    private IEnumerator ShowGameOverWithDelay()
+    private IEnumerator ShowGameOverWithDelay()//プレイヤーの死んだモーションを見せるための時間
     {
         yield return new WaitForSeconds(2.0f); // 2秒待つ（必要に応じて変更）
 
