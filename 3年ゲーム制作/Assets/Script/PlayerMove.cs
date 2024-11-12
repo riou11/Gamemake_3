@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     GameManager gameManager;
-    public GameObject Enemy;
+    //public GameObject Enemy;
     private bool isAttached = false;
     private bool isControllable = true; // 操作可能かどうかのフラグ
     private Animator anim = null;
@@ -103,7 +103,7 @@ public class PlayerMove : MonoBehaviour
     }
 
 
-    private IEnumerator OnEnemyCollision()
+    private IEnumerator OnEnemyCollision()//死んだ時のアニメーション処理
     {
         isControllable = false; // 操作不可
         anim.SetBool("Death", true); // デスアニメーションを再生
