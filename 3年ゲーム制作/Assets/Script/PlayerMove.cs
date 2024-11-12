@@ -95,7 +95,7 @@ public class PlayerMove : MonoBehaviour
             AttachToObject(collision.gameObject.transform);
         }
 
-        if (collision.gameObject == Enemy)
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             StartCoroutine(OnEnemyCollision()); 
         }
