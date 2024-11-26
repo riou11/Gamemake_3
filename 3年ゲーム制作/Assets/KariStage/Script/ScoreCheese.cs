@@ -34,7 +34,7 @@ public class ScoreCheese : MonoBehaviour
             isCollected = true;
 
             // GameManager側にスコア加算
-            gameManager.getCheese(1);
+            gameManager.GetCheese(1);
 
             // 見た目を消す（Renderer無効化）
             foreach (Renderer renderer in GetComponentsInChildren<Renderer>())

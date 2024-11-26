@@ -27,6 +27,7 @@ public class StageCtrl : MonoBehaviour
     public GameObject CatDamageObj;
 
     public bool doGameOver = false;
+    public bool doGameClear = false;
     private bool retryGame = false;
     private int nextStageNum;
 

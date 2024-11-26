@@ -6,66 +6,48 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class StageData
-{
-    public int stageNum;
-    public bool isUnlocked;
-}
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
-    public List<StageData> stages;
-    //public StageData[] stages;
 
-    public GameObject stageSelectFirstButton;
+    //シーン名とロック状況
+    [System.Serializable]
+    public class StageData
+    {
+        public GameScene gameScene;
+        public bool isUnlocked;
+    }
 
+    //ゲームのシーンを、番号ではなくenemを使ってシーン名で管理
     public enum GameScene
     {
         Title,
-        Menu,
-        StageSelect,
-        Option,
-        PlayGuide,
+        SceneSelect,//Menu,StageSelect,Option,PlayGuideを、このシーンのなかで切り替え
+        alphaStage,
         FirstStage,
         SecondStage,
-        ThirdStage
+        ThirdStage,
     }
 
-    private Dictionary<GameScene, bool> stageDatas = new();
-    
-    //private bool retryGame = false;
-    private int nextStageNum;
+    public float percentCheese { get; private set; } //チーズ取得率
 
-    PlayerMove player;
+    [SerializeField] private List<StageData> _stages; // インスペクターでシーンをロックするか設定（ステージ以外（ + firstStage）はtrue）
 
-    //ステージUI切り替え周りの処理
-    StageCtrl stageCtrl;
+    private PlayerMove _player;
+    private StageCtrl _stageCtrl; //ステージUI切り替え周りの処理
+    private Dictionary<GameScene, bool> _stageDatas = new(); //シーン遷移の際に消えないようにプライベートで保管
+    private GameScene _gameScene;
+    private int[] _cheeseScores = { 8, 0, 0 }; //各ステージのチーズ上限数
+    private int _cheeseScore = 0; //チーズ取得数
+    private int _stgNum = 0; //現在のステージ番号
+    private float[] _firstStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f }; //firstStageの速度一覧
+    //private float[] secondStgPlySpeeds = { };    
+    private float _currentSpeed = 0f; //現在のプレイヤー速度保管用   
+    private float _normalRunning = 0.1f; //通常速度の体力ゲージ変化率
+    private float _speedRunning = 0.3f; //ダッシュ時の体力ゲージ変化率
+    private bool _isStageCtrlGet = false; //各ステージのStageCtrl（UI管理）を取得したか
 
-    //チーズ取得数
-    private int cheeseScore = 0;
-
-    //各ステージのチーズ上限数
-    private int[] cheeseScores = { 8, 0, 0 };
-
-    //firstStageの速度一覧
-    private float[] firstStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f };
-    //private float[] secondStgPlySpeeds = { };
-
-    //現在のプレイヤー速度保管用
-    private float currentSpeed = 0f;
-
-    //現在のステージ番号
-    private int stgNum = 0;
-
-    private float normalRunning = 0.1f;
-    private float speedRunning = 0.3f;
-
-    //チーズ取得率
-    public float percentCheese { get; private set; }
-
-    private bool IsStageCtrlGet = false;
 
     //シングルトンの実装
     private void Awake()
@@ -80,13 +62,14 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        //LoadStagesData();
+        //ステージデータの取り込み
+        LoadStagesData();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        LoadStageData();
+        //LoadStageData();
 
         //セットアップ
         SetUp();
@@ -96,12 +79,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //シーン遷移があったときの処理（データの初期化）
-        if ((stageCtrl == null) || (player == null)) 
+        if ((_stageCtrl == null) || (_player == null))
         {
             //ステージセレクト画面にいる時
-            if (SceneManager.GetActiveScene().name == "StageSelect")
+            if (IsInGame())
             {
-                SelectStage();
+                //インゲーム外の時は、ここに来る
             }
             else //プレイステージにいる時
             {
@@ -110,21 +93,14 @@ public class GameManager : MonoBehaviour
         }
 
         //stageCtrlがある（インゲーム中）ときの処理
-        if (stageCtrl != null)
+        if (_stageCtrl != null)
         {
-            if (!stageCtrl.doGameOver) //ゲームオーバーでなければ
+            if (!_stageCtrl.doGameOver) //ゲームオーバーでなければ
             {
                 //stageCtrlを取得するまで行わないようにする
-                if (IsStageCtrlGet)
+                if (_isStageCtrlGet)
                 {
-                    //チーズゲージの更新
-                    UpdateCheeseParameter();
-
-                    //チーズ保有率によるプレイヤー速度の更新
-                    UpdateCurrentSpeed(stgNum);
-
-                    //プレイヤーの体力周りの更新
-                    ManageHealth();
+                    UpdateInGame(_stgNum);
                 }
                 else
                 {
@@ -135,104 +111,76 @@ public class GameManager : MonoBehaviour
             {
 
             }
-        } 
+        }
     }
-
-
 
     //-----------------------------------ステージ遷移に関する処理-----------------------------------//
 
-    //void LoadStagesData()
-    //{
-    //    foreach(var stageData in stages)
-    //    {
-    //        stageDatas[stageData.stageNum] = stageData.isUnlocked;
-    //    }
-    //}
-
-
-    //StageSelect画面にいるときに実行される処理
-    void SelectStage()
+    //インスペクターで設定された内容を、プライベートに取り込む（FirstStageのみ開放）
+    void LoadStagesData()
     {
-        if (stageSelectFirstButton != null)
+        foreach (var stageData in _stages)
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(stageSelectFirstButton);
+            _stageDatas[stageData.gameScene] = stageData.isUnlocked;
+        }
+
+        _stageDatas[GameScene.FirstStage] = true;
+    }
+
+    //ステージ遷移（ボタンにこの関数を入れて、飛びたいシーンの番号(enum(GameScene)で定義)を設定する）
+    public void TransitionScene(int scene)
+    {
+
+        _gameScene = (GameScene)scene;
+
+        //クリア時はステージを開放する
+        if (_stageCtrl.doGameClear)
+        {
+            UnlockNextStage(_gameScene);
+        }
+
+        if (_stageDatas[_gameScene])
+        {
+            SceneManager.LoadScene(_gameScene.ToString());
         }
     }
 
-
-
-    // ステージデータをセーブする
-    public void SaveStageData()
+    // ステージクリア時に次のステージ（インスペクターで設定）をアンロック
+    void UnlockNextStage(GameScene gameScene)
     {
-        // データをシリアライズして保存
-        PlayerPrefs.SetString("StageData", JsonUtility.ToJson(this));
-    }
-
-    // ステージデータをロードする
-    public void LoadStageData()
-    {
-        if (PlayerPrefs.HasKey("StageData"))
+        if (!_stageDatas[gameScene])
         {
-            JsonUtility.FromJsonOverwrite(PlayerPrefs.GetString("StageData"), this);
-        }
-        else
-        {
-            // 初回起動時に最初のステージのみ解放
-            stages[0].isUnlocked = true;
+            _stageDatas[gameScene] = true;
         }
     }
 
-    public void LoatStageScene()
+    bool IsInGame()
     {
-
+        return SceneManager.GetActiveScene().name == "SceneSelect" || SceneManager.GetActiveScene().name == "Title";
     }
-
-    // ステージクリア時に次のステージをアンロック
-    public void UnlockNextStage(int clearedStageNumber)
-    {
-        if (clearedStageNumber < stages.Count - 1)
-        {
-            stages[clearedStageNumber + 1].isUnlocked = true;
-            SaveStageData();
-        }
-    }
-
-    public void StageCleared(int stageNumber)
-    {
-        UnlockNextStage(stageNumber);
-        SceneManager.LoadScene("StageSelect");
-    }
-
-
-
 
     //-----------------------------------ステージプレイ処理-----------------------------------//
-
-
-
 
     //セットアップ関数
     void SetUp()
     {
         Time.timeScale = 1.0f;
 
-        player = FindObjectOfType<PlayerMove>();
-        stageCtrl = FindObjectOfType<StageCtrl>();
+        _player = FindObjectOfType<PlayerMove>();
+        _stageCtrl = FindObjectOfType<StageCtrl>();
 
-        cheeseScore = 0;     
+        _cheeseScore = 0;
 
         //現在のステージ番号によって、初速度を変えている。
-        switch (stgNum)
+        switch (_stgNum)
         {
             //firstStage
             case 0:
-                currentSpeed = firstStgPlySpeeds[0];
+                _currentSpeed = _firstStgPlySpeeds[0];
                 break;
         }
 
-        if (stageCtrl != null)
+        if (_stageCtrl != null)
         {
             StageCtrlSetUp();
         }
@@ -241,17 +189,30 @@ public class GameManager : MonoBehaviour
     //外部のStageCtrlクラスの初期化(Find関数で取得するまで、行わないようにする)
     void StageCtrlSetUp()
     {
-        stageCtrl.cheeseParameters.fillAmount = 0;
-        stageCtrl.healthGaugeSlider.value = 1;
-        IsStageCtrlGet = true;
+        _stageCtrl.cheeseParameters.fillAmount = 0;
+        _stageCtrl.healthGaugeSlider.value = 1;
+        _isStageCtrlGet = true;
+    }
+
+    //インゲーム内の更新処理
+    void UpdateInGame(int num)
+    {
+        //チーズゲージの更新
+        UpdateCheeseParameter();
+
+        //チーズ保有率によるプレイヤー速度の更新
+        UpdateCurrentSpeed(num);
+
+        //プレイヤーの体力周りの更新
+        ManageHealth();
     }
 
     void UpdateCheeseParameter()
     {
         //獲得チーズ数とステージに配置されたチーズ数を除算した結果を、チーズパラメーターに反映
-        percentCheese = (float)cheeseScore / (float)cheeseScores[stgNum];
-        stageCtrl.cheeseParameters.fillAmount = percentCheese;
-        Debug.Log(cheeseScore);
+        percentCheese = (float)_cheeseScore / (float)_cheeseScores[_stgNum];
+        _stageCtrl.cheeseParameters.fillAmount = percentCheese;
+        Debug.Log(_cheeseScore);
         Debug.Log(percentCheese);
     }
 
@@ -262,7 +223,7 @@ public class GameManager : MonoBehaviour
         switch (stageNum)
         {
             case 0:
-                currentSpeed = firstStgPlySpeeds[cheeseScore];
+                _currentSpeed = _firstStgPlySpeeds[_cheeseScore];
                 break;
         }
     }
@@ -270,58 +231,56 @@ public class GameManager : MonoBehaviour
     //PlayerMoveに、現在の速度を返す
     public float GetCurrentSpeed()
     {
-        return currentSpeed;
+        return _currentSpeed;
     }
 
     //プレイヤーが走っていたら、体力ゲージを減らす。0になったら、チーズを減らす
     void ManageHealth()
     {
-        if (player != null)
+        if (_player != null)
         {
-            if (player.IsRunningPlayer()) //プレイヤーが走っていたら
+            if (_player.IsRunningPlayer()) //プレイヤーが走っていたら
             {
-                if (cheeseScore != 0)
+                if (_cheeseScore != 0)
                 {
-                    if (player.IsPlayerDushing()) //ダッシュしているとき
+                    if (_player.IsPlayerDushing()) //ダッシュしているとき
                     {
-                        stageCtrl.healthGaugeSlider.value -= Time.deltaTime * speedRunning;
+                        _stageCtrl.healthGaugeSlider.value -= Time.deltaTime * _speedRunning;
                     }
                     else //通常の走りのとき
                     {
-                        stageCtrl.healthGaugeSlider.value -= Time.deltaTime * normalRunning;
+                        _stageCtrl.healthGaugeSlider.value -= Time.deltaTime * _normalRunning;
                     }
                 }
             }
             else
             {
                 //走っていなければスタミナ回復
-                if (stageCtrl.healthGaugeSlider.value < 1)
+                if (_stageCtrl.healthGaugeSlider.value < 1)
                 {
-                    stageCtrl.healthGaugeSlider.value += Time.deltaTime * normalRunning;
+                    _stageCtrl.healthGaugeSlider.value += Time.deltaTime * _normalRunning;
                 }
             }
         }
         else
         {
-            
+
         }
 
-        if (stageCtrl.healthGaugeSlider.value <= 0)
+        if (_stageCtrl.healthGaugeSlider.value <= 0)
         {
             //チーズの取得数をデクリメントし、一つ下のスピードに変える
-            cheeseScore--;
+            _cheeseScore--;
             //体力ゲージをリセット
-            stageCtrl.healthGaugeSlider.value = 1;
+            _stageCtrl.healthGaugeSlider.value = 1;
         }
     }
 
-    
-
     //チーズを獲得したときのスコア更新
-    public void getCheese(int cheese)
+    public void GetCheese(int cheese)
     {
-        cheeseScore += cheese;
+        _cheeseScore += cheese;
         //新しくチーズをゲットしたら、体力ゲージをリセット
-        stageCtrl.healthGaugeSlider.value = 1;
+        _stageCtrl.healthGaugeSlider.value = 1;
     }
 }
