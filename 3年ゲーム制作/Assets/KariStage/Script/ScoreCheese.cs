@@ -23,7 +23,7 @@ public class ScoreCheese : MonoBehaviour
         if(playerCheck.isOn)
         {
             //Ç±Ç±Ç≈GameManagerë§Ç…ÉXÉRÉAâ¡éZÇµÇΩÇËÇ∑ÇÈ
-            gameManager.getCheese(1);
+            gameManager.GetCheese(1);
             //SEÇ†ÇÈÇ»ÇÁÇ±Ç±Ç≈çƒê∂
             Destroy(this.gameObject);
         }

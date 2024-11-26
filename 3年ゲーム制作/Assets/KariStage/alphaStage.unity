@@ -3845,6 +3845,62 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[1].gameScene
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[2].gameScene
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[3].gameScene
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[4].gameScene
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[5].gameScene
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[6].gameScene
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[7].gameScene
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[0].isUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[1].isUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[2].isUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[3].isUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[4].isUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: stages.Array.data[5].isUnlocked
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1538473632820727213, guid: 65183304ce22fea419549381db356ea5, type: 3}
       propertyPath: m_Name
       value: GameManager
