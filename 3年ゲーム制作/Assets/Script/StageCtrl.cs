@@ -23,6 +23,8 @@ public class StageCtrl : MonoBehaviour
     public GameObject InGameUIObj;
     [Header("次のステージ")]
     public int nextStage;
+    [Header("猫のダメージ絵")]//rio
+    public GameObject CatDamageObj;
 
     public bool doGameOver = false;
     private bool retryGame = false;
@@ -41,6 +43,7 @@ public class StageCtrl : MonoBehaviour
         {
             gameOverObj.SetActive(false);
             stageClrObj.SetActive(false);
+            CatDamageObj.SetActive(false);
             InGameUIObj.SetActive(true);
             doGameOver = false;
         }
@@ -74,6 +77,22 @@ public class StageCtrl : MonoBehaviour
 
         StartCoroutine(ShowGameOverWithDelay());
     }
+
+
+    public void OnCatDamage() //rio
+    {
+
+        CatDamageObj.SetActive(true);
+        StartCoroutine(CatDamageWithDelay());
+    }
+
+    private IEnumerator CatDamageWithDelay()//rio
+    {
+        yield return new WaitForSeconds(1.5f); // x秒待つ (必要に応じて変更)
+ 
+        CatDamageObj.SetActive(false);
+    }
+
 
     private IEnumerator ShowGameOverWithDelay()//プレイヤーの死んだモーションを見せるための時間
     {

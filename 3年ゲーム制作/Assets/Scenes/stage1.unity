@@ -1779,14 +1779,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: StageCtrl
       objectReference: {fileID: 0}
-    - target: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: nextStage
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: playerObj
-      value: 
-      objectReference: {fileID: 109751483}
     - target: {fileID: 97985036304551287, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1831,50 +1823,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 97985037890177910, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Retry1
-      objectReference: {fileID: 0}
-    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ToNextStage
-      objectReference: {fileID: 0}
-    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: StageCtrl, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: playerObj
       value: 
       objectReference: {fileID: 109751483}
-    - target: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: doGameOver
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7605246756413005795, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
 --- !u!1001 &3130281587106656978

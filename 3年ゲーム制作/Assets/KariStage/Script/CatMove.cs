@@ -189,6 +189,8 @@ public class CatMove : MonoBehaviour
 
             // ˆêŽž’âŽ~
             StopChasing(stopDuration);
+
+            stageCtrl.OnCatDamage();
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
