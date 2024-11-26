@@ -25,6 +25,7 @@ public class StageCtrl : MonoBehaviour
     public int nextStage;
 
     public bool doGameOver = false;
+    public bool doGameClear = false;
     private bool retryGame = false;
     private int nextStageNum;
 

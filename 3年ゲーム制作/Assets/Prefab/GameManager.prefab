@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 656b1e58d40aab34aaa02b0703485255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stages: []
+  stageSelectFirstButton: {fileID: 0}
