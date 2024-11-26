@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
 
-    //ƒV[ƒ“–¼‚ÆƒƒbƒNó‹µ
+    //ã‚·ãƒ¼ãƒ³åã¨ãƒ­ãƒƒã‚¯çŠ¶æ³
     [System.Serializable]
     public class StageData
     {
@@ -19,37 +19,37 @@ public class GameManager : MonoBehaviour
         public bool isUnlocked;
     }
 
-    //ƒQ[ƒ€‚ÌƒV[ƒ“‚ğA”Ô†‚Å‚Í‚È‚­enem‚ğg‚Á‚ÄƒV[ƒ“–¼‚ÅŠÇ—
+    //ã‚²ãƒ¼ãƒ ã®ã‚·ãƒ¼ãƒ³ã‚’ã€ç•ªå·ã§ã¯ãªãenemã‚’ä½¿ã£ã¦ã‚·ãƒ¼ãƒ³åã§ç®¡ç†
     public enum GameScene
     {
         Title,
-        SceneSelect,//Menu,StageSelect,Option,PlayGuide‚ğA‚±‚ÌƒV[ƒ“‚Ì‚È‚©‚ÅØ‚è‘Ö‚¦
+        SceneSelect,//Menu,StageSelect,Option,PlayGuideã‚’ã€ã“ã®ã‚·ãƒ¼ãƒ³ã®ãªã‹ã§åˆ‡ã‚Šæ›¿ãˆ
         alphaStage,
         FirstStage,
         SecondStage,
         ThirdStage,
     }
 
-    public float percentCheese { get; private set; } //ƒ`[ƒYæ“¾—¦
+    public float percentCheese { get; private set; } //ãƒãƒ¼ã‚ºå–å¾—ç‡
 
-    [SerializeField] private List<StageData> _stages; // ƒCƒ“ƒXƒyƒNƒ^[‚ÅƒV[ƒ“‚ğƒƒbƒN‚·‚é‚©İ’èiƒXƒe[ƒWˆÈŠOi + firstStagej‚Ítruej
+    [SerializeField] private List<StageData> _stages; // ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ã§ã‚·ãƒ¼ãƒ³ã‚’ãƒ­ãƒƒã‚¯ã™ã‚‹ã‹è¨­å®šï¼ˆã‚¹ãƒ†ãƒ¼ã‚¸ä»¥å¤–ï¼ˆ + firstStageï¼‰ã¯trueï¼‰
 
     private PlayerMove _player;
-    private StageCtrl _stageCtrl; //ƒXƒe[ƒWUIØ‚è‘Ö‚¦ü‚è‚Ìˆ—
-    private Dictionary<GameScene, bool> _stageDatas = new(); //ƒV[ƒ“‘JˆÚ‚ÌÛ‚ÉÁ‚¦‚È‚¢‚æ‚¤‚Éƒvƒ‰ƒCƒx[ƒg‚Å•ÛŠÇ
+    private StageCtrl _stageCtrl; //ã‚¹ãƒ†ãƒ¼ã‚¸UIåˆ‡ã‚Šæ›¿ãˆå‘¨ã‚Šã®å‡¦ç†
+    private Dictionary<GameScene, bool> _stageDatas = new(); //ã‚·ãƒ¼ãƒ³é·ç§»ã®éš›ã«æ¶ˆãˆãªã„ã‚ˆã†ã«ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã§ä¿ç®¡
     private GameScene _gameScene;
-    private int[] _cheeseScores = { 8, 0, 0 }; //ŠeƒXƒe[ƒW‚Ìƒ`[ƒYãŒÀ”
-    private int _cheeseScore = 0; //ƒ`[ƒYæ“¾”
-    private int _stgNum = 0; //Œ»İ‚ÌƒXƒe[ƒW”Ô†
-    private float[] _firstStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f }; //firstStage‚Ì‘¬“xˆê——
+    private int[] _cheeseScores = { 8, 0, 0 }; //å„ã‚¹ãƒ†ãƒ¼ã‚¸ã®ãƒãƒ¼ã‚ºä¸Šé™æ•°
+    private int _cheeseScore = 0; //ãƒãƒ¼ã‚ºå–å¾—æ•°
+    private int _stgNum = 0; //ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·
+    private float[] _firstStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f }; //firstStageã®é€Ÿåº¦ä¸€è¦§
     //private float[] secondStgPlySpeeds = { };    
-    private float _currentSpeed = 0f; //Œ»İ‚ÌƒvƒŒƒCƒ„[‘¬“x•ÛŠÇ—p   
-    private float _normalRunning = 0.1f; //’Êí‘¬“x‚Ì‘Ì—ÍƒQ[ƒW•Ï‰»—¦
-    private float _speedRunning = 0.3f; //ƒ_ƒbƒVƒ…‚Ì‘Ì—ÍƒQ[ƒW•Ï‰»—¦
-    private bool _isStageCtrlGet = false; //ŠeƒXƒe[ƒW‚ÌStageCtrliUIŠÇ—j‚ğæ“¾‚µ‚½‚©
+    private float _currentSpeed = 0f; //ç¾åœ¨ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼é€Ÿåº¦ä¿ç®¡ç”¨   
+    private float _normalRunning = 0.1f; //é€šå¸¸é€Ÿåº¦ã®ä½“åŠ›ã‚²ãƒ¼ã‚¸å¤‰åŒ–ç‡
+    private float _speedRunning = 0.3f; //ãƒ€ãƒƒã‚·ãƒ¥æ™‚ã®ä½“åŠ›ã‚²ãƒ¼ã‚¸å¤‰åŒ–ç‡
+    private bool _isStageCtrlGet = false; //å„ã‚¹ãƒ†ãƒ¼ã‚¸ã®StageCtrlï¼ˆUIç®¡ç†ï¼‰ã‚’å–å¾—ã—ãŸã‹
 
 
-    //ƒVƒ“ƒOƒ‹ƒgƒ“‚ÌÀ‘•
+    //ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã®å®Ÿè£…
     private void Awake()
     {
         if (Instance == null)
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        //ƒXƒe[ƒWƒf[ƒ^‚Ìæ‚è‚İ
+        //ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿ã®å–ã‚Šè¾¼ã¿
         LoadStagesData();
     }
 
@@ -71,33 +71,33 @@ public class GameManager : MonoBehaviour
     {
         //LoadStageData();
 
-        //ƒZƒbƒgƒAƒbƒv
+        //ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—
         SetUp();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //ƒV[ƒ“‘JˆÚ‚ª‚ ‚Á‚½‚Æ‚«‚Ìˆ—iƒf[ƒ^‚Ì‰Šú‰»j
+        //ã‚·ãƒ¼ãƒ³é·ç§»ãŒã‚ã£ãŸã¨ãã®å‡¦ç†ï¼ˆãƒ‡ãƒ¼ã‚¿ã®åˆæœŸåŒ–ï¼‰
         if ((_stageCtrl == null) || (_player == null))
         {
-            //ƒXƒe[ƒWƒZƒŒƒNƒg‰æ–Ê‚É‚¢‚é
+            //ã‚¹ãƒ†ãƒ¼ã‚¸ã‚»ãƒ¬ã‚¯ãƒˆç”»é¢ã«ã„ã‚‹æ™‚
             if (IsInGame())
             {
-                //ƒCƒ“ƒQ[ƒ€ŠO‚Ì‚ÍA‚±‚±‚É—ˆ‚é
+                //ã‚¤ãƒ³ã‚²ãƒ¼ãƒ å¤–ã®æ™‚ã¯ã€ã“ã“ã«æ¥ã‚‹
             }
-            else //ƒvƒŒƒCƒXƒe[ƒW‚É‚¢‚é
+            else //ãƒ—ãƒ¬ã‚¤ã‚¹ãƒ†ãƒ¼ã‚¸ã«ã„ã‚‹æ™‚
             {
                 SetUp();
             }
         }
 
-        //stageCtrl‚ª‚ ‚éiƒCƒ“ƒQ[ƒ€’†j‚Æ‚«‚Ìˆ—
+        //stageCtrlãŒã‚ã‚‹ï¼ˆã‚¤ãƒ³ã‚²ãƒ¼ãƒ ä¸­ï¼‰ã¨ãã®å‡¦ç†
         if (_stageCtrl != null)
         {
-            if (!_stageCtrl.doGameOver) //ƒQ[ƒ€ƒI[ƒo[‚Å‚È‚¯‚ê‚Î
+            if (!_stageCtrl.doGameOver) //ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã§ãªã‘ã‚Œã°
             {
-                //stageCtrl‚ğæ“¾‚·‚é‚Ü‚Ås‚í‚È‚¢‚æ‚¤‚É‚·‚é
+                //stageCtrlã‚’å–å¾—ã™ã‚‹ã¾ã§è¡Œã‚ãªã„ã‚ˆã†ã«ã™ã‚‹
                 if (_isStageCtrlGet)
                 {
                     UpdateInGame(_stgNum);
@@ -107,16 +107,16 @@ public class GameManager : MonoBehaviour
                     StageCtrlSetUp();
                 }
             }
-            else //ƒQ[ƒ€ƒI[ƒo[‚É‚È‚Á‚½‚ç
+            else //ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã«ãªã£ãŸã‚‰
             {
 
             }
         }
     }
 
-    //-----------------------------------ƒXƒe[ƒW‘JˆÚ‚ÉŠÖ‚·‚éˆ—-----------------------------------//
+    //-----------------------------------ã‚¹ãƒ†ãƒ¼ã‚¸é·ç§»ã«é–¢ã™ã‚‹å‡¦ç†-----------------------------------//
 
-    //ƒCƒ“ƒXƒyƒNƒ^[‚Åİ’è‚³‚ê‚½“à—e‚ğAƒvƒ‰ƒCƒx[ƒg‚Éæ‚è‚ŞiFirstStage‚Ì‚İŠJ•új
+    //ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ã§è¨­å®šã•ã‚ŒãŸå†…å®¹ã‚’ã€ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆã«å–ã‚Šè¾¼ã‚€ï¼ˆFirstStageã®ã¿é–‹æ”¾ï¼‰
     void LoadStagesData()
     {
         foreach (var stageData in _stages)
@@ -127,13 +127,13 @@ public class GameManager : MonoBehaviour
         _stageDatas[GameScene.FirstStage] = true;
     }
 
-    //ƒXƒe[ƒW‘JˆÚiƒ{ƒ^ƒ“‚É‚±‚ÌŠÖ”‚ğ“ü‚ê‚ÄA”ò‚Ñ‚½‚¢ƒV[ƒ“‚Ì”Ô†(enum(GameScene)‚Å’è‹`)‚ğİ’è‚·‚éj
+    //ã‚¹ãƒ†ãƒ¼ã‚¸é·ç§»ï¼ˆãƒœã‚¿ãƒ³ã«ã“ã®é–¢æ•°ã‚’å…¥ã‚Œã¦ã€é£›ã³ãŸã„ã‚·ãƒ¼ãƒ³ã®ç•ªå·(enum(GameScene)ã§å®šç¾©)ã‚’è¨­å®šã™ã‚‹ï¼‰
     public void TransitionScene(int scene)
     {
 
         _gameScene = (GameScene)scene;
 
-        //ƒNƒŠƒA‚ÍƒXƒe[ƒW‚ğŠJ•ú‚·‚é
+        //ã‚¯ãƒªã‚¢æ™‚ã¯ã‚¹ãƒ†ãƒ¼ã‚¸ã‚’é–‹æ”¾ã™ã‚‹
         if (_stageCtrl.doGameClear)
         {
             UnlockNextStage(_gameScene);
@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ƒXƒe[ƒWƒNƒŠƒA‚ÉŸ‚ÌƒXƒe[ƒWiƒCƒ“ƒXƒyƒNƒ^[‚Åİ’èj‚ğƒAƒ“ƒƒbƒN
+    // ã‚¹ãƒ†ãƒ¼ã‚¸ã‚¯ãƒªã‚¢æ™‚ã«æ¬¡ã®ã‚¹ãƒ†ãƒ¼ã‚¸ï¼ˆã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ã§è¨­å®šï¼‰ã‚’ã‚¢ãƒ³ãƒ­ãƒƒã‚¯
     void UnlockNextStage(GameScene gameScene)
     {
         if (!_stageDatas[gameScene])
@@ -159,9 +159,9 @@ public class GameManager : MonoBehaviour
         return SceneManager.GetActiveScene().name == "SceneSelect" || SceneManager.GetActiveScene().name == "Title";
     }
 
-    //-----------------------------------ƒXƒe[ƒWƒvƒŒƒCˆ—-----------------------------------//
+    //-----------------------------------ã‚¹ãƒ†ãƒ¼ã‚¸ãƒ—ãƒ¬ã‚¤å‡¦ç†-----------------------------------//
 
-    //ƒZƒbƒgƒAƒbƒvŠÖ”
+    //ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—é–¢æ•°
     void SetUp()
     {
         Time.timeScale = 1.0f;
@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour
 
         _cheeseScore = 0;
 
-        //Œ»İ‚ÌƒXƒe[ƒW”Ô†‚É‚æ‚Á‚ÄA‰‘¬“x‚ğ•Ï‚¦‚Ä‚¢‚éB
+        //ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·ã«ã‚ˆã£ã¦ã€åˆé€Ÿåº¦ã‚’å¤‰ãˆã¦ã„ã‚‹ã€‚
         switch (_stgNum)
         {
             //firstStage
@@ -186,7 +186,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //ŠO•”‚ÌStageCtrlƒNƒ‰ƒX‚Ì‰Šú‰»(FindŠÖ”‚Åæ“¾‚·‚é‚Ü‚ÅAs‚í‚È‚¢‚æ‚¤‚É‚·‚é)
+    //å¤–éƒ¨ã®StageCtrlã‚¯ãƒ©ã‚¹ã®åˆæœŸåŒ–(Findé–¢æ•°ã§å–å¾—ã™ã‚‹ã¾ã§ã€è¡Œã‚ãªã„ã‚ˆã†ã«ã™ã‚‹)
     void StageCtrlSetUp()
     {
         _stageCtrl.cheeseParameters.fillAmount = 0;
@@ -194,32 +194,32 @@ public class GameManager : MonoBehaviour
         _isStageCtrlGet = true;
     }
 
-    //ƒCƒ“ƒQ[ƒ€“à‚ÌXVˆ—
+    //ã‚¤ãƒ³ã‚²ãƒ¼ãƒ å†…ã®æ›´æ–°å‡¦ç†
     void UpdateInGame(int num)
     {
-        //ƒ`[ƒYƒQ[ƒW‚ÌXV
+        //ãƒãƒ¼ã‚ºã‚²ãƒ¼ã‚¸ã®æ›´æ–°
         UpdateCheeseParameter();
 
-        //ƒ`[ƒY•Û—L—¦‚É‚æ‚éƒvƒŒƒCƒ„[‘¬“x‚ÌXV
+        //ãƒãƒ¼ã‚ºä¿æœ‰ç‡ã«ã‚ˆã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼é€Ÿåº¦ã®æ›´æ–°
         UpdateCurrentSpeed(num);
 
-        //ƒvƒŒƒCƒ„[‚Ì‘Ì—Íü‚è‚ÌXV
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½“åŠ›å‘¨ã‚Šã®æ›´æ–°
         ManageHealth();
     }
 
     void UpdateCheeseParameter()
     {
-        //Šl“¾ƒ`[ƒY”‚ÆƒXƒe[ƒW‚É”z’u‚³‚ê‚½ƒ`[ƒY”‚ğœZ‚µ‚½Œ‹‰Ê‚ğAƒ`[ƒYƒpƒ‰ƒ[ƒ^[‚É”½‰f
+        //ç²å¾—ãƒãƒ¼ã‚ºæ•°ã¨ã‚¹ãƒ†ãƒ¼ã‚¸ã«é…ç½®ã•ã‚ŒãŸãƒãƒ¼ã‚ºæ•°ã‚’é™¤ç®—ã—ãŸçµæœã‚’ã€ãƒãƒ¼ã‚ºãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼ã«åæ˜ 
         percentCheese = (float)_cheeseScore / (float)_cheeseScores[_stgNum];
         _stageCtrl.cheeseParameters.fillAmount = percentCheese;
         Debug.Log(_cheeseScore);
         Debug.Log(percentCheese);
     }
 
-    //‘¬“x‚ÌXV(•Ï”‚ÍŒ»İ‚ÌƒXƒe[ƒW”Ô†)
+    //é€Ÿåº¦ã®æ›´æ–°(å¤‰æ•°ã¯ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ã‚¸ç•ªå·)
     void UpdateCurrentSpeed(int stageNum)
     {
-        //ƒvƒŒƒCƒ„[‚Ì‘¬“x‚ğAƒ`[ƒY‚ÌŠl“¾”icheeseScore‚ÅŠÇ—j‚©‚ç•ÏX
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é€Ÿåº¦ã‚’ã€ãƒãƒ¼ã‚ºã®ç²å¾—æ•°ï¼ˆcheeseScoreã§ç®¡ç†ï¼‰ã‹ã‚‰å¤‰æ›´
         switch (stageNum)
         {
             case 0:
@@ -228,26 +228,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //PlayerMove‚ÉAŒ»İ‚Ì‘¬“x‚ğ•Ô‚·
+    //PlayerMoveã«ã€ç¾åœ¨ã®é€Ÿåº¦ã‚’è¿”ã™
     public float GetCurrentSpeed()
     {
         return _currentSpeed;
     }
 
-    //ƒvƒŒƒCƒ„[‚ª‘–‚Á‚Ä‚¢‚½‚çA‘Ì—ÍƒQ[ƒW‚ğŒ¸‚ç‚·B0‚É‚È‚Á‚½‚çAƒ`[ƒY‚ğŒ¸‚ç‚·
+    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒèµ°ã£ã¦ã„ãŸã‚‰ã€ä½“åŠ›ã‚²ãƒ¼ã‚¸ã‚’æ¸›ã‚‰ã™ã€‚0ã«ãªã£ãŸã‚‰ã€ãƒãƒ¼ã‚ºã‚’æ¸›ã‚‰ã™
     void ManageHealth()
     {
         if (_player != null)
         {
-            if (_player.IsRunningPlayer()) //ƒvƒŒƒCƒ„[‚ª‘–‚Á‚Ä‚¢‚½‚ç
+            if (_player.IsRunningPlayer()) //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒèµ°ã£ã¦ã„ãŸã‚‰
             {
                 if (_cheeseScore != 0)
                 {
-                    if (_player.IsPlayerDushing()) //ƒ_ƒbƒVƒ…‚µ‚Ä‚¢‚é‚Æ‚«
+                    if (_player.IsPlayerDushing()) //ãƒ€ãƒƒã‚·ãƒ¥ã—ã¦ã„ã‚‹ã¨ã
                     {
                         _stageCtrl.healthGaugeSlider.value -= Time.deltaTime * _speedRunning;
                     }
-                    else //’Êí‚Ì‘–‚è‚Ì‚Æ‚«
+                    else //é€šå¸¸ã®èµ°ã‚Šã®ã¨ã
                     {
                         _stageCtrl.healthGaugeSlider.value -= Time.deltaTime * _normalRunning;
                     }
@@ -255,7 +255,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                //‘–‚Á‚Ä‚¢‚È‚¯‚ê‚ÎƒXƒ^ƒ~ƒi‰ñ•œ
+                //èµ°ã£ã¦ã„ãªã‘ã‚Œã°ã‚¹ã‚¿ãƒŸãƒŠå›å¾©
                 if (_stageCtrl.healthGaugeSlider.value < 1)
                 {
                     _stageCtrl.healthGaugeSlider.value += Time.deltaTime * _normalRunning;
@@ -269,18 +269,18 @@ public class GameManager : MonoBehaviour
 
         if (_stageCtrl.healthGaugeSlider.value <= 0)
         {
-            //ƒ`[ƒY‚Ìæ“¾”‚ğƒfƒNƒŠƒƒ“ƒg‚µAˆê‚Â‰º‚ÌƒXƒs[ƒh‚É•Ï‚¦‚é
+            //ãƒãƒ¼ã‚ºã®å–å¾—æ•°ã‚’ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã—ã€ä¸€ã¤ä¸‹ã®ã‚¹ãƒ”ãƒ¼ãƒ‰ã«å¤‰ãˆã‚‹
             _cheeseScore--;
-            //‘Ì—ÍƒQ[ƒW‚ğƒŠƒZƒbƒg
+            //ä½“åŠ›ã‚²ãƒ¼ã‚¸ã‚’ãƒªã‚»ãƒƒãƒˆ
             _stageCtrl.healthGaugeSlider.value = 1;
         }
     }
 
-    //ƒ`[ƒY‚ğŠl“¾‚µ‚½‚Æ‚«‚ÌƒXƒRƒAXV
+    //ãƒãƒ¼ã‚ºã‚’ç²å¾—ã—ãŸã¨ãã®ã‚¹ã‚³ã‚¢æ›´æ–°
     public void GetCheese(int cheese)
     {
         _cheeseScore += cheese;
-        //V‚µ‚­ƒ`[ƒY‚ğƒQƒbƒg‚µ‚½‚çA‘Ì—ÍƒQ[ƒW‚ğƒŠƒZƒbƒg
+        //æ–°ã—ããƒãƒ¼ã‚ºã‚’ã‚²ãƒƒãƒˆã—ãŸã‚‰ã€ä½“åŠ›ã‚²ãƒ¼ã‚¸ã‚’ãƒªã‚»ãƒƒãƒˆ
         _stageCtrl.healthGaugeSlider.value = 1;
     }
 }
