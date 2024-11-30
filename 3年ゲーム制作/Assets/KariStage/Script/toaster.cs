@@ -43,6 +43,8 @@ public class toaster : MonoBehaviour
 
     private IEnumerator Move()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.toaster_Button);
+
         // 少し下に移動
         Vector2 startPosition = transform.position;
         Vector2 downPosition = startPosition - new Vector2(0, distance / 2); // 下に少し移動する
@@ -68,6 +70,7 @@ public class toaster : MonoBehaviour
         // 上に移動開始（ここでタグを変更）
         gameObject.tag = newTag; // タグ変更
         elapsedTime = 0;
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.toaster);
 
         while (elapsedTime < moveDuration)
         {
