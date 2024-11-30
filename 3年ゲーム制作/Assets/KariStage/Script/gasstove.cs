@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class gasstove : MonoBehaviour
@@ -7,23 +6,32 @@ public class gasstove : MonoBehaviour
     public StageCtrl stageCtrl;
     [Header("プレイヤーの判定")] public PlayerTriggerCheck playerCheck;
     [Header("スタート時の状態")] public bool isStart;
+    [Header("SEを鳴らすまでの遅延時間 (秒)")] public float seDelay = 0.5f; // SEを鳴らすまでの遅延時間
+    public AudioClip stoveSE; // ガスコンロのSE
+    private AudioSource audioSource;
     private Animator animator;
     private BoxCollider2D boxCollider;
-    // Start is called before the first frame update
+
     void Start()
     {
         animator = GetComponent<Animator>();
-        animator.SetBool("isOn",isStart);
+        animator.SetBool("isOn", isStart);
+
         boxCollider = GetComponent<BoxCollider2D>();
-        boxCollider.isTrigger=!isStart;
+        boxCollider.isTrigger = !isStart;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (playerCheck.isOn&&animator.GetBool("isOn"))
+        if (playerCheck.isOn && animator.GetBool("isOn"))
         {
-            //stageCtrl.OnEnemyCollected();
+            // stageCtrl.OnEnemyCollected(); // 必要に応じて処理を追加
         }
     }
 
@@ -31,9 +39,23 @@ public class gasstove : MonoBehaviour
     {
         bool currentStatus = animator.GetBool("isOn");
         animator.SetBool("isOn", !currentStatus);
-        //animator.SetBool("isOn", !animator.GetBool("isOn"));
-        boxCollider.isTrigger=!boxCollider.isTrigger;
-        //isOn = !isOn;
+        boxCollider.isTrigger = !boxCollider.isTrigger;
+
+        // SEを再生する処理を遅延実行
+        StartCoroutine(PlayStoveSEWithDelay(seDelay));
     }
 
+    private IEnumerator PlayStoveSEWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (stoveSE != null)
+        {
+            audioSource.PlayOneShot(stoveSE);
+        }
+        else
+        {
+            Debug.LogWarning("Stove SE が設定されていません！");
+        }
+    }
 }
