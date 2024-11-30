@@ -106,6 +106,7 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator OnEnemyCollision()//死んだ時のアニメーション処理
     {
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.Dead_nezumi);
         isControllable = false; // 操作不可
         anim.SetBool("Death", true); // デスアニメーションを再生
 
