@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MenuSelectControl : MonoBehaviour
 {
@@ -15,11 +16,29 @@ public class MenuSelectControl : MonoBehaviour
     }
 
     [System.Serializable]
+    public enum Stage
+    {
+        FirstStage,
+        SecondStage,
+        ThirdStage
+    }
+
+    [System.Serializable]
     public class SubPanelData
     {
         public SubPanel panel;
         public bool isSelected;
     }
+
+    //Inspectorで登録する、Stage名と、それに対応するボタン
+    [System.Serializable]
+    public class StageButtonData
+    {
+        public Stage stage;
+        public UnityEngine.UI.Button button;
+    }
+
+    GameManager manager => GameManager.Instance;
 
     /// <summary>
     /// Panel取り込み
@@ -37,10 +56,13 @@ public class MenuSelectControl : MonoBehaviour
     [SerializeField] private GameObject OptionPanelFirstButton;
     [SerializeField] private GameObject PlayGuidePanelFirstButton;
 
+    [SerializeField] private StageButtonData[] StageButtons;
+
     [SerializeField] private List<SubPanelData> SubPanels;
 
-    //各サブメニュー（StageSelect,Option,PlayGuide）の表示状態の保持
-    private Dictionary<SubPanel, bool> _subMenuData = new Dictionary<SubPanel, bool>();
+
+    private Dictionary<SubPanel, bool> _subMenuData = new Dictionary<SubPanel, bool>(); //各サブメニュー（StageSelect,Option,PlayGuide）の表示状態の保持
+    private Dictionary<Stage, UnityEngine.UI.Button> _stageButtonsData = new Dictionary<Stage, UnityEngine.UI.Button>(); //このスクリプト上で保持する各ステージに飛ぶボタンの情報
 
     bool _subSelected;
     SubPanel _subPanel;
@@ -55,7 +77,10 @@ public class MenuSelectControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (manager != null) 
+        {
+            LoadOnClickData();
+        }    
     }
 
 
@@ -74,6 +99,50 @@ public class MenuSelectControl : MonoBehaviour
         {
             _subMenuData[subPanel.panel] = subPanel.isSelected;
         }
+
+        LoadStageButtonsData();
+    }
+
+    //ステージボタン情報のロード
+    void LoadStageButtonsData()
+    {
+        foreach (var stageData in StageButtons)
+        {
+            if (stageData != null)
+            {
+                _stageButtonsData[stageData.stage] = stageData.button;
+            }
+        }
+    }
+
+    //Stage選択ボタンにOnClick関数を追加（GameManagerの関数をアタッチするが、シングルトンの影響で消えてしまうため）
+    void LoadOnClickData()
+    {
+        if (isButtonActive())
+        {
+            foreach (var stageData in StageButtons)
+            {
+                if (stageData != null)
+                {
+                    //ボタンが非アクティブであることが、恐らくOnClickを設定できない原因
+                    _stageButtonsData[stageData.stage].onClick.AddListener(() => manager.TransitionScene((int)stageData.stage));
+                }
+            }
+        }
+    }
+
+    //Stage選択ボタンがアクティブになっているか
+    bool isButtonActive()
+    {
+        foreach (var data in _stageButtonsData)
+        {
+            if (!data.Value.gameObject.activeSelf)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     //ボタンが押されたら（全ボタン共通）(numは行先)

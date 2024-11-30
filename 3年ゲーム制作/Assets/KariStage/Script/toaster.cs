@@ -3,33 +3,33 @@ using UnityEngine;
 
 public class toaster : MonoBehaviour
 {
-    [Header("“®‚­‹——£AŠÔA‘Ò‚ÂŠÔ")]
+    [Header("å‹•ãè·é›¢ã€æ™‚é–“ã€å¾…ã¤æ™‚é–“")]
     [SerializeField] private float distance = 1.0f;
     [SerializeField] private float moveDuration = 1.0f;
     [SerializeField] private float waitBeforeMove = 2.0f;
-    [SerializeField] private string newTag = "Trap"; // V‚µ‚¢ƒ^ƒO
-    [Header("ƒvƒŒƒCƒ„[‚Ì”»’è")]
-    [SerializeField] private string playerTag = "Player"; // ƒvƒŒƒCƒ„[‚Ìƒ^ƒO
-    [SerializeField] private AudioClip SE = null; // ƒpƒ“‚ªã‚ª‚éƒ^ƒCƒ~ƒ“ƒO‚Å–Â‚ç‚·SE
+    [SerializeField] private string newTag = "Trap"; // æ–°ã—ã„ã‚¿ã‚°
+    [Header("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åˆ¤å®š")]
+    [SerializeField] private string playerTag = "Player"; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¿ã‚°
+    [SerializeField] private AudioClip SE = null; // ãƒ‘ãƒ³ãŒä¸ŠãŒã‚‹ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§é³´ã‚‰ã™SE
 
     private AudioSource audioSource;
     private Collider2D col;
-    private bool isMoved = false; // “®ìÏ‚İƒtƒ‰ƒO
+    private bool isMoved = false; // å‹•ä½œæ¸ˆã¿ãƒ•ãƒ©ã‚°
 
     void Start()
     {
-        // AudioSource‚ğæ“¾‚Ü‚½‚Í’Ç‰Á
+        // AudioSourceã‚’å–å¾—ã¾ãŸã¯è¿½åŠ 
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
-        col = GetComponent<Collider2D>(); // ©•ª‚ÌƒRƒ‰ƒCƒ_[æ“¾
+        col = GetComponent<Collider2D>(); // è‡ªåˆ†ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼å–å¾—
     }
 
     public void ActivateToaster()
     {
-        if (!isMoved) // ˆê“x‚µ‚©“®ì‚µ‚È‚¢
+        if (!isMoved) // ä¸€åº¦ã—ã‹å‹•ä½œã—ãªã„
         {
             isMoved = true;
             StartCoroutine(Move());
@@ -38,7 +38,9 @@ public class toaster : MonoBehaviour
 
     private IEnumerator Move()
     {
-        // ‰º‚ÉˆÚ“®
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.toaster_Button);
+
+        // å°‘ã—ä¸‹ã«ç§»å‹•
         Vector2 startPosition = transform.position;
         Vector2 downPosition = startPosition - new Vector2(0, distance / 2);
         Vector2 upPosition = startPosition + new Vector2(0, distance);
@@ -55,11 +57,13 @@ public class toaster : MonoBehaviour
 
         transform.position = downPosition;
 
-        // ‘Ò‹@ŠÔ
+        // å¾…æ©Ÿæ™‚é–“
         yield return new WaitForSeconds(waitBeforeMove);
 
-        // ã‚ÉˆÚ“®ŠJn
+        // ä¸Šã«ç§»å‹•é–‹å§‹
         elapsedTime = 0;
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.toaster);
+
         while (elapsedTime < moveDuration)
         {
             transform.position = Vector2.Lerp(downPosition, upPosition, elapsedTime / moveDuration);
@@ -69,10 +73,10 @@ public class toaster : MonoBehaviour
 
         transform.position = upPosition;
 
-        // ã‚ÉˆÚ“®‚µ‚½Œã‚ÉSE‚ğ–Â‚ç‚·
+        // ä¸Šã«ç§»å‹•ã—ãŸå¾Œã«SEã‚’é³´ã‚‰ã™
         PlaySE();
 
-        // ƒ^ƒO•ÏX
+        // ã‚¿ã‚°å¤‰æ›´
         gameObject.tag = newTag;
     }
 
@@ -80,11 +84,11 @@ public class toaster : MonoBehaviour
     {
         if (SE != null)
         {
-            audioSource.PlayOneShot(SE); // SE‚ğ–Â‚ç‚·
+            audioSource.PlayOneShot(SE); // SEã‚’é³´ã‚‰ã™
         }
         else
         {
-            Debug.LogWarning("ƒpƒ“ã‚ª‚éSE‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
+            Debug.LogWarning("ãƒ‘ãƒ³ä¸ŠãŒã‚‹SEãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼");
         }
     }
 
@@ -98,15 +102,15 @@ public class toaster : MonoBehaviour
 
     private IEnumerator DisableColliderAndFadeOut()
     {
-        yield return new WaitForSeconds(0.5f); // ­‚µ‘Ò‚Â
-        col.enabled = false; // ƒRƒ‰ƒCƒ_[–³Œø‰»
+        yield return new WaitForSeconds(0.5f); // å°‘ã—å¾…ã¤
+        col.enabled = false; // ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ç„¡åŠ¹åŒ–
         StartCoroutine(FadeOut());
     }
 
     private IEnumerator FadeOut()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        float fadeDuration = 1.0f; // ƒtƒF[ƒhƒAƒEƒg‚ÌŠÔ
+        float fadeDuration = 1.0f; // ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆã®æ™‚é–“
         float elapsedTime = 0;
 
         while (elapsedTime < fadeDuration)
@@ -117,7 +121,7 @@ public class toaster : MonoBehaviour
             yield return null;
         }
 
-        // Š®‘S‚ÉƒtƒF[ƒhƒAƒEƒgŒã‚É”ñƒAƒNƒeƒBƒu‰»
+        // å®Œå…¨ã«ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆå¾Œã«éã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–
         gameObject.SetActive(false);
     }
 }

@@ -37,6 +37,7 @@ public class gasstove : MonoBehaviour
 
     public void SwitchStove()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.gass);
         bool currentStatus = animator.GetBool("isOn");
         animator.SetBool("isOn", !currentStatus);
         boxCollider.isTrigger = !boxCollider.isTrigger;

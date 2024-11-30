@@ -43,6 +43,7 @@ public class PlayerMove : MonoBehaviour
         // Spaceキーで解放とジャンプ
         if (isAttached && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")))
         {
+            SoundManager.Instance.PlaySFX(SoundManager.SoundType.jump);
             anim.SetBool("hook", false);
             ReleaseObject(); // 固定を解除
         }
@@ -105,6 +106,7 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator OnEnemyCollision()//死んだ時のアニメーション処理
     {
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.Dead_nezumi);
         isControllable = false; // 操作不可
         anim.SetBool("Death", true); // デスアニメーションを再生
 
@@ -193,6 +195,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (GroundChk() && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")))
         {
+            SoundManager.Instance.PlaySFX(SoundManager.SoundType.jump);
             float jumpPower = 22.5f;
             rb.velocity = new Vector2(0, jumpPower);
             anim.SetTrigger("Jump");

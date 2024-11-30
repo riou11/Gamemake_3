@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+//カーソル移動、タイトルわからん、
+
+
 public class SoundManager : MonoBehaviour
 {
     private static SoundManager _instance;
@@ -18,7 +21,14 @@ public class SoundManager : MonoBehaviour
         None,
         ButtonClick,
         GameOver,
-
+        Stage1,
+        Select_SE,
+        Title,
+        toaster,
+        toaster_Button,
+        Dead_nezumi,
+        jump,
+        gass
 
     }
 
