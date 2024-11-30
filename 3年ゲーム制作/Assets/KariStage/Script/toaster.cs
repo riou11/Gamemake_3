@@ -1,59 +1,53 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class toaster : MonoBehaviour
 {
-    [Header("“®‚­‹——£AŠÔA‘Ò‚ÂŠÔ")]
+    [Header("å‹•ãè·é›¢ã€æ™‚é–“ã€å¾…ã¤æ™‚é–“")]
     [SerializeField] private float distance = 1.0f;
     [SerializeField] private float moveDuration = 1.0f;
     [SerializeField] private float waitBeforeMove = 2.0f;
-    [SerializeField] private string newTag = "Trap"; // V‚µ‚¢ƒ^ƒO‚ğInspector‚©‚çİ’è‚Å‚«‚é
-    [Header("ƒvƒŒƒCƒ„[‚Ì”»’è")] public PlayerTriggerCheck playerCheck;
-    [SerializeField] AudioClip SE = null;
-    AudioSource audioSource;
+    [SerializeField] private string newTag = "Trap"; // æ–°ã—ã„ã‚¿ã‚°
+    [Header("ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åˆ¤å®š")]
+    [SerializeField] private string playerTag = "Player"; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¿ã‚°
+    [SerializeField] private AudioClip SE = null; // ãƒ‘ãƒ³ãŒä¸ŠãŒã‚‹ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§é³´ã‚‰ã™SE
 
-    private bool isMoved = false;
+    private AudioSource audioSource;
     private Collider2D col;
+    private bool isMoved = false; // å‹•ä½œæ¸ˆã¿ãƒ•ãƒ©ã‚°
 
     void Start()
     {
+        // AudioSourceã‚’å–å¾—ã¾ãŸã¯è¿½åŠ 
         audioSource = GetComponent<AudioSource>();
-        col = GetComponent<Collider2D>(); // ©•ª‚ÌƒRƒ‰ƒCƒ_[æ“¾
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        col = GetComponent<Collider2D>(); // è‡ªåˆ†ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼å–å¾—
     }
 
-    void Update()
+    public void ActivateToaster()
     {
-        if (playerCheck.isOn && !isMoved)
+        if (!isMoved) // ä¸€åº¦ã—ã‹å‹•ä½œã—ãªã„
         {
             isMoved = true;
             StartCoroutine(Move());
         }
     }
 
-    public void ActivateTrap()
-    {
-        Debug.Log("Gimmick activated");
-    }
-
-    public void MoveObject() // ƒ{ƒ^ƒ“g‚¤‚È‚ç‚±‚ê‚Åì“®
-    {
-        StartCoroutine(Move());
-    }
-
     private IEnumerator Move()
     {
         SoundManager.Instance.PlaySFX(SoundManager.SoundType.toaster_Button);
 
-        // ­‚µ‰º‚ÉˆÚ“®
+        // å°‘ã—ä¸‹ã«ç§»å‹•
         Vector2 startPosition = transform.position;
-        Vector2 downPosition = startPosition - new Vector2(0, distance / 2); // ‰º‚É­‚µˆÚ“®‚·‚é
-        Vector2 upPosition = startPosition + new Vector2(0, distance); // ÅI“I‚Éã‚ÉˆÚ“®‚·‚éˆÊ’u
+        Vector2 downPosition = startPosition - new Vector2(0, distance / 2);
+        Vector2 upPosition = startPosition + new Vector2(0, distance);
 
         float elapsedTime = 0;
-        float downDuration = moveDuration / 2; // ”¼•ª‚ÌŠÔ‚Å‰º‚ÉˆÚ“®
+        float downDuration = moveDuration / 2;
 
-        // ‰º‚ÉˆÚ“®‚·‚é
         while (elapsedTime < downDuration)
         {
             transform.position = Vector2.Lerp(startPosition, downPosition, elapsedTime / downDuration);
@@ -61,14 +55,12 @@ public class toaster : MonoBehaviour
             yield return null;
         }
 
-        // ÅIˆÊ’u‚É“’B
         transform.position = downPosition;
 
-        // w’è•b”‘Ò‹@
+        // å¾…æ©Ÿæ™‚é–“
         yield return new WaitForSeconds(waitBeforeMove);
 
-        // ã‚ÉˆÚ“®ŠJni‚±‚±‚Åƒ^ƒO‚ğ•ÏXj
-        gameObject.tag = newTag; // ƒ^ƒO•ÏX
+        // ä¸Šã«ç§»å‹•é–‹å§‹
         elapsedTime = 0;
         SoundManager.Instance.PlaySFX(SoundManager.SoundType.toaster);
 
@@ -80,29 +72,45 @@ public class toaster : MonoBehaviour
         }
 
         transform.position = upPosition;
+
+        // ä¸Šã«ç§»å‹•ã—ãŸå¾Œã«SEã‚’é³´ã‚‰ã™
+        PlaySE();
+
+        // ã‚¿ã‚°å¤‰æ›´
+        gameObject.tag = newTag;
+    }
+
+    private void PlaySE()
+    {
+        if (SE != null)
+        {
+            audioSource.PlayOneShot(SE); // SEã‚’é³´ã‚‰ã™
+        }
+        else
+        {
+            Debug.LogWarning("ãƒ‘ãƒ³ä¸ŠãŒã‚‹SEãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // ”L‚É“–‚½‚Á‚½‚Æ‚«‚Éˆê’èŠÔŒã‚ÉƒRƒ‰ƒCƒ_[–³Œø•ƒ^ƒO•ÏX
-            StartCoroutine(DisableColliderAndChangeTagAfterDelay());
+            StartCoroutine(DisableColliderAndFadeOut());
         }
     }
 
-    private IEnumerator DisableColliderAndChangeTagAfterDelay()
+    private IEnumerator DisableColliderAndFadeOut()
     {
-        yield return new WaitForSeconds(0.5f); // ­‚µ‘Ò‚Â
-        col.enabled = false; // ƒRƒ‰ƒCƒ_[–³Œø
-        gameObject.tag = "Untagged"; // ƒ^ƒO‚àƒŠƒZƒbƒg
-        StartCoroutine(FadeOut()); // Œ©‚¦‚È‚­‚·‚éˆ—
+        yield return new WaitForSeconds(0.5f); // å°‘ã—å¾…ã¤
+        col.enabled = false; // ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ç„¡åŠ¹åŒ–
+        StartCoroutine(FadeOut());
     }
 
     private IEnumerator FadeOut()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        float fadeDuration = 1.0f;
+        float fadeDuration = 1.0f; // ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆã®æ™‚é–“
         float elapsedTime = 0;
 
         while (elapsedTime < fadeDuration)
@@ -113,7 +121,7 @@ public class toaster : MonoBehaviour
             yield return null;
         }
 
-        // Š®‘S‚ÉŒ©‚¦‚È‚­‚È‚Á‚½‚çƒIƒuƒWƒFƒNƒg‚ğ”ñƒAƒNƒeƒBƒu‚É
+        // å®Œå…¨ã«ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆå¾Œã«éã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–
         gameObject.SetActive(false);
     }
 }
