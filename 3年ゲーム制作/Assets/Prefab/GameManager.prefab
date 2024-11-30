@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1538473632820727215}
   - component: {fileID: 1538473632820727212}
+  - component: {fileID: 1382966662}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -44,5 +45,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 656b1e58d40aab34aaa02b0703485255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stages: []
-  stageSelectFirstButton: {fileID: 0}
+  _stages: []
+--- !u!114 &1382966662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538473632820727213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 599eaaca2480a774d9c6e4900888c917, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolume: 5
+  sfxVolume: 5
+  bgmVolume: 0
+  preloadedSounds:
+  - type: 1
+    clip: {fileID: 8300000, guid: 322e16bb74f3ce74bb3c3090e2a50022, type: 3}
+  - type: 2
+    clip: {fileID: 8300000, guid: 78479a03b442dbd4391429cabf9f7e09, type: 3}
+  - type: 3
+    clip: {fileID: 8300000, guid: 5d7756fc012be0948a005d8f5d64eb14, type: 3}
+  - type: 4
+    clip: {fileID: 8300000, guid: 08e565590933e154891f48c94a48de8b, type: 3}
+  - type: 5
+    clip: {fileID: 8300000, guid: 20e1da57ceb09cc46b2b79804628d745, type: 3}
+  - type: 6
+    clip: {fileID: 8300000, guid: 6618b0c59fb51cd44934c52c5dd5e1e4, type: 3}
+  - type: 7
+    clip: {fileID: 8300000, guid: fd979bbef86cda94892d9634cd6711de, type: 3}
+  - type: 8
+    clip: {fileID: 8300000, guid: bf230a086b6585041b0c5c301d223ff0, type: 3}
