@@ -2485,11 +2485,11 @@ MonoBehaviour:
   PlayGuidePanelFirstButton: {fileID: 683746685}
   StageButtons:
   - stage: 0
-    button: {fileID: 1347438918}
+    button: {fileID: 1347438920}
   - stage: 1
-    button: {fileID: 1107539952}
+    button: {fileID: 1107539954}
   - stage: 2
-    button: {fileID: 980613280}
+    button: {fileID: 980613282}
   SubPanels:
   - panel: 1
     isSelected: 0
