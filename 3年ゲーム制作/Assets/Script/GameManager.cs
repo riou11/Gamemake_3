@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
     {
         Title,
         SceneSelect,//Menu,StageSelect,Option,PlayGuideを、このシーンのなかで切り替え
-        alphaStage,
         FirstStage,
         SecondStage,
         ThirdStage,
@@ -134,11 +133,14 @@ public class GameManager : MonoBehaviour
         _gameScene = (GameScene)scene;
 
         //クリア時はステージを開放する
-        if (_stageCtrl.doGameClear)
+        if (_stageCtrl != null)
         {
-            UnlockNextStage(_gameScene);
+            if (_stageCtrl.doGameClear)
+            {
+                UnlockNextStage(_gameScene);
+            }
         }
-
+        
         if (_stageDatas[_gameScene])
         {
             SceneManager.LoadScene(_gameScene.ToString());
