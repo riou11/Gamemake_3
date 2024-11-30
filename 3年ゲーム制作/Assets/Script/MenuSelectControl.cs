@@ -35,7 +35,7 @@ public class MenuSelectControl : MonoBehaviour
     public class StageButtonData
     {
         public Stage stage;
-        public Button button;
+        public UnityEngine.UI.Button button;
     }
 
     GameManager manager => GameManager.Instance;
@@ -62,7 +62,7 @@ public class MenuSelectControl : MonoBehaviour
 
 
     private Dictionary<SubPanel, bool> _subMenuData = new Dictionary<SubPanel, bool>(); //各サブメニュー（StageSelect,Option,PlayGuide）の表示状態の保持
-    private Dictionary<Stage, Button> _stageButtonsData = new Dictionary<Stage, Button>(); //このスクリプト上で保持する各ステージに飛ぶボタンの情報
+    private Dictionary<Stage, UnityEngine.UI.Button> _stageButtonsData = new Dictionary<Stage, UnityEngine.UI.Button>(); //このスクリプト上で保持する各ステージに飛ぶボタンの情報
 
     bool _subSelected;
     SubPanel _subPanel;
@@ -77,7 +77,10 @@ public class MenuSelectControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (manager != null) 
+        {
+            LoadOnClickData();
+        }    
     }
 
 
@@ -108,12 +111,38 @@ public class MenuSelectControl : MonoBehaviour
             if (stageData != null)
             {
                 _stageButtonsData[stageData.stage] = stageData.button;
-
-                //ボタンが非アクティブであることが、恐らくOnClickを設定できない原因
-
-
             }
         }
+    }
+
+    //Stage選択ボタンにOnClick関数を追加（GameManagerの関数をアタッチするが、シングルトンの影響で消えてしまうため）
+    void LoadOnClickData()
+    {
+        if (isButtonActive())
+        {
+            foreach (var stageData in StageButtons)
+            {
+                if (stageData != null)
+                {
+                    //ボタンが非アクティブであることが、恐らくOnClickを設定できない原因
+                    _stageButtonsData[stageData.stage].onClick.AddListener(() => manager.TransitionScene((int)stageData.stage));
+                }
+            }
+        }
+    }
+
+    //Stage選択ボタンがアクティブになっているか
+    bool isButtonActive()
+    {
+        foreach (var data in _stageButtonsData)
+        {
+            if (!data.Value.gameObject.activeSelf)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     //ボタンが押されたら（全ボタン共通）(numは行先)
