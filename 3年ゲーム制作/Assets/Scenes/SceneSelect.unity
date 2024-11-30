@@ -1831,7 +1831,7 @@ GameObject:
   - component: {fileID: 980613283}
   - component: {fileID: 980613282}
   m_Layer: 5
-  m_Name: Stage3
+  m_Name: ThirdStage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1953,7 +1953,7 @@ GameObject:
   - component: {fileID: 1107539955}
   - component: {fileID: 1107539954}
   m_Layer: 5
-  m_Name: Stage2
+  m_Name: SecondStage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2147,6 +2147,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65183304ce22fea419549381db356ea5, type: 3}
+--- !u!114 &1154449467 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+  m_PrefabInstance: {fileID: 1154449466}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 656b1e58d40aab34aaa02b0703485255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1267267618
 GameObject:
   m_ObjectHideFlags: 0
@@ -2294,7 +2305,7 @@ GameObject:
   - component: {fileID: 1347438921}
   - component: {fileID: 1347438920}
   m_Layer: 5
-  m_Name: Stage1
+  m_Name: FirstStage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2364,7 +2375,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1347438921}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1154449467}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: TransitionScene
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1347438921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2460,6 +2483,13 @@ MonoBehaviour:
   StageSelectPanelFirstButton: {fileID: 1347438918}
   OptionPanelFirstButton: {fileID: 2147067517}
   PlayGuidePanelFirstButton: {fileID: 683746685}
+  StageButtons:
+  - stage: 0
+    button: {fileID: 1347438918}
+  - stage: 1
+    button: {fileID: 1107539952}
+  - stage: 2
+    button: {fileID: 980613280}
   SubPanels:
   - panel: 1
     isSelected: 0

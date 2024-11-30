@@ -18,8 +18,6 @@ public class SoundManager : MonoBehaviour
         None,
         ButtonClick,
         GameOver,
-
-
     }
 
     [System.Serializable]
