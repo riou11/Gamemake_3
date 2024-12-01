@@ -12,18 +12,18 @@ public class toaster : MonoBehaviour
     [SerializeField] private string playerTag = "Player"; // プレイヤーのタグ
     [SerializeField] private AudioClip SE = null; // パンが上がるタイミングで鳴らすSE
 
-    private AudioSource audioSource;
+    //private AudioSource audioSource;
     private Collider2D col;
     private bool isMoved = false; // 動作済みフラグ
 
     void Start()
     {
         // AudioSourceを取得または追加
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
+        //audioSource = GetComponent<AudioSource>();
+        //if (audioSource == null)
+        //{
+        //    audioSource = gameObject.AddComponent<AudioSource>();
+        //}
         col = GetComponent<Collider2D>(); // 自分のコライダー取得
     }
 
@@ -73,24 +73,24 @@ public class toaster : MonoBehaviour
 
         transform.position = upPosition;
 
-        // 上に移動した後にSEを鳴らす
-        PlaySE();
+        // SEを鳴らす
+        //PlaySE();
 
         // タグ変更
         gameObject.tag = newTag;
     }
 
-    private void PlaySE()
-    {
-        if (SE != null)
-        {
-            audioSource.PlayOneShot(SE); // SEを鳴らす
-        }
-        else
-        {
-            Debug.LogWarning("パン上がるSEが設定されていません！");
-        }
-    }
+    //private void PlaySE()
+    //{
+    //    if (SE != null)
+    //    {
+    //        audioSource.PlayOneShot(SE); // SEを鳴らす
+    //    }
+    //    else
+    //    {
+    //        Debug.LogWarning("パン上がるSEが設定されていません！");
+    //    }
+    //}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
