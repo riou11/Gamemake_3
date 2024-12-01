@@ -34,7 +34,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         // プレイヤーが固定されていない場合のみ移動とジャンプを許可
-        if (isControllable&&!isAttached && gameManager != null)
+        if (isControllable && !isAttached && gameManager != null)
         {
             MoveRight();
             MoveJump();
@@ -98,7 +98,7 @@ public class PlayerMove : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            StartCoroutine(OnEnemyCollision()); 
+            StartCoroutine(OnEnemyCollision());
         }
 
     }
@@ -153,15 +153,22 @@ public class PlayerMove : MonoBehaviour
             attachedObject = null;
         }
 
-        // 完全に停止してからジャンプ
+        // ジャンプ前に速度を完全にリセット
         rb.velocity = Vector2.zero;
 
-        // ジャンプ処理
+        // プレイヤーの入力方向を取得
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        // ジャンプ力を一定にする
         float jumpPower = 22.5f;
-        rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
+        float horizontalForce = 5.0f; // 水平方向の力（一定値）
+
+        // 新しい力を加える
+        rb.AddForce(new Vector2(horizontalInput * horizontalForce, jumpPower), ForceMode2D.Impulse);
+
+        // アニメーションをトリガー
         anim.SetTrigger("Jump");
     }
-
 
     // 左右移動関数
     private void MoveRight()
