@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// SceneSelectシーンのスクリプト
+/// </summary>
+
 public class MenuSelectControl : MonoBehaviour
 {
     //SubMenu(Menuから選択できるメニュー)をenumで識別(Inspectorは数字で区別)

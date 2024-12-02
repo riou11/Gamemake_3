@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     GameManager gameManager;
+    [SerializeField] StageCtrl stageCtrl;
     //public GameObject Enemy;
     private bool isAttached = false;
     private bool isControllable = true; // 操作可能かどうかのフラグ
@@ -101,6 +102,10 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(OnEnemyCollision());
         }
 
+        if (collision.gameObject.CompareTag("Finish"))
+        {
+            stageCtrl.arrivedGoal();
+        }
     }
 
 
@@ -121,6 +126,8 @@ public class PlayerMove : MonoBehaviour
         yield return new WaitForSeconds(1.0f); // アニメーション再生後の待機時間
         anim.SetBool("Death", false); // アニメーションを停止
         // isControllable = true;
+        stageCtrl.OnEnemyCollected();
+
     }
 
 
