@@ -35,7 +35,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         // プレイヤーが固定されていない場合のみ移動とジャンプを許可
-        if (isControllable&&!isAttached && gameManager != null)
+        if (isControllable && !isAttached && gameManager != null)
         {
             MoveRight();
             MoveJump();
@@ -44,6 +44,7 @@ public class PlayerMove : MonoBehaviour
         // Spaceキーで解放とジャンプ
         if (isAttached && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")))
         {
+            SoundManager.Instance.PlaySFX(SoundManager.SoundType.jump);
             anim.SetBool("hook", false);
             ReleaseObject(); // 固定を解除
         }
@@ -98,7 +99,7 @@ public class PlayerMove : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            StartCoroutine(OnEnemyCollision()); 
+            StartCoroutine(OnEnemyCollision());
         }
 
         if (collision.gameObject.CompareTag("Finish"))
@@ -110,6 +111,7 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator OnEnemyCollision()//死んだ時のアニメーション処理
     {
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.Dead_nezumi);
         isControllable = false; // 操作不可
         anim.SetBool("Death", true); // デスアニメーションを再生
 
@@ -158,15 +160,22 @@ public class PlayerMove : MonoBehaviour
             attachedObject = null;
         }
 
-        // 完全に停止してからジャンプ
+        // ジャンプ前に速度を完全にリセット
         rb.velocity = Vector2.zero;
 
-        // ジャンプ処理
+        // プレイヤーの入力方向を取得
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        // ジャンプ力を一定にする
         float jumpPower = 22.5f;
-        rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
+        float horizontalForce = 5.0f; // 水平方向の力（一定値）
+
+        // 新しい力を加える
+        rb.AddForce(new Vector2(horizontalInput * horizontalForce, jumpPower), ForceMode2D.Impulse);
+
+        // アニメーションをトリガー
         anim.SetTrigger("Jump");
     }
-
 
     // 左右移動関数
     private void MoveRight()
@@ -200,6 +209,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (GroundChk() && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")))
         {
+            SoundManager.Instance.PlaySFX(SoundManager.SoundType.jump);
             float jumpPower = 22.5f;
             rb.velocity = new Vector2(0, jumpPower);
             anim.SetTrigger("Jump");

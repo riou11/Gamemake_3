@@ -76,6 +76,7 @@ public class StageCtrl : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1.0f;
+        SoundManager.Instance.PlayBGM(SoundManager.SoundType.Stage1);
 
         //gameManager = FindObjectOfType<GameManager>();
 
@@ -116,6 +117,8 @@ public class StageCtrl : MonoBehaviour
         Debug.Log("爆弾チーズが取得されました！");
         InGameUIObj.SetActive(false);
         gameOverObj.SetActive(true);
+        SoundManager.Instance.PlayBGM(SoundManager.SoundType.GameOver);
+
         doGameOver = true;
         Time.timeScale = 0f;
     }
@@ -150,8 +153,11 @@ public class StageCtrl : MonoBehaviour
         yield return new WaitForSeconds(2.0f); // 2秒待つ（必要に応じて変更）
 
         gameOverObj.SetActive(true);
+
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(_retryButton);
+
+        SoundManager.Instance.PlayBGM(SoundManager.SoundType.GameOver);
 
         doGameOver = true;
         Time.timeScale = 0f;
@@ -169,11 +175,15 @@ public class StageCtrl : MonoBehaviour
 
     public void Retry0()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.ButtonClick);
+
         retryGame = true;
         ChangeScene(0); //最初のステージに戻るので1
     }
     public void Retry1()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.ButtonClick);
+
         retryGame = true;
         ChangeScene(1); //最初のステージに戻るので1
 
@@ -181,6 +191,8 @@ public class StageCtrl : MonoBehaviour
 
     public void Retry2()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.ButtonClick);
+
         retryGame = true;
         ChangeScene(2);
     }
