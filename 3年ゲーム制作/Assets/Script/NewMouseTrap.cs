@@ -1,25 +1,25 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // ƒV[ƒ“‘JˆÚ‚ğg‚¤‚½‚ß
+using UnityEngine.SceneManagement; 
 
 public class NewMouseTrap : MonoBehaviour
 {
-    public Transform movingPart; // ‰Ò“­•”•ª‚ÌTransform
-    public Renderer targetRenderer; // ƒ}ƒeƒŠƒAƒ‹‚ğ•ÏX‚·‚éƒIƒuƒWƒFƒNƒg‚ÌRenderer
-    public Material defaultMaterial; // ì“®‘O‚Ìƒ}ƒeƒŠƒAƒ‹
-    public Material triggeredMaterial; // ì“®Œã‚Ìƒ}ƒeƒŠƒAƒ‹
-    public float rotateAngle = 90f; // ‰ñ“]‚·‚éŠp“x
-    public float rotateSpeed = 5f; // ‰ñ“]‘¬“x
+    public Transform movingPart; // ç¨¼åƒéƒ¨åˆ†ã®Transform
+    public Renderer targetRenderer; // ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’å¤‰æ›´ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®Renderer
+    public Material defaultMaterial; // ä½œå‹•å‰ã®ãƒãƒ†ãƒªã‚¢ãƒ«
+    public Material triggeredMaterial; // ä½œå‹•å¾Œã®ãƒãƒ†ãƒªã‚¢ãƒ«
+    public float rotateAngle = 90f; // å›è»¢ã™ã‚‹è§’åº¦
+    public float rotateSpeed = 5f; // å›è»¢é€Ÿåº¦
     private bool isTriggered = false;
     private Quaternion initialRotation;
     private Quaternion targetRotation;
 
     void Start()
     {
-        // ‰Ò“­ƒp[ƒc‚Ì‰Šúó‘Ô‚ğ‹L˜^
+        // ç¨¼åƒãƒ‘ãƒ¼ãƒ„ã®åˆæœŸçŠ¶æ…‹ã‚’è¨˜éŒ²
         initialRotation = movingPart.localRotation;
         targetRotation = Quaternion.Euler(0, 0, rotateAngle) * initialRotation;
 
-        // ‰Šúó‘Ô‚Å‚Ìƒ}ƒeƒŠƒAƒ‹‚ğİ’è
+        // åˆæœŸçŠ¶æ…‹ã§ã®ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’è¨­å®š
         if (targetRenderer != null && defaultMaterial != null)
         {
             targetRenderer.material = defaultMaterial;
@@ -32,13 +32,13 @@ public class NewMouseTrap : MonoBehaviour
         {
             isTriggered = true;
 
-            // ƒ}ƒeƒŠƒAƒ‹‚ğ•ÏX
+            // ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’å¤‰æ›´
             if (targetRenderer != null && triggeredMaterial != null)
             {
                 targetRenderer.material = triggeredMaterial;
             }
 
-            // ƒQ[ƒ€ƒI[ƒo[ˆ—‚ğŒÄ‚Ño‚·
+            // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼å‡¦ç†ã‚’å‘¼ã³å‡ºã™
             GameOver();
         }
     }
@@ -47,15 +47,15 @@ public class NewMouseTrap : MonoBehaviour
     {
         if (isTriggered)
         {
-            // ‰ñ“]‚ğƒXƒ€[ƒY‚Éis
+            // å›è»¢ã‚’ã‚¹ãƒ ãƒ¼ã‚ºã«é€²è¡Œ
             movingPart.localRotation = Quaternion.Lerp(movingPart.localRotation, targetRotation, rotateSpeed * Time.deltaTime);
         }
     }
 
-    // ƒQ[ƒ€ƒI[ƒo[ˆ—
+    // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼å‡¦ç†
     void GameOver()
     {
-        // ‚±‚±‚ÅƒQ[ƒ€ƒI[ƒo[‚Ìˆ—‚ğ‹Lq
+        // ã“ã“ã§ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã®å‡¦ç†ã‚’è¨˜è¿°
         Debug.Log("Game Over!");
     }
 }
