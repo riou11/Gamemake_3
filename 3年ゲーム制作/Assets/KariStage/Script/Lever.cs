@@ -12,9 +12,8 @@ public class Lever : MonoBehaviour
     [Header("連動するトースター")]
     [SerializeField] private toaster toasterScript; // トースターのスクリプト
 
-    //[Header("レバーのSE設定")]
-    //[SerializeField] private AudioClip leverMoveSE; // レバーを下げたときのSE
-    //private AudioSource audioSource;
+    [Header("連動する壁オブジェクト")]
+    [SerializeField] private GameObject wallObject; // 壁オブジェクト
 
     private Vector2 originalPosition; // レバーの元の位置
     private bool isLeverActivated = false; // レバーが既に動作済みか
@@ -22,13 +21,6 @@ public class Lever : MonoBehaviour
     void Start()
     {
         originalPosition = transform.position; // 元の位置を記録
-
-        //// AudioSourceを取得または追加
-        //audioSource = GetComponent<AudioSource>();
-        //if (audioSource == null)
-        //{
-        //    audioSource = gameObject.AddComponent<AudioSource>();
-        //}
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -42,12 +34,15 @@ public class Lever : MonoBehaviour
 
     private IEnumerator ActivateLever()
     {
+        // 壁オブジェクトを非表示にする
+        if (wallObject != null)
+        {
+            wallObject.SetActive(false);
+        }
+
         // レバーが下がる動作
         Vector2 downPosition = originalPosition - new Vector2(0, leverMoveDistance);
         float elapsedTime = 0;
-
-        // SEを鳴らす
-        //PlayLeverMoveSE();
 
         while (elapsedTime < leverMoveDuration)
         {
@@ -76,16 +71,4 @@ public class Lever : MonoBehaviour
 
         transform.position = originalPosition;
     }
-
-    //private void PlayLeverMoveSE()
-    //{
-    //    if (leverMoveSE != null)
-    //    {
-    //        audioSource.PlayOneShot(leverMoveSE);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogWarning("レバーのSEが設定されていません！");
-    //    }
-    //}
 }
