@@ -183,6 +183,7 @@ public class CatMove : MonoBehaviour
         // Trapタグのオブジェクトにぶつかった場合の処理
         if (collision.gameObject.CompareTag("Trap"))
         {
+            Debug.Log("Trap!!");
             // 斜め後ろに跳ね返る処理
             Vector2 knockbackDirection = transform.localScale.x > 0 ? new Vector2(-1, 1) : new Vector2(1, 1); // 左右と上方向に跳ね返る
             rb.AddForce(knockbackDirection.normalized * knockbackForce); // AddForceで力を加えて跳ね返す
@@ -203,6 +204,7 @@ public class CatMove : MonoBehaviour
             isStopped = true; // 停止状態に設定
             inNoCatZone = true; // NoCatZoneにいると判定
             rb.velocity = Vector2.zero;
+            stageCtrl.OnCatDamage();
         }
     }
 

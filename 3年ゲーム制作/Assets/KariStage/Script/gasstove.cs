@@ -8,6 +8,7 @@ public class gasstove : MonoBehaviour
     [Header("スタート時の状態")] public bool isStart;
     [Header("SEを鳴らすまでの遅延時間 (秒)")] public float seDelay = 0.5f; // SEを鳴らすまでの遅延時間
     public AudioClip stoveSE; // ガスコンロのSE
+    public GameObject childColliderObject;// 子供のコライダーオブジェクト
     private AudioSource audioSource;
     private Animator animator;
     private BoxCollider2D boxCollider;
@@ -25,14 +26,16 @@ public class gasstove : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+        if (childColliderObject != null)
+        {
+            childColliderObject.SetActive(isStart); // 初期状態に合わせて有効化/無効化
+        }
+
     }
 
     void Update()
     {
-        if (playerCheck.isOn && animator.GetBool("isOn"))
-        {
-            // stageCtrl.OnEnemyCollected(); // 必要に応じて処理を追加
-        }
+
     }
 
     public void SwitchStove()
@@ -41,6 +44,8 @@ public class gasstove : MonoBehaviour
         bool currentStatus = animator.GetBool("isOn");
         animator.SetBool("isOn", !currentStatus);
         boxCollider.isTrigger = !boxCollider.isTrigger;
+        childColliderObject.SetActive(!currentStatus);
+
 
         // SEを再生する処理を遅延実行
         StartCoroutine(PlayStoveSEWithDelay(seDelay));
