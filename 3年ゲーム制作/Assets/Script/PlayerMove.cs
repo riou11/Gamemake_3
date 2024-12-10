@@ -12,14 +12,12 @@ public class PlayerMove : MonoBehaviour
     private bool isControllable = true; // 操作可能かどうかのフラグ
     private Animator anim = null;
     private float speed = 0f;
-    private float dushSpeed = 1.5f;
     private float currentSpeed = 0f;
     private Quaternion initialRotation;
     public LayerMask StageLayer;
     private Rigidbody2D rb;
     private Collider2D playerCollider;
 
-    private bool IsDushing = false;
     private Transform attachedObject; // 固定するオブジェクトの位置を保持
 
     void Start()
@@ -185,23 +183,9 @@ public class PlayerMove : MonoBehaviour
         speed = gameManager.GetCurrentSpeed();
         Debug.Log(speed);
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            currentSpeed = speed * dushSpeed;
-            IsDushing = true;
-        }
-        else
-        {
-            currentSpeed = speed;
-            IsDushing = false;
-        }
+        currentSpeed = speed;
 
         transform.Translate(Input.GetAxisRaw("Horizontal") * currentSpeed * Time.deltaTime, 0, 0);
-    }
-
-    public bool IsPlayerDushing()
-    {
-        return IsDushing;
     }
 
     // ジャンプ関数
