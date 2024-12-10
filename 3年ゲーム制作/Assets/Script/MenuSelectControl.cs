@@ -38,7 +38,7 @@ public class MenuSelectControl : MonoBehaviour
     [System.Serializable]
     public class StageButtonData
     {
-        public Stage stage;
+        public GameManager.GameScene stage;
         public UnityEngine.UI.Button button;
     }
 
@@ -66,7 +66,7 @@ public class MenuSelectControl : MonoBehaviour
 
 
     private Dictionary<SubPanel, bool> _subMenuData = new Dictionary<SubPanel, bool>(); //各サブメニュー（StageSelect,Option,PlayGuide）の表示状態の保持
-    private Dictionary<Stage, UnityEngine.UI.Button> _stageButtonsData = new Dictionary<Stage, UnityEngine.UI.Button>(); //このスクリプト上で保持する各ステージに飛ぶボタンの情報
+    private Dictionary<GameManager.GameScene, UnityEngine.UI.Button> _stageButtonsData = new Dictionary<GameManager.GameScene, UnityEngine.UI.Button>(); //このスクリプト上で保持する各ステージに飛ぶボタンの情報
 
     bool _subSelected;
     SubPanel _subPanel;
@@ -124,12 +124,11 @@ public class MenuSelectControl : MonoBehaviour
     {
         if (isButtonActive())
         {
-            foreach (var stageData in StageButtons)
+            foreach (var _stageData in _stageButtonsData)
             {
-                if (stageData != null)
+                if (_stageData.Value != null)
                 {
-                    //ボタンが非アクティブであることが、恐らくOnClickを設定できない原因
-                    _stageButtonsData[stageData.stage].onClick.AddListener(() => manager.TransitionScene((int)stageData.stage));
+                    _stageData.Value.onClick.AddListener(() => manager.TransitionScene((int)_stageData.Key));
                 }
             }
         }

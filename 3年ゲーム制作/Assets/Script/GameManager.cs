@@ -26,37 +26,25 @@ public class GameManager : MonoBehaviour
         SceneSelect,//Menu,StageSelect,Option,PlayGuideを、このシーンのなかで切り替え
         FirstStage,
         SecondStage,
-        ThirdStage,
     }
-
-    public enum Stage
-    {
-        FirstStage,
-        SecondStage,
-        ThirdStage,
-    }
-
-
-    public float percentCheese { get; private set; } //チーズ取得率
 
     [SerializeField] private List<StageData> _stages; // インスペクターでシーンをロックするか設定（ステージ以外（ + firstStage）はtrue）
 
+    public float percentCheese { get; private set; } //チーズ取得率
     public int stgNum { get; private set; } //現在のステージ番号
     public int cheeseScore { get; private set; }//チーズ取得数
     public GameScene currentScene { get; private set; } //現在のシーン
 
+
     private PlayerMove _player;
     private StageCtrl _stageCtrl; //ステージUI切り替え周りの処理
     private Dictionary<GameScene, bool> _stageDatas = new(); //シーン遷移の際に消えないようにプライベートで保管
-    private Dictionary<Stage, int> _maxCheeseCount = new(); 
     private GameScene _gameScene; //ステージ遷移に使う変数（現在のシーンを示すものではない）
-    private int[] _cheeseScores = { 8, 0, 0 }; //各ステージのチーズ上限数
-    
-    private float[] _firstStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f, 12f, 13f, 13.5f, 14f, 15.5f, 16f, 17f }; //firstStageの速度一覧
-    //private float[] secondStgPlySpeeds = { };    
+    private int[] _cheeseScores = { 18, 0, 0 }; //各ステージのチーズ上限数
+    private float[] _firstStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f, 12f, 13f, 13.5f, 14f, 15.5f, 16f, 17f }; //firstStageの速度一覧  
     private float _currentSpeed = 0f; //現在のプレイヤー速度保管用   
-    private float _normalRunning = 0.1f; //通常速度の体力ゲージ変化率
-    private float _speedRunning = 0.3f; //ダッシュ時の体力ゲージ変化率
+    private float _gaugeDecreRate = 0.3f; //体力ゲージ減少率
+    private float _gaugeIncreRate = 0.1f; //体力ゲージ回復率
     private bool _isStageCtrlGet = false; //各ステージのStageCtrl（UI管理）を取得したか
 
 
@@ -75,65 +63,89 @@ public class GameManager : MonoBehaviour
 
         //ステージデータの取り込み
         LoadStagesData();
+        SearchCurrentScene();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //LoadStageData();
-
         //セットアップ
-        LoadMaxCheeseCountData();
         SetUp();
     }
 
+    //enumで処理の区別が出来るようにする
     // Update is called once per frame
     void Update()
     {
-        //シーン遷移があったときの処理（データの初期化）
-        if ((_stageCtrl == null) || (_player == null))
+        switch (currentScene)
         {
-            //ステージセレクト画面にいる時
-            if (IsInGame())
-            {
-                //インゲーム外の時は、ここに来る
-            }
-            else //プレイステージにいる時
-            {
-                SetUp();
-            }
-        }
-
-        //stageCtrlがある（インゲーム中）ときの処理
-        if (_stageCtrl != null)
-        {
-            if (!_stageCtrl.doGameOver) //ゲームオーバーでなければ
-            {
-                //stageCtrlを取得するまで行わないようにする
-                if (_isStageCtrlGet)
-                {
-                    if (!_stageCtrl.doGameClear)
-                    {
-                        UpdateInGame(stgNum);
-                    }
-                    else
-                    {
-
-                    }
-                }
-                else
-                {
-                    StageCtrlSetUp();
-                }
-            }
-            else //ゲームオーバーになったら
-            {
-
-            }
+            case GameScene.Title:
+                ProcessTitle();
+                break;
+            case GameScene.SceneSelect:
+                ProcessSceneSelect();
+                break;
+            case GameScene.FirstStage:
+                ProcessStage();
+                break;
+            case GameScene.SecondStage:
+                ProcessStage();
+                break;
         }
     }
 
     //-----------------------------------ステージ遷移に関する処理-----------------------------------//
+
+    void ProcessTitle()
+    {
+
+    }
+
+    void ProcessSceneSelect()
+    {
+
+    }
+
+    void ProcessStage()
+    {
+        //シーン遷移があったときの処理（データの初期化）
+        if ((_stageCtrl == null) || (_player == null))
+        {
+            SetUp();
+        }
+        else
+        {
+            //stageCtrlを取得するまで行わないようにする
+            if (_isStageCtrlGet)
+            {
+                if (_stageCtrl.doGameClear) //ゲームクリア時
+                {
+                    
+                }
+                else　
+                {
+                    if (!_stageCtrl.doGameOver)
+                    {
+                        UpdateInGame(stgNum);
+                    }
+                    else //ゲームオーバーになったら
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                StageCtrlSetUp();
+            }
+        }
+    }
+
+    void SearchCurrentScene()
+    {
+        var index = SceneManager.GetActiveScene().buildIndex;
+        currentScene = (GameScene)index;
+    }
 
     //インスペクターで設定された内容を、プライベートに取り込む（FirstStageのみ開放）
     void LoadStagesData()
@@ -161,9 +173,11 @@ public class GameManager : MonoBehaviour
             }
         }
         
+        //開放されていれば次のステージに飛ぶ
         if (_stageDatas[_gameScene])
         {
             SceneManager.LoadScene(_gameScene.ToString());
+            currentScene = _gameScene;
         }
     }
 
@@ -176,19 +190,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    bool IsInGame()
-    {
-        return SceneManager.GetActiveScene().name == "SceneSelect" || SceneManager.GetActiveScene().name == "Title";
-    }
+    //bool IsInGame()
+    //{
+    //    return SceneManager.GetActiveScene().name == "SceneSelect" || SceneManager.GetActiveScene().name == "Title";
+    //}
 
-    void LoadMaxCheeseCountData()
+    //現在のシーンを返す
+    public GameScene CurrentScene()
     {
-        for (int i = 0; i < _cheeseScores.Length; ++i)
-        {
-            _maxCheeseCount[(Stage)i] = _cheeseScores[i];
-        }
+        return currentScene;
     }
-
     //-----------------------------------ステージプレイ処理-----------------------------------//
 
     //セットアップ関数
@@ -273,14 +284,7 @@ public class GameManager : MonoBehaviour
             {
                 if (cheeseScore != 0)
                 {
-                    if (_player.IsPlayerDushing()) //ダッシュしているとき
-                    {
-                        _stageCtrl.healthGaugeSlider.value -= Time.deltaTime * _speedRunning;
-                    }
-                    else //通常の走りのとき
-                    {
-                        _stageCtrl.healthGaugeSlider.value -= Time.deltaTime * _normalRunning;
-                    }
+                    _stageCtrl.healthGaugeSlider.value -= Time.deltaTime * _gaugeDecreRate;
                 }
             }
             else
@@ -288,7 +292,7 @@ public class GameManager : MonoBehaviour
                 //走っていなければスタミナ回復
                 if (_stageCtrl.healthGaugeSlider.value < 1)
                 {
-                    _stageCtrl.healthGaugeSlider.value += Time.deltaTime * _normalRunning;
+                    _stageCtrl.healthGaugeSlider.value += Time.deltaTime * _gaugeIncreRate;
                 }
             }
         }
@@ -317,10 +321,5 @@ public class GameManager : MonoBehaviour
     public int RecentCheeseLimit()
     {
         return _cheeseScores[stgNum];
-    }
-
-    public Stage CurrentStage()
-    {
-        return (Stage)stgNum;
     }
 }

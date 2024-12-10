@@ -53,9 +53,9 @@ public class StageCtrl : MonoBehaviour
     /// ボタン関係
     /// </summary>
     [Header("Retryボタン")]
-    [SerializeField] private GameObject _retryButton;
+    [SerializeField] private UnityEngine.UI.Button _retryButton;
     [Header("NextStageボタン")]
-    [SerializeField] private GameObject _nextStageButton;
+    [SerializeField] private UnityEngine.UI.Button _nextStageButton;
     //[Header("失敗時のBackToTitleボタン")]
     //[SerializeField] private GameObject _gmBackToTitleButton;
     //[Header("Clear時のBackToTitleボタン")]
@@ -78,10 +78,10 @@ public class StageCtrl : MonoBehaviour
         Time.timeScale = 1.0f;
         SoundManager.Instance.PlayBGM(SoundManager.SoundType.Stage1);
 
-        //gameManager = FindObjectOfType<GameManager>();
 
         if (playerObj != null && gameOverObj != null && stageClrObj != null && InGameUIObj != null)
         {
+            ButtonSetUp();
             UIImgSetUp();
             doGameOver = false;
             doGameClear = false;
@@ -109,6 +109,27 @@ public class StageCtrl : MonoBehaviour
         stageClrObj.SetActive(false);
         CatDamageObj.SetActive(false);
         InGameUIObj.SetActive(true);
+    }
+
+    //GameManagerがシングルトンの影響でボタンにアタッチしたデータがMisiingしてしまうため、スクリプトでOnClick()を追加
+    void ButtonSetUp()
+    {
+        if (gameManager != null)
+        {
+            switch (gameManager.currentScene)
+            {
+                case GameManager.GameScene.FirstStage:
+                    _retryButton.onClick.AddListener(() => gameManager.TransitionScene((int)gameManager.currentScene));
+                    _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene(((int)gameManager.currentScene) + 1));
+                    break;
+                case GameManager.GameScene.SecondStage:
+                    _retryButton.onClick.AddListener(() => gameManager.TransitionScene((int)gameManager.currentScene));
+
+                    //SecondStageの次を調べようとすると配列が範囲外になるため、ここでは前のステージに戻るようにしている
+                    _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene(((int)gameManager.currentScene) - 1));
+                    break;
+            }
+        }
     }
 
     //爆弾チーズを獲ってしまった時のゲームオーバー処理
@@ -155,7 +176,7 @@ public class StageCtrl : MonoBehaviour
         gameOverObj.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(_retryButton);
+        EventSystem.current.SetSelectedGameObject(_retryButton.gameObject);
 
         SoundManager.Instance.PlayBGM(SoundManager.SoundType.GameOver);
 
@@ -170,7 +191,7 @@ public class StageCtrl : MonoBehaviour
 
     public void Retry()
     {
-        SceneManager.LoadScene(gameManager.CurrentStage().ToString());
+        SceneManager.LoadScene(gameManager.CurrentScene().ToString());
     }
 
     public void Retry0()
@@ -291,7 +312,7 @@ public class StageCtrl : MonoBehaviour
         _transSelectionUI.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(_nextStageButton);
+        EventSystem.current.SetSelectedGameObject(_nextStageButton.gameObject);
     }
 
     public void ToNextStage()
