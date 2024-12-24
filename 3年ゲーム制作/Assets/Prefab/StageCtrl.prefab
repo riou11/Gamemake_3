@@ -492,8 +492,10 @@ MonoBehaviour:
   - {fileID: 968549178243395764}
   - {fileID: 345975069402041388}
   _transSelectionUI: {fileID: 5931073831542608223}
-  _retryButton: {fileID: 0}
-  _nextStageButton: {fileID: 0}
+  _retryButton: {fileID: 97985037890177910}
+  _nextStageButton: {fileID: 3493029587381834711}
+  _gmBackToTitleButton: {fileID: 4363835001007719033}
+  _gcBackToTitleButton: {fileID: 8189188788757814275}
   doGameOver: 0
   doGameClear: 0
 --- !u!1 &97985036448291390
@@ -856,19 +858,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 97985037890177911}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7480889520219698958}
-        m_TargetAssemblyTypeName: StageCtrl, Assembly-CSharp
-        m_MethodName: Retry
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &279915721305148423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1972,19 +1962,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8739590928263724945}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7480889520219698958}
-        m_TargetAssemblyTypeName: StageCtrl, Assembly-CSharp
-        m_MethodName: BackToTitle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &5733976068356845686
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,19 +2316,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3644203900594327682}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7480889520219698958}
-        m_TargetAssemblyTypeName: StageCtrl, Assembly-CSharp
-        m_MethodName: BackToTitle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &9086294353175042927
 GameObject:
   m_ObjectHideFlags: 0

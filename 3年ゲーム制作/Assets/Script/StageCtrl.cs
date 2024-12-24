@@ -56,12 +56,12 @@ public class StageCtrl : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button _retryButton;
     [Header("NextStageボタン")]
     [SerializeField] private UnityEngine.UI.Button _nextStageButton;
-    //[Header("失敗時のBackToTitleボタン")]
-    //[SerializeField] private GameObject _gmBackToTitleButton;
-    //[Header("Clear時のBackToTitleボタン")]
-    //[SerializeField] private GameObject _gcBackToTitleButton;
+    [Header("失敗時のBackToTitleボタン")]
+    [SerializeField] private UnityEngine.UI.Button _gmBackToTitleButton;
+    [Header("Clear時のBackToTitleボタン")]
+    [SerializeField] private UnityEngine.UI.Button _gcBackToTitleButton;
 
-    
+
     public bool doGameOver = false;
     public bool doGameClear = false;
     private bool retryGame = false;
@@ -78,10 +78,10 @@ public class StageCtrl : MonoBehaviour
         Time.timeScale = 1.0f;
         SoundManager.Instance.PlayBGM(SoundManager.SoundType.Stage1);
 
+        ButtonSetUp();
 
         if (playerObj != null && gameOverObj != null && stageClrObj != null && InGameUIObj != null)
         {
-            ButtonSetUp();
             UIImgSetUp();
             doGameOver = false;
             doGameClear = false;
@@ -116,15 +116,16 @@ public class StageCtrl : MonoBehaviour
     {
         if (gameManager != null)
         {
+            _gmBackToTitleButton.onClick.AddListener(() => gameManager.TransitionScene((int)GameManager.GameScene.Title));
+            _gcBackToTitleButton.onClick.AddListener(() => gameManager.TransitionScene((int)GameManager.GameScene.Title));
+            _retryButton.onClick.AddListener(() => gameManager.TransitionScene((int)gameManager.currentScene));
+
             switch (gameManager.currentScene)
             {
-                case GameManager.GameScene.FirstStage:
-                    _retryButton.onClick.AddListener(() => gameManager.TransitionScene((int)gameManager.currentScene));
+                case GameManager.GameScene.FirstStage:  
                     _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene(((int)gameManager.currentScene) + 1));
                     break;
-                case GameManager.GameScene.SecondStage:
-                    _retryButton.onClick.AddListener(() => gameManager.TransitionScene((int)gameManager.currentScene));
-
+                case GameManager.GameScene.SecondStage:                    
                     //SecondStageの次を調べようとすると配列が範囲外になるため、ここでは前のステージに戻るようにしている
                     _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene(((int)gameManager.currentScene) - 1));
                     break;

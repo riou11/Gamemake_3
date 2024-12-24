@@ -66,7 +66,7 @@ public class MenuSelectControl : MonoBehaviour
 
 
     private Dictionary<SubPanel, bool> _subMenuData = new Dictionary<SubPanel, bool>(); //各サブメニュー（StageSelect,Option,PlayGuide）の表示状態の保持
-    private Dictionary<GameManager.GameScene, UnityEngine.UI.Button> _stageButtonsData = new Dictionary<GameManager.GameScene, UnityEngine.UI.Button>(); //このスクリプト上で保持する各ステージに飛ぶボタンの情報
+    private Dictionary<GameManager.GameScene, UnityEngine.UI.Button> _stageButtonsData = new Dictionary<GameManager.GameScene, UnityEngine.UI.Button>(); //(追伸)これ、いらないかも。 このスクリプト上で保持する各ステージに飛ぶボタンの情報
 
     bool _subSelected;
     SubPanel _subPanel;
@@ -76,15 +76,13 @@ public class MenuSelectControl : MonoBehaviour
     void Start()
     {
         SetUp();
+        LoadOnClickData();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (manager != null) 
-        {
-            LoadOnClickData();
-        }    
+        
     }
 
 
@@ -114,6 +112,8 @@ public class MenuSelectControl : MonoBehaviour
         {
             if (stageData != null)
             {
+                //Dictionary越しだとOnClick()を登録出来ないらしいので、シリアライズから直接AddListenerしたら出来た。
+                stageData.button.onClick.AddListener(() => manager.TransitionScene((int)stageData.stage));
                 _stageButtonsData[stageData.stage] = stageData.button;
             }
         }
@@ -122,20 +122,22 @@ public class MenuSelectControl : MonoBehaviour
     //Stage選択ボタンにOnClick関数を追加（GameManagerの関数をアタッチするが、シングルトンの影響で消えてしまうため）
     void LoadOnClickData()
     {
-        if (isButtonActive())
+        if (IsButtonActive())
         {
             foreach (var _stageData in _stageButtonsData)
             {
                 if (_stageData.Value != null)
                 {
-                    _stageData.Value.onClick.AddListener(() => manager.TransitionScene((int)_stageData.Key));
+                    Debug.Log(_stageData.Key);
+                    Debug.Log((int)_stageData.Key);
+                    //_stageData.Value.onClick.AddListener(() => manager.TransitionScene((int)_stageData.Key));
                 }
             }
         }
     }
 
     //Stage選択ボタンがアクティブになっているか
-    bool isButtonActive()
+    bool IsButtonActive()
     {
         foreach (var data in _stageButtonsData)
         {
