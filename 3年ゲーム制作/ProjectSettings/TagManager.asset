@@ -12,6 +12,7 @@ TagManager:
   - Obstacle
   - Trap
   - NoCatZone
+  - Globe
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - UI
   - stage
   - HookPoint
-  - 
+  - Enemy
   - 
   - 
   - 
