@@ -102,17 +102,17 @@ public class GameManager : MonoBehaviour
 
     void ProcessTitle()
     {
-
+        _isStageCtrlGet = false;
     }
 
     void ProcessSceneSelect()
     {
-
+        _isStageCtrlGet = false;
     }
 
     void ProcessStageSelect()
     {
-
+        _isStageCtrlGet = false;
     }
 
     void ProcessStage()
