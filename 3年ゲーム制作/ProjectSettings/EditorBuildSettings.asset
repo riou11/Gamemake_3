@@ -12,6 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SceneSelect.unity
     guid: 2396d0100b195ed49ae734e5c91b2da3
   - enabled: 1
+    path: Assets/Scenes/StageSelect.unity
+    guid: d2baed39c279f1f48bddc232db044b74
+  - enabled: 1
+    path: Assets/KariStage/ReFirstStage.unity
+    guid: d9d01a02c6138c64590fd25e74ab8b35
+  - enabled: 1
     path: Assets/KariStage/FirstStage.unity
     guid: f71c229121bd5ba4ba41ee9f23506b78
   m_configObjects: {}

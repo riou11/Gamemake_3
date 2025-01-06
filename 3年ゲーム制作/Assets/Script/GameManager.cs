@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour
     {
         Title,
         SceneSelect,//Menu,StageSelect,Option,PlayGuideを、このシーンのなかで切り替え
-        FirstStage,
+        StageSelect,
+        ReFirstStage,
         SecondStage,
     }
 
@@ -85,7 +86,10 @@ public class GameManager : MonoBehaviour
             case GameScene.SceneSelect:
                 ProcessSceneSelect();
                 break;
-            case GameScene.FirstStage:
+            case GameScene.StageSelect:
+                ProcessStageSelect();
+                break;
+            case GameScene.ReFirstStage:
                 ProcessStage();
                 break;
             case GameScene.SecondStage:
@@ -102,6 +106,11 @@ public class GameManager : MonoBehaviour
     }
 
     void ProcessSceneSelect()
+    {
+
+    }
+
+    void ProcessStageSelect()
     {
 
     }
@@ -155,7 +164,7 @@ public class GameManager : MonoBehaviour
             _stageDatas[stageData.gameScene] = stageData.isUnlocked;
         }
 
-        _stageDatas[GameScene.FirstStage] = true;
+        _stageDatas[GameScene.ReFirstStage] = true;
     }
 
     //ステージ遷移（ボタンにこの関数を入れて、飛びたいシーンの番号(enum(GameScene)で定義)を設定する）

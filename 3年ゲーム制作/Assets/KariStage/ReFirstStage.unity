@@ -3071,7 +3071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 97985036301798005, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.83225125
+      value: 0.87386376
       objectReference: {fileID: 0}
     - target: {fileID: 97985036301798005, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_LocalScale.y
@@ -3145,14 +3145,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 97985036448291385, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 97985037890177910, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Retry0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733976068356845686, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: playerObj
       value: 
       objectReference: {fileID: 716025153}
+    - target: {fileID: 7605246756413005795, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
 --- !u!1 &781565050
@@ -7874,6 +7886,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: _stages.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1538473632820727212, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: _stages.Array.data[4].gameScene
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1538473632820727213, guid: 65183304ce22fea419549381db356ea5, type: 3}
       propertyPath: m_Name
       value: GameManager (1)

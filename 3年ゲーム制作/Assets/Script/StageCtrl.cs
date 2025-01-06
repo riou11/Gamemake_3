@@ -11,6 +11,14 @@ public class StageCtrl : MonoBehaviour
 {
     GameManager gameManager => GameManager.Instance;
 
+    public enum PlayState
+    {
+        Playing,
+        Pause,
+        GameOver,
+        GameClear
+    }
+
     [Header("チーズパラメーターUI")]
     [SerializeField] public Image cheeseParameters;
     [Header("体力ゲージUI")]
@@ -64,9 +72,10 @@ public class StageCtrl : MonoBehaviour
 
     public bool doGameOver = false;
     public bool doGameClear = false;
+
+    private PlayState _playState;
     private bool retryGame = false;
     private int nextStageNum;
-
     private float _evalution = 0f; //（獲得チーズ数 / そのステージの上限チーズ数）の計算結果
     private int _value = 0; //評価値計算過程の計算結果格納用（評価値の査定を、整数値で行いたいためint型）
     private int _result = 0; //そのステージの評価値（星の数）、保存はされない
@@ -76,6 +85,7 @@ public class StageCtrl : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1.0f;
+        _playState = PlayState.Playing; 
         SoundManager.Instance.PlayBGM(SoundManager.SoundType.Stage1);
 
         ButtonSetUp();
@@ -118,16 +128,17 @@ public class StageCtrl : MonoBehaviour
         {
             _gmBackToTitleButton.onClick.AddListener(() => gameManager.TransitionScene((int)GameManager.GameScene.Title));
             _gcBackToTitleButton.onClick.AddListener(() => gameManager.TransitionScene((int)GameManager.GameScene.Title));
-            _retryButton.onClick.AddListener(() => gameManager.TransitionScene((int)gameManager.currentScene));
+            _retryButton.onClick.AddListener(() => Retry());
+            //_retryButton.onClick.AddListener(() => gameManager.TransitionScene((int)gameManager.currentScene));
 
             switch (gameManager.currentScene)
             {
-                case GameManager.GameScene.FirstStage:  
-                    _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene(((int)gameManager.currentScene) + 1));
+                case GameManager.GameScene.ReFirstStage:
+                    _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene((int)GameManager.GameScene.SecondStage));
                     break;
                 case GameManager.GameScene.SecondStage:                    
                     //SecondStageの次を調べようとすると配列が範囲外になるため、ここでは前のステージに戻るようにしている
-                    _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene(((int)gameManager.currentScene) - 1));
+                    _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene((int)GameManager.GameScene.ReFirstStage));
                     break;
             }
         }
@@ -138,11 +149,14 @@ public class StageCtrl : MonoBehaviour
     {
         Debug.Log("爆弾チーズが取得されました！");
         InGameUIObj.SetActive(false);
-        gameOverObj.SetActive(true);
-        SoundManager.Instance.PlayBGM(SoundManager.SoundType.GameOver);
 
-        doGameOver = true;
-        Time.timeScale = 0f;
+        StartCoroutine(ShowGameOverWithDelay());
+
+        //gameOverObj.SetActive(true);
+        //SoundManager.Instance.PlayBGM(SoundManager.SoundType.GameOver);
+
+        //doGameOver = true;
+        //Time.timeScale = 0f;
     }
 
     //敵に捕まった時のゲームオーバー処理
@@ -174,10 +188,7 @@ public class StageCtrl : MonoBehaviour
     {
         yield return new WaitForSeconds(2.0f); // 2秒待つ（必要に応じて変更）
 
-        gameOverObj.SetActive(true);
-
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(_retryButton.gameObject);
+        HandlingOfGameOverUI();
 
         SoundManager.Instance.PlayBGM(SoundManager.SoundType.GameOver);
 
@@ -185,14 +196,23 @@ public class StageCtrl : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    public void BackToTitle()
+    //GameOver時のUI周りの処理
+    void HandlingOfGameOverUI()
     {
-        SceneManager.LoadScene("Title");
+        gameOverObj.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(_retryButton.gameObject);
     }
 
+    public void BackToTitle()
+    {
+        gameManager.TransitionScene((int)GameManager.GameScene.Title);
+    }
+
+    //Retryの時に呼び出す関数
     public void Retry()
     {
-        SceneManager.LoadScene(gameManager.CurrentScene().ToString());
+        gameManager.TransitionScene((int)gameManager.currentScene);
     }
 
     public void Retry0()
@@ -235,7 +255,7 @@ public class StageCtrl : MonoBehaviour
     }
 
     //リザルト画面周りの処理
-    IEnumerator ClearEvent()
+    private IEnumerator ClearEvent()
     {
         //yield return new WaitForSeconds(0.5f);
         //_clearText.SetActive(true);
