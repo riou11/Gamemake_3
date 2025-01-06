@@ -28,7 +28,8 @@ public class SoundManager : MonoBehaviour
         toaster_Button,
         Dead_nezumi,
         jump,
-        gass
+        gass,
+        globe
 
     }
 
