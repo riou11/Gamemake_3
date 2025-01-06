@@ -94,6 +94,9 @@ public class MenuSelectControl : MonoBehaviour
         PlayGuidePanel.SetActive(false);
         MainMenuPanel.SetActive(true);
 
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(MainMenuPanelFirstButton);
+
         _subSelected = false;
         _subPanel = SubPanel.None;
 
@@ -223,10 +226,11 @@ public class MenuSelectControl : MonoBehaviour
         switch (subPanel)
         {
             case SubPanel.StageSelect:
-                EventSystem.current.SetSelectedGameObject(StageSelectPanelFirstButton);
-                MainMenuPanel.SetActive(false);
-                StageSelectPanel.SetActive(true);
-                _subMenuData[subPanel] = true;
+                manager.TransitionScene((int)GameManager.GameScene.StageSelect);
+                //EventSystem.current.SetSelectedGameObject(StageSelectPanelFirstButton);
+                //MainMenuPanel.SetActive(false);
+                //StageSelectPanel.SetActive(true);
+                //_subMenuData[subPanel] = true;
                 break;
             case SubPanel.Option:
                 EventSystem.current.SetSelectedGameObject(OptionPanelFirstButton);
