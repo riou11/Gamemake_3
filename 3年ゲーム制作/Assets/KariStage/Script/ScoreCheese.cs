@@ -9,13 +9,13 @@ public class ScoreCheese : MonoBehaviour
     [Header("加算するスコア")]public int myScore;
     [Header("プレイヤーの判定")]public PlayerTriggerCheck playerCheck;
 
-    GameManager gameManager;
+    GameManager gameManager => GameManager.Instance;
     AudioSource audioSource;
     bool isCollected = false; // 取得済み判定用
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        //gameManager = FindObjectOfType<GameManager>();
 
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false; // 自動再生を無効化

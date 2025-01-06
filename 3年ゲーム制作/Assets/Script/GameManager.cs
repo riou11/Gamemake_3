@@ -71,7 +71,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //セットアップ
-        SetUp();
     }
 
     //enumで処理の区別が出来るようにする

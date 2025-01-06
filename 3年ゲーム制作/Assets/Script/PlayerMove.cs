@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    GameManager gameManager;
+    GameManager gameManager => GameManager.Instance;
     [SerializeField] StageCtrl stageCtrl;
     //public GameObject Enemy;
     private bool isAttached = false;
@@ -22,7 +22,7 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        //gameManager = FindObjectOfType<GameManager>();
         initialRotation = gameObject.transform.rotation;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
