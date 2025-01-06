@@ -1,22 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StageSelectControl : MonoBehaviour
 {
     GameManager gameManager => GameManager.Instance;
 
-    //[SerializeField] private GameObject _stageSelectPanel;
-    //[SerializeField] private GameObject _thickFrame;
-    //[SerializeField] private Vector3 _firstStageSelectPosition;
-    //[SerializeField] private Vector3 _secondStageSelectPosition;
-
     [SerializeField] private RectTransform panel; // スライドさせるパネル
     [SerializeField] private Vector2 targetPosition; // 目標位置
     [SerializeField] private float slideDuration = 0.5f; // スライドにかかる時間
+    [SerializeField] private float blinkInterval = 0.5f;
     [SerializeField] private KeyCode slideKey = KeyCode.RightArrow; // スライドさせるキー
     [SerializeField] private KeyCode resetKey = KeyCode.LeftArrow; // 元に戻すキー
+    [SerializeField] private Image _rightArrow;
+    [SerializeField] private Image _leftArrow;
+
     private Vector2 originalPosition; // 元の位置
+    private Coroutine blinkCoroutine;
 
 
     public enum SelectState
@@ -30,9 +31,7 @@ public class StageSelectControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log(_stageSelectPanel.transform.position);
         _state = SelectState.FirstStage;
-        //_stageSelectPanel.transform.position = _firstStageSelectPosition;
 
         if (panel == null)
         {
@@ -42,38 +41,23 @@ public class StageSelectControl : MonoBehaviour
         // 初期位置を保存
         originalPosition = panel.anchoredPosition;
         Debug.Log(originalPosition);
+
+        StartBlinking(_state);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //// スライドキーが押された場合
-        //if (Input.GetKeyDown(slideKey))
-        //{
-        //    StopAllCoroutines(); // 途中のアニメーションを中断
-        //    StartCoroutine(SlideTo(targetPosition));
-        //}
-        //// リセットキーが押された場合
-        //else if (Input.GetKeyDown(resetKey))
-        //{
-        //    StopAllCoroutines(); // 途中のアニメーションを中断
-        //    StartCoroutine(SlideTo(originalPosition));
-        //}
-
         //方向キーを押されたら、パネルを移動
         switch (_state)
         {
             case SelectState.FirstStage:
-                //if (Input.GetKey(KeyCode.RightArrow))
-                //{
-                //    _state = SelectState.SecondStage;
-                //    _stageSelectPanel.transform.position = _secondStageSelectPosition;
-                //}
                 if (Input.GetKeyDown(slideKey))
                 {
+                    StopBlinking(_state);
                     _state = SelectState.SecondStage;
                     StopAllCoroutines(); // 途中のアニメーションを中断
-                    StartCoroutine(SlideTo(targetPosition));
+                    StartCoroutine(SlideTo(targetPosition, _state));
                 }
                 else if (Input.GetKey(KeyCode.Return))
                 {
@@ -81,16 +65,12 @@ public class StageSelectControl : MonoBehaviour
                 }
                 break;
             case SelectState.SecondStage:
-                //if (Input.GetKey(KeyCode.LeftArrow))
-                //{
-                //    _state = SelectState.FirstStage;
-                //    _stageSelectPanel.transform.position = _firstStageSelectPosition;
-                //}
                 if (Input.GetKeyDown(resetKey))
                 {
+                    StopBlinking(_state);
                     _state = SelectState.FirstStage;
                     StopAllCoroutines(); // 途中のアニメーションを中断
-                    StartCoroutine(SlideTo(originalPosition));
+                    StartCoroutine(SlideTo(originalPosition, _state));
                 }
                 else if (Input.GetKey(KeyCode.Return))
                 {
@@ -102,7 +82,74 @@ public class StageSelectControl : MonoBehaviour
         }
     }
 
-    private System.Collections.IEnumerator SlideTo(Vector2 targetPos)
+    //矢印の点滅を開始させる関数
+    public void StartBlinking(SelectState state)
+    {
+        if (blinkCoroutine == null) // 二重に開始しないようチェック
+        {
+            blinkCoroutine = StartCoroutine(BlinkArrowCoroutine(state));
+        }
+    }
+
+    //矢印の点滅を停止させる関数
+    public void StopBlinking(SelectState state)
+    {
+        if (blinkCoroutine != null) // コルーチンが実行中の場合のみ停止
+        {
+            StopCoroutine(blinkCoroutine);
+            blinkCoroutine = null;
+            HiddenArrow(state); // 停止時の状態をリセット
+        }
+    }
+
+    //矢印を非表示にする関数
+    private void HiddenArrow(SelectState state)
+    {
+        switch (state)
+        {
+            case SelectState.FirstStage:
+                // アルファ値を0にし、非表示にする
+                var rightArrowColor = _rightArrow.color;
+                rightArrowColor.a = 0f;
+                _rightArrow.color = rightArrowColor;
+                break;
+            case SelectState.SecondStage:
+                // アルファ値を0にし、非表示にする
+                var leftArrowColor = _leftArrow.color;
+                leftArrowColor.a = 0f;
+                _leftArrow.color = leftArrowColor;
+                break;
+        }  
+    }
+
+    //矢印を点滅させるコルーチン関数
+    private IEnumerator BlinkArrowCoroutine(SelectState state)
+    {
+        while (true)
+        {
+            switch (state)
+            {
+                case SelectState.FirstStage:
+                    // アルファ値を変える（透明⇔不透明）
+                    var rightArrowColor = _rightArrow.color;
+                    rightArrowColor.a = (rightArrowColor.a == 1f) ? 0f : 1f;
+                    _rightArrow.color = rightArrowColor;
+                    break;
+                case SelectState.SecondStage:
+                    // アルファ値を変える（透明⇔不透明）
+                    var leftArrowColor = _leftArrow.color;
+                    leftArrowColor.a = (leftArrowColor.a == 1f) ? 0f : 1f;
+                    _leftArrow.color = leftArrowColor;
+                    break;
+            }
+            
+
+            yield return new WaitForSeconds(blinkInterval);
+        }
+    }
+
+    //画面をスライドさせるコルーチン関数
+    private System.Collections.IEnumerator SlideTo(Vector2 targetPos, SelectState state)
     {
         Vector2 startPos = panel.anchoredPosition;
         float elapsedTime = 0f;
@@ -115,5 +162,8 @@ public class StageSelectControl : MonoBehaviour
         }
 
         panel.anchoredPosition = targetPos;
+
+        StartBlinking(state);
+
     }
 }

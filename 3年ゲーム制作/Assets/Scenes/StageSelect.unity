@@ -243,8 +243,11 @@ MonoBehaviour:
   panel: {fileID: 596900246}
   targetPosition: {x: -452, y: 0}
   slideDuration: 0.5
+  blinkInterval: 0.5
   slideKey: 275
   resetKey: 276
+  _rightArrow: {fileID: 1913583913}
+  _leftArrow: {fileID: 549745882}
 --- !u!1 &549745880
 GameObject:
   m_ObjectHideFlags: 0

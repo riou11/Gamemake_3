@@ -1,13 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ButtonScaler : MonoBehaviour,ISelectHandler, IDeselectHandler
+public class ButtonScaler : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     [SerializeField] private Vector3 selectedScale = new Vector3(1.2f, 1.2f, 1.2f); // 選択時のスケール
     [SerializeField] private float transitionDuration = 0.2f; // スケール変更のアニメーション時間
     private Vector3 originalScale; // 元のスケール
+    private Coroutine scaleCoroutine; // 実行中のコルーチン
 
     private void Awake()
     {
@@ -17,16 +17,22 @@ public class ButtonScaler : MonoBehaviour,ISelectHandler, IDeselectHandler
 
     public void OnSelect(BaseEventData eventData)
     {
-        // 選択時にスケールアップ
-        StopAllCoroutines(); // 途中のアニメーションを中断
-        StartCoroutine(ScaleTo(selectedScale));
+        // 実行中のコルーチンを停止してから新しいコルーチンを開始
+        if (scaleCoroutine != null)
+        {
+            StopCoroutine(scaleCoroutine);
+        }
+        scaleCoroutine = StartCoroutine(ScaleTo(selectedScale));
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
-        // 非選択時にスケールを戻す
-        StopAllCoroutines(); // 途中のアニメーションを中断
-        StartCoroutine(ScaleTo(originalScale));
+        // 実行中のコルーチンを停止してから新しいコルーチンを開始
+        if (scaleCoroutine != null)
+        {
+            StopCoroutine(scaleCoroutine);
+        }
+        scaleCoroutine = StartCoroutine(ScaleTo(originalScale));
     }
 
     private System.Collections.IEnumerator ScaleTo(Vector3 targetScale)
@@ -42,17 +48,6 @@ public class ButtonScaler : MonoBehaviour,ISelectHandler, IDeselectHandler
         }
 
         transform.localScale = targetScale;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        scaleCoroutine = null; // 完了後、参照をクリア
     }
 }
