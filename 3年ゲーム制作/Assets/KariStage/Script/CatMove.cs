@@ -22,8 +22,16 @@ public class CatMove : MonoBehaviour
     public float stopDuration = 1.0f; // 停止時間
     public Camera mainCamera;  // メインカメラへの参照
     public float maxDistanceFromCamera = 10.0f; // カメラからの最大距離
-    public Vector3 warpOffset = new Vector3(0, -10, 0); // キッチンの床へのオフセット位置
     public float jumpPower = 35.0f; // ジャンプの力
+
+
+    // 上層と下層用のワープオフセット
+    public Vector3 warpOffsetLower = new Vector3(0, -10, 0);
+    public Vector3 warpOffsetUpper = new Vector3(0, 10, 0);
+
+    // 階層判定の基準となる高さ
+    public float upperLayerThreshold = 5.0f;
+
     private bool inNoCatZone = false; // NoCatZoneにいるかどうかを判定するフラグ
     private bool ignoreTrigger = false;
     void Start()
@@ -75,7 +83,7 @@ public class CatMove : MonoBehaviour
 
         // Rayを可視化（デバッグ用）
        Vector2 rayOrigin = (Vector2)transform.position + direction * 5.5f + new Vector2(0, rayHeightOffset); 
-    Debug.DrawRay(rayOrigin, direction * rayDistance, rayColor); // オフセットした位置からRayを描画
+       Debug.DrawRay(rayOrigin, direction * rayDistance, rayColor); // オフセットした位置からRayを描画
     }
 
     // カメラからの距離をチェックする関数
@@ -97,7 +105,8 @@ public class CatMove : MonoBehaviour
     // プレイヤーの位置にワープし、キッチンの下からジャンプする処理
     private void WarpToPlayer()
     {
-        transform.position = new Vector3(player.transform.position.x, warpOffset.y, player.transform.position.z);
+        float warpY = GetWarpY(); // 階層に応じたYオフセットを取得
+        transform.position = new Vector3(player.transform.position.x, warpY, player.transform.position.z);
         ForceExitNoCatZone();
         // OnTriggerEnterを無効化してから再有効化するコルーチンを開始
         StartCoroutine(IgnoreTriggerTemporary());
@@ -105,6 +114,20 @@ public class CatMove : MonoBehaviour
         {
             
             StartCoroutine(JumpAfterDelay(2.0f));
+        }
+    }
+
+    private float GetWarpY()
+    {
+        float playerY = player.transform.position.y;
+
+        if (playerY > upperLayerThreshold)
+        {
+            return warpOffsetUpper.y; // 上層用のオフセットを返す
+        }
+        else
+        {
+            return warpOffsetLower.y; // 下層用のオフセットを返す
         }
     }
 
@@ -234,4 +257,5 @@ public class CatMove : MonoBehaviour
         Debug.DrawLine(startPosition, endPosition, Color.red);
         return Physics2D.Linecast(startPosition, endPosition, StageLayer);
     }
+
 }
