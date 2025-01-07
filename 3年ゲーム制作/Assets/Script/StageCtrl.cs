@@ -26,8 +26,8 @@ public class StageCtrl : MonoBehaviour
     [Header("体力ゲージUI")]
     [SerializeField] public Slider healthGaugeSlider;
 
-    [Header("プレイヤーゲームオブジェクト")]
-    public GameObject playerObj;
+    //[Header("プレイヤーゲームオブジェクト")]
+    //public GameObject playerObj;
     [Header("ゲームオーバー")]
     public GameObject gameOverObj;
     [Header("ステージクリア")]
@@ -143,7 +143,7 @@ public class StageCtrl : MonoBehaviour
 
         ButtonSetUp();
 
-        if (playerObj != null && gameOverObj != null && stageClrObj != null && InGameUIObj != null)
+        if (_player != null && gameOverObj != null && stageClrObj != null && InGameUIObj != null)
         {
             UIImgSetUp();
             doGameOver = false;
