@@ -82,14 +82,14 @@ public class CatMove : MonoBehaviour
         }
 
         // Rayを可視化（デバッグ用）
-       Vector2 rayOrigin = (Vector2)transform.position + direction * 5.5f + new Vector2(0, rayHeightOffset); 
-       Debug.DrawRay(rayOrigin, direction * rayDistance, rayColor); // オフセットした位置からRayを描画
+        Vector2 rayOrigin = (Vector2)transform.position + direction * 5.5f + new Vector2(0, rayHeightOffset);
+        Debug.DrawRay(rayOrigin, direction * rayDistance, rayColor); // オフセットした位置からRayを描画
     }
 
     // カメラからの距離をチェックする関数
     private void CheckDistanceFromCamera()
     {
-        if(playerCollision.isInNoCatZone)
+        if (playerCollision.isInNoCatZone)
         {
             return;
         }
@@ -112,7 +112,7 @@ public class CatMove : MonoBehaviour
         StartCoroutine(IgnoreTriggerTemporary());
         if (!isStopped)
         {
-            
+
             StartCoroutine(JumpAfterDelay(2.0f));
         }
     }
@@ -204,7 +204,7 @@ public class CatMove : MonoBehaviour
         }
 
         // Trapタグのオブジェクトにぶつかった場合の処理
-        if (collision.gameObject.CompareTag("Trap"))
+        if (collision.gameObject.CompareTag("Trap") || collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Trap!!");
             // 斜め後ろに跳ね返る処理
