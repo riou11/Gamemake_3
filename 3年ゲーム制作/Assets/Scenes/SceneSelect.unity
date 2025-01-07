@@ -2490,6 +2490,9 @@ MonoBehaviour:
   StageSelectPanelFirstButton: {fileID: 1347438918}
   OptionPanelFirstButton: {fileID: 2147067517}
   PlayGuidePanelFirstButton: {fileID: 683746685}
+  stageSelect: {fileID: 1845197277}
+  playGuide: {fileID: 349883764}
+  option: {fileID: 1267267623}
   StageButtons:
   - stage: 2
     button: {fileID: 1347438920}

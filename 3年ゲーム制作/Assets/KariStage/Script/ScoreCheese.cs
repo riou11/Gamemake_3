@@ -9,6 +9,7 @@ public class ScoreCheese : MonoBehaviour
     [Header("加算するスコア")]public int myScore;
     [Header("プレイヤーの判定")]public PlayerTriggerCheck playerCheck;
 
+    [SerializeField] private StageCtrl stageCtrl;
     GameManager gameManager => GameManager.Instance;
     AudioSource audioSource;
     bool isCollected = false; // 取得済み判定用
@@ -34,7 +35,7 @@ public class ScoreCheese : MonoBehaviour
             isCollected = true;
 
             // GameManager側にスコア加算
-            gameManager.GetCheese(1);
+            stageCtrl.GetCheese(1);
 
             // 見た目を消す（Renderer無効化）
             foreach (Renderer renderer in GetComponentsInChildren<Renderer>())

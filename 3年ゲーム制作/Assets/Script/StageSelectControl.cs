@@ -61,6 +61,7 @@ public class StageSelectControl : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.Return))
                 {
+                    StopAllCoroutines();
                     gameManager.TransitionScene((int)GameManager.GameScene.ReFirstStage);
                 }
                 break;
@@ -74,11 +75,17 @@ public class StageSelectControl : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.Return))
                 {
+                    StopAllCoroutines();
                     gameManager.TransitionScene((int)GameManager.GameScene.SecondStage);
                 }
                 break;
             default:
                 break;
+        }
+
+        if (Input.GetKey(KeyCode.Backspace))
+        {
+            gameManager.TransitionScene((int)GameManager.GameScene.Title);
         }
     }
 
@@ -149,7 +156,7 @@ public class StageSelectControl : MonoBehaviour
     }
 
     //画面をスライドさせるコルーチン関数
-    private System.Collections.IEnumerator SlideTo(Vector2 targetPos, SelectState state)
+    private IEnumerator SlideTo(Vector2 targetPos, SelectState state)
     {
         Vector2 startPos = panel.anchoredPosition;
         float elapsedTime = 0f;
@@ -164,6 +171,13 @@ public class StageSelectControl : MonoBehaviour
         panel.anchoredPosition = targetPos;
 
         StartBlinking(state);
+    }
 
+    public void StopCoroutine()
+    {
+        if (blinkCoroutine != null)
+        {
+            StopCoroutine(blinkCoroutine);
+        }
     }
 }

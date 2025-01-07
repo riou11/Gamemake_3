@@ -180,7 +180,7 @@ public class PlayerMove : MonoBehaviour
     {
         float horizontalKey = Input.GetAxis("Horizontal");
         //GameManagerから返ってきた、currentSpeedを適用
-        speed = gameManager.GetCurrentSpeed();
+        speed = stageCtrl.GetCurrentSpeed();
         Debug.Log(speed);
 
         currentSpeed = speed;
