@@ -3115,6 +3115,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1882724683, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1882724683, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1882724683, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_Color.r
+      value: 0.99366534
+      objectReference: {fileID: 0}
     - target: {fileID: 97985036304551285, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_Name
       value: StageCtrl (1)
@@ -5613,8 +5625,10 @@ MonoBehaviour:
   stopDuration: 3
   mainCamera: {fileID: 519420031}
   maxDistanceFromCamera: 50
-  warpOffset: {x: 0, y: -15, z: 0}
   jumpPower: 50
+  warpOffsetLower: {x: 0, y: -10, z: 0}
+  warpOffsetUpper: {x: 0, y: 10, z: 0}
+  upperLayerThreshold: 5
 --- !u!1001 &1330262693
 PrefabInstance:
   m_ObjectHideFlags: 0
