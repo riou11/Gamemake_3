@@ -204,7 +204,7 @@ public class CatMove : MonoBehaviour
         }
 
         // Trapタグのオブジェクトにぶつかった場合の処理
-        if (collision.gameObject.CompareTag("Trap"))
+        if (collision.gameObject.CompareTag("Trap")|| collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Trap!!");
             // 斜め後ろに跳ね返る処理

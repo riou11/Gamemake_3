@@ -32,9 +32,11 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+                    Debug.Log(isControllable + "," + isAttached + ",");
         // プレイヤーが固定されていない場合のみ移動とジャンプを許可
         if (isControllable && !isAttached && gameManager != null)
         {
+
             MoveRight();
             MoveJump();
         }

@@ -253,7 +253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402732, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 526.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402732, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5577,7 +5577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 716025153}
-  speed: 12
+  speed: 11
   stageCtrl: {fileID: 2130878995}
   rayDistance: 3
   rayHeightOffset: -3.5
@@ -5590,8 +5590,10 @@ MonoBehaviour:
   stopDuration: 3
   mainCamera: {fileID: 519420031}
   maxDistanceFromCamera: 50
-  warpOffset: {x: 0, y: -15, z: 0}
   jumpPower: 50
+  warpOffsetLower: {x: 0, y: -10, z: 0}
+  warpOffsetUpper: {x: 0, y: 10, z: 0}
+  upperLayerThreshold: 5
 --- !u!1001 &1330262693
 PrefabInstance:
   m_ObjectHideFlags: 0
