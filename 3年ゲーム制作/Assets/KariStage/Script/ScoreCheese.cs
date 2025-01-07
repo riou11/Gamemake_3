@@ -10,7 +10,7 @@ public class ScoreCheese : MonoBehaviour
     [Header("プレイヤーの判定")]public PlayerTriggerCheck playerCheck;
 
     [SerializeField] private StageCtrl stageCtrl;
-    GameManager gameManager => GameManager.Instance;
+    //GameManager gameManager => GameManager.Instance;
     AudioSource audioSource;
     bool isCollected = false; // 取得済み判定用
     // Start is called before the first frame update

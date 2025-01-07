@@ -187,6 +187,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1882724682, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1882724682, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 97985036304551285, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_Name
       value: StageCtrl
@@ -258,7 +266,7 @@ PrefabInstance:
     - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 110452623}
+      objectReference: {fileID: 0}
     - target: {fileID: 952290852424761663, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -275,11 +283,15 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1512537099}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
 --- !u!114 &110452623 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 97985036304551286, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
   m_PrefabInstance: {fileID: 110452622}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -370,7 +382,7 @@ PrefabInstance:
     - target: {fileID: 8156267355620311008, guid: f8910d1d12ca48945befc70d6bca20ec, type: 3}
       propertyPath: stageCtrl
       value: 
-      objectReference: {fileID: 110452623}
+      objectReference: {fileID: 0}
     - target: {fileID: 8156267355620311011, guid: f8910d1d12ca48945befc70d6bca20ec, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -518,6 +530,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95cd8a169ea540f428a2cf11660bc21b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lowerStageYLimit: 0
+  upperStageYLimit: 15
+  yThreshold: 5
 --- !u!1001 &1412737536
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -641,6 +656,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6646916755745402771, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
   m_PrefabInstance: {fileID: 1512537097}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1512537099 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6646916755745402735, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
+  m_PrefabInstance: {fileID: 1512537097}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512537098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 575304e0ce9173a4bb9108d9952ac8f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2042810847
 GameObject:
   m_ObjectHideFlags: 0

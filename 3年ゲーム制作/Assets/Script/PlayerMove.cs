@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    GameManager gameManager => GameManager.Instance;
+    //GameManager gameManager => GameManager.Instance;
     [SerializeField] StageCtrl stageCtrl;
     //public GameObject Enemy;
     private bool isAttached = false;
@@ -33,7 +33,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         // プレイヤーが固定されていない場合のみ移動とジャンプを許可
-        if (isControllable && !isAttached && gameManager != null)
+        if (isControllable && !isAttached/* && gameManager != null*/)
         {
             MoveRight();
             MoveJump();

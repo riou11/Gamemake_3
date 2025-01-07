@@ -259,6 +259,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 61046539}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &61046541
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -433,7 +434,7 @@ PrefabInstance:
     - target: {fileID: 6646916755745402735, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: stageCtrl
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 35042661}
     - target: {fileID: 6646916755745402771, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_Name
       value: Player (1)
@@ -444,6 +445,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
+--- !u!114 &81945369 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6646916755745402735, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
+  m_PrefabInstance: {fileID: 81945368}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716025153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 575304e0ce9173a4bb9108d9952ac8f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &128692408
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,11 +503,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4c72b55d1a77e4a9fe83e2316c2708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnMaterial: {fileID: 0}
-  Offmaterial: {fileID: 0}
   stageCtrl: {fileID: 0}
   playerCheck: {fileID: 128692409}
-  isOn: 0
+  isStart: 0
+  seDelay: 0.5
+  stoveSE: {fileID: 0}
+  childColliderObject: {fileID: 0}
 --- !u!95 &128692411
 Animator:
   serializedVersion: 5
@@ -904,11 +917,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4c72b55d1a77e4a9fe83e2316c2708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnMaterial: {fileID: 2100000, guid: 507ecd6ce905df14aacd78e18df600de, type: 2}
-  Offmaterial: {fileID: 2100000, guid: addf5723edf81ce48ae35e30621c1c18, type: 2}
   stageCtrl: {fileID: 0}
   playerCheck: {fileID: 169676272}
-  isOn: 0
+  isStart: 0
+  seDelay: 0.5
+  stoveSE: {fileID: 0}
+  childColliderObject: {fileID: 0}
 --- !u!114 &169676272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,6 +1026,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 183931334}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &183931336
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1423,6 +1438,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 275548806}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &275548808
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1555,6 +1571,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 325767819}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &325767821
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2221,6 +2238,7 @@ MonoBehaviour:
         m_CallState: 2
   buttonPressDepth: 0.1
   buttonPressDuration: 0.2
+  buttonPressSE: {fileID: 0}
 --- !u!212 &494653181
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2370,6 +2388,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95cd8a169ea540f428a2cf11660bc21b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lowerStageYLimit: 0
+  upperStageYLimit: 15
+  yThreshold: 5
 --- !u!1 &548641013
 GameObject:
   m_ObjectHideFlags: 0
@@ -2526,6 +2547,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 596344019}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &596344021
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2803,6 +2825,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 626597196}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &626597198
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3019,6 +3042,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 663075607}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &663075609
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3343,6 +3367,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 0
   playerCheck: {fileID: 718881899}
+  stageCtrl: {fileID: 0}
 --- !u!114 &718881899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4076,6 +4101,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 1021161185}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &1021161187
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4610,6 +4636,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 1116743508}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &1116743510
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4835,11 +4862,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4c72b55d1a77e4a9fe83e2316c2708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnMaterial: {fileID: 0}
-  Offmaterial: {fileID: 0}
   stageCtrl: {fileID: 0}
   playerCheck: {fileID: 1178682130}
-  isOn: 1
+  isStart: 0
+  seDelay: 0.5
+  stoveSE: {fileID: 0}
+  childColliderObject: {fileID: 0}
 --- !u!95 &1178682132
 Animator:
   serializedVersion: 5
@@ -5205,6 +5233,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 0
   playerCheck: {fileID: 1221153539}
+  stageCtrl: {fileID: 0}
 --- !u!114 &1221153539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5580,8 +5609,10 @@ MonoBehaviour:
   stopDuration: 3
   mainCamera: {fileID: 519420031}
   maxDistanceFromCamera: 50
-  warpOffset: {x: 0, y: -10, z: 0}
   jumpPower: 50
+  warpOffsetLower: {x: 0, y: -10, z: 0}
+  warpOffsetUpper: {x: 0, y: 10, z: 0}
+  upperLayerThreshold: 5
 --- !u!1 &1342410743
 GameObject:
   m_ObjectHideFlags: 0
@@ -5929,6 +5960,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 0
   playerCheck: {fileID: 1363756428}
+  stageCtrl: {fileID: 0}
 --- !u!114 &1363756428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6058,6 +6090,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 1393933291}
+  stageCtrl: {fileID: 0}
 --- !u!58 &1393933293
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6270,6 +6303,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 1453557411}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &1453557413
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6677,6 +6711,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 1575655427}
+  stageCtrl: {fileID: 0}
 --- !u!58 &1575655429
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6988,6 +7023,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 1625453895}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &1625453897
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -7585,6 +7621,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 1755030392}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &1755030394
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -7717,6 +7754,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 1761149358}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &1761149360
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -8141,6 +8179,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 0
   playerCheck: {fileID: 1868848166}
+  stageCtrl: {fileID: 0}
 --- !u!114 &1868848166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8425,6 +8464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575304e0ce9173a4bb9108d9952ac8f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageCtrl: {fileID: 0}
   StageLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -8594,6 +8634,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 0
   playerCheck: {fileID: 1911160675}
+  stageCtrl: {fileID: 0}
 --- !u!114 &1911160675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8729,6 +8770,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 1988206957}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &1988206959
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -8935,11 +8977,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4c72b55d1a77e4a9fe83e2316c2708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnMaterial: {fileID: 2100000, guid: 507ecd6ce905df14aacd78e18df600de, type: 2}
-  Offmaterial: {fileID: 2100000, guid: addf5723edf81ce48ae35e30621c1c18, type: 2}
   stageCtrl: {fileID: 0}
   playerCheck: {fileID: 2007506844}
-  isOn: 1
+  isStart: 0
+  seDelay: 0.5
+  stoveSE: {fileID: 0}
+  childColliderObject: {fileID: 0}
 --- !u!1 &2094457277
 GameObject:
   m_ObjectHideFlags: 0
@@ -9004,6 +9047,7 @@ MonoBehaviour:
   getSE: {fileID: 0}
   myScore: 100
   playerCheck: {fileID: 2094457279}
+  stageCtrl: {fileID: 35042661}
 --- !u!58 &2094457281
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -9450,11 +9494,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4c72b55d1a77e4a9fe83e2316c2708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnMaterial: {fileID: 2100000, guid: 507ecd6ce905df14aacd78e18df600de, type: 2}
-  Offmaterial: {fileID: 2100000, guid: addf5723edf81ce48ae35e30621c1c18, type: 2}
   stageCtrl: {fileID: 0}
   playerCheck: {fileID: 2132774172}
-  isOn: 1
+  isStart: 0
+  seDelay: 0.5
+  stoveSE: {fileID: 0}
+  childColliderObject: {fileID: 0}
 --- !u!114 &2132774172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9501,6 +9546,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1882724682, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1882724682, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9565,6 +9614,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Retry0
       objectReference: {fileID: 0}
+    - target: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 81945369}
     - target: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: playerObj
       value: 

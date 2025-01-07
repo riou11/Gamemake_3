@@ -12,12 +12,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance = null;
 
     //シーン名とロック状況
-    [System.Serializable]
-    public class StageData
-    {
-        public GameScene gameScene;
-        public bool isUnlocked;
-    }
+    //[System.Serializable]
+    //public class StageData
+    //{
+    //    public GameScene gameScene;
+    //    public bool isUnlocked;
+    //}
 
     //ゲームのシーンを、番号ではなくenemを使ってシーン名で管理
     public enum GameScene
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
         SecondStage,
     }
 
-    [SerializeField] private List<StageData> _stages; // インスペクターでシーンをロックするか設定（ステージ以外（ + firstStage）はtrue）
+    //[SerializeField] private List<StageData> _stages; // インスペクターでシーンをロックするか設定（ステージ以外（ + firstStage）はtrue）
     
     public GameScene currentScene { get; private set; } //現在のシーン
 
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     private StageSelectControl stageSelectControl;
     private PlayerMove _player;
     private StageCtrl _stageCtrl; //ステージUI切り替え周りの処理
-    private Dictionary<GameScene, bool> _stageDatas = new(); //シーン遷移の際に消えないようにプライベートで保管
+    //private Dictionary<GameScene, bool> _stageDatas = new(); //シーン遷移の際に消えないようにプライベートで保管
     private GameScene _gameScene; //ステージ遷移に使う変数（現在のシーンを示すものではない）
     private bool _isStageCtrlGet = false; //各ステージのStageCtrl（UI管理）を取得したか
     private bool _getReady = false;
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         }
 
         //ステージデータの取り込み
-        LoadStagesData();
+        //LoadStagesData();
         SearchCurrentScene();
     }
 
@@ -96,19 +96,16 @@ public class GameManager : MonoBehaviour
 
     void ProcessTitle()
     {
-        _isStageCtrlGet = false;
         titleControl = FindObjectOfType<TitleControl>();
     }
 
     void ProcessSceneSelect()
     {
-        _isStageCtrlGet = false;
         menuSelectControl = FindObjectOfType<MenuSelectControl>();
     }
 
     void ProcessStageSelect()
     {
-        _isStageCtrlGet = false;
         stageSelectControl = FindObjectOfType<StageSelectControl>();
     }
 
@@ -137,15 +134,15 @@ public class GameManager : MonoBehaviour
     }
 
     //インスペクターで設定された内容を、プライベートに取り込む（FirstStageのみ開放）
-    void LoadStagesData()
-    {
-        foreach (var stageData in _stages)
-        {
-            _stageDatas[stageData.gameScene] = stageData.isUnlocked;
-        }
+    //void LoadStagesData()
+    //{
+    //    foreach (var stageData in _stages)
+    //    {
+    //        _stageDatas[stageData.gameScene] = stageData.isUnlocked;
+    //    }
 
-        _stageDatas[GameScene.ReFirstStage] = true;
-    }
+    //    _stageDatas[GameScene.ReFirstStage] = true;
+    //}
 
     //ステージ遷移（ボタンにこの関数を入れて、飛びたいシーンの番号(enum(GameScene)で定義)を設定する）
     public void TransitionScene(int scene)
@@ -153,32 +150,36 @@ public class GameManager : MonoBehaviour
 
         _gameScene = (GameScene)scene;
 
+        StopCoroutine(currentScene);
+        SceneManager.LoadScene(_gameScene.ToString());
+        currentScene = _gameScene;
+
         //クリア時はステージを開放する
-        if (_stageCtrl != null)
-        {
-            if (_stageCtrl.doGameClear)
-            {
-                UnlockNextStage(_gameScene);
-            }
-        }
-        
+        //if (_stageCtrl != null)
+        //{
+        //    if (_stageCtrl.doGameClear)
+        //    {
+        //        UnlockNextStage(_gameScene);
+        //    }
+        //}
+
         //開放されていれば次のステージに飛ぶ
-        if (_stageDatas[_gameScene])
-        {
-            StopCoroutine(currentScene);
-            SceneManager.LoadScene(_gameScene.ToString());
-            currentScene = _gameScene;
-        }
+        //if (_stageDatas[_gameScene])
+        //{
+        //    StopCoroutine(currentScene);
+        //    SceneManager.LoadScene(_gameScene.ToString());
+        //    currentScene = _gameScene;
+        //}
     }
 
     // ステージクリア時に次のステージ（インスペクターで設定）をアンロック
-    void UnlockNextStage(GameScene gameScene)
-    {
-        if (!_stageDatas[gameScene])
-        {
-            _stageDatas[gameScene] = true;
-        }
-    }
+    //void UnlockNextStage(GameScene gameScene)
+    //{
+    //    if (!_stageDatas[gameScene])
+    //    {
+    //        _stageDatas[gameScene] = true;
+    //    }
+    //}
 
     //それぞれのシーンのコルーチンを遷移前に止める（必要ないかも）
     void StopCoroutine(GameScene scene)
