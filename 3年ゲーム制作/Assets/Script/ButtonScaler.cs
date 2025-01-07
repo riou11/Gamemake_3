@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ButtonScaler : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class ButtonScaler : MonoBehaviour
 {
     [SerializeField] private Vector3 selectedScale = new Vector3(1.2f, 1.2f, 1.2f); // 選択時のスケール
     [SerializeField] private float transitionDuration = 0.2f; // スケール変更のアニメーション時間
@@ -13,9 +13,41 @@ public class ButtonScaler : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         // 初期スケールを保存
         originalScale = transform.localScale;
+
+        // EventTrigger をセットアップ
+        SetupEventTrigger();
     }
 
-    public void OnSelect(BaseEventData eventData)
+    private void SetupEventTrigger()
+    {
+        // EventTrigger コンポーネントを取得または追加
+        EventTrigger eventTrigger = gameObject.GetComponent<EventTrigger>();
+        if (eventTrigger == null)
+        {
+            eventTrigger = gameObject.AddComponent<EventTrigger>();
+        }
+
+        // 古いイベントをクリア
+        eventTrigger.triggers.Clear();
+
+        // Select イベントの設定
+        EventTrigger.Entry selectEntry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.Select
+        };
+        selectEntry.callback.AddListener((eventData) => OnSelect());
+        eventTrigger.triggers.Add(selectEntry);
+
+        // Deselect イベントの設定
+        EventTrigger.Entry deselectEntry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.Deselect
+        };
+        deselectEntry.callback.AddListener((eventData) => OnDeselect());
+        eventTrigger.triggers.Add(deselectEntry);
+    }
+
+    private void OnSelect()
     {
         // 実行中のコルーチンを停止してから新しいコルーチンを開始
         if (scaleCoroutine != null)
@@ -25,7 +57,7 @@ public class ButtonScaler : MonoBehaviour, ISelectHandler, IDeselectHandler
         scaleCoroutine = StartCoroutine(ScaleTo(selectedScale));
     }
 
-    public void OnDeselect(BaseEventData eventData)
+    private void OnDeselect()
     {
         // 実行中のコルーチンを停止してから新しいコルーチンを開始
         if (scaleCoroutine != null)
@@ -35,7 +67,7 @@ public class ButtonScaler : MonoBehaviour, ISelectHandler, IDeselectHandler
         scaleCoroutine = StartCoroutine(ScaleTo(originalScale));
     }
 
-    private System.Collections.IEnumerator ScaleTo(Vector3 targetScale)
+    private IEnumerator ScaleTo(Vector3 targetScale)
     {
         Vector3 initialScale = transform.localScale;
         float elapsedTime = 0f;
@@ -49,5 +81,10 @@ public class ButtonScaler : MonoBehaviour, ISelectHandler, IDeselectHandler
 
         transform.localScale = targetScale;
         scaleCoroutine = null; // 完了後、参照をクリア
+    }
+
+    public void OnDeleated()
+    {
+        StopAllCoroutines();
     }
 }

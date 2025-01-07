@@ -175,7 +175,7 @@ MonoBehaviour:
   _titlePanel: {fileID: 1188153355}
   _creditPanel: {fileID: 1532532875}
   _startButton: {fileID: 1525124039}
-  _creditButton: {fileID: 564519475}
+  _creditButton: {fileID: 1965584965}
 --- !u!1 &564519473
 GameObject:
   m_ObjectHideFlags: 0

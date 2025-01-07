@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 /// <summary>
@@ -60,6 +61,10 @@ public class MenuSelectControl : MonoBehaviour
     [SerializeField] private GameObject OptionPanelFirstButton;
     [SerializeField] private GameObject PlayGuidePanelFirstButton;
 
+    [SerializeField] private ButtonScaler stageSelect;
+    [SerializeField] private ButtonScaler playGuide;
+    [SerializeField] private ButtonScaler option;
+
     [SerializeField] private StageButtonData[] StageButtons;
 
     [SerializeField] private List<SubPanelData> SubPanels;
@@ -82,7 +87,10 @@ public class MenuSelectControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKey(KeyCode.Backspace))
+        {
+            manager.TransitionScene((int)GameManager.GameScene.Title);
+        }
     }
 
 
@@ -247,5 +255,12 @@ public class MenuSelectControl : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void StopCoroutine()
+    {
+        stageSelect.OnDeleated();
+        playGuide.OnDeleated();
+        option.OnDeleated();
     }
 }

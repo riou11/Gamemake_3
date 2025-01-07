@@ -13,6 +13,9 @@ public class TitleControl : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button _startButton;
     [SerializeField] private UnityEngine.UI.Button _creditButton;
 
+    ButtonScaler start;
+    ButtonScaler credit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +26,9 @@ public class TitleControl : MonoBehaviour
     {
         _titlePanel.SetActive(true);
         _creditPanel.SetActive(false);
+        start = _startButton.GetComponent<ButtonScaler>();
+        credit = _creditButton.GetComponent<ButtonScaler>();
+
         Debug.Log((int)gameManager.currentScene);
         Debug.Log(((int)gameManager.currentScene) + 1);
         _startButton.onClick.AddListener(() => gameManager.TransitionScene(((int)gameManager.currentScene) + 1));
@@ -48,5 +54,11 @@ public class TitleControl : MonoBehaviour
     {
         _creditPanel.SetActive(false);
         _titlePanel.SetActive(true);
+    }
+
+    public void StopCoroutine()
+    {
+        start.OnDeleated();
+        credit.OnDeleated();
     }
 }
