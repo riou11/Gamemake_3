@@ -22,7 +22,11 @@ public class StageCtrl : MonoBehaviour
         GameClear
     }
 
-    //[Header("チーズパラメーターUI")]
+    //[Header("各ステージのチーズ上限数(0はFirst、1はSecond)")]
+    //[SerializeField] private int[] _cheeseScores = { 20, 0 }; //各ステージのチーズ上限数
+    //[Header("firstStageの速度一覧")]
+    //[SerializeField] private float[] _firstStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f, 12f, 13f, 13.5f, 14f, 15.5f, 16f, 17f }; //firstStageの速度一覧  
+    ////[Header("チーズパラメーターUI")]
     //[SerializeField] public Image cheeseParameters;
     [Header("体力ゲージUI")]
     [SerializeField] public Slider healthGaugeSlider;
@@ -45,7 +49,7 @@ public class StageCtrl : MonoBehaviour
     /// </summary>
     //[Header("GameClearのロゴ")]
     //[SerializeField] private GameObject _clearText;
-    [Header("「Press Any Key」の画像")]
+    [Header("「Press A Button」の画像")]
     [SerializeField] private GameObject _messageText;
     //[Header("リザルト画面のネズミの画像")]
     //[SerializeField] private GameObject[] _ratImgObjs;
@@ -72,9 +76,13 @@ public class StageCtrl : MonoBehaviour
     [Header("Clear時のBackToTitleボタン")]
     [SerializeField] private UnityEngine.UI.Button _gcBackToTitleButton;
 
+    [Header("チーズゲージの土台")]
     [SerializeField] private Image _cheeseBase; //チーズの土台
+    [Header("チーズゲージのチーズ画像")]
     [SerializeField] private Image[] _cheeseImgs = new Image[6]; //cheeseの画像
+    [Header("Player")]
     [SerializeField] private PlayerMove _player;
+    [Header("stgNumに、FirstStageの場合は0、SecondStageの場合は1を入力してください")]
     [SerializeField] private int stgNum; //現在のステージ番号(0か1)
     public float percentCheese { get; private set; } //チーズ取得率
 
@@ -90,7 +98,7 @@ public class StageCtrl : MonoBehaviour
     private float _evalution = 0f; //（獲得チーズ数 / そのステージの上限チーズ数）の計算結果
     private int _value = 0; //評価値計算過程の計算結果格納用（評価値の査定を、整数値で行いたいためint型）
     private int _result = 0; //そのステージの評価値（星の数）、保存はされない
-    private int[] _cheeseScores = { 18, 0, 0 }; //各ステージのチーズ上限数
+    private int[] _cheeseScores = { 20, 0}; //各ステージのチーズ上限数
     private float[] _firstStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f, 12f, 13f, 13.5f, 14f, 15.5f, 16f, 17f }; //firstStageの速度一覧  
     private float _currentSpeed = 0f; //現在のプレイヤー速度保管用   
     private float _gaugeDecreRate = 0.3f; //体力ゲージ減少率
@@ -158,9 +166,10 @@ public class StageCtrl : MonoBehaviour
         //現在のステージ番号によって、初速度を変えている。
         switch (stgNum)
         {
-            //firstStage
-            case 0:
+            case 0: //firstStage
                 _currentSpeed = _firstStgPlySpeeds[0];
+                break;
+            case 1: //SecondStage
                 break;
         }
 
@@ -265,8 +274,10 @@ public class StageCtrl : MonoBehaviour
         //プレイヤーの速度を、チーズの獲得数（cheeseScoreで管理）から変更
         switch (stageNum)
         {
-            case 0:
+            case 0: //FirstStage
                 _currentSpeed = _firstStgPlySpeeds[cheeseScore];
+                break;
+            case 1: //SecondStage
                 break;
         }
     }
