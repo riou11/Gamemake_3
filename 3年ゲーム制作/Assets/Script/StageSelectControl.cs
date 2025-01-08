@@ -11,6 +11,11 @@ public class StageSelectControl : MonoBehaviour
     [SerializeField] private RectTransform panel; // スライドさせるパネル
     [SerializeField] private Vector2 targetPosition; // 目標位置
     [SerializeField] private float slideDuration = 0.5f; // スライドにかかる時間
+    private Vector2 targetPos;
+    private Vector2 startPos;         // スライドの開始位置
+    private float elapsedTime;        // 経過時間
+    private bool isSliding = false;   // スライド中かどうか
+
     [SerializeField] private float blinkInterval = 0.5f;
     //[SerializeField] private KeyCode slideKey = KeyCode.RightArrow; // スライドさせるキー
     //[SerializeField] private KeyCode resetKey = KeyCode.LeftArrow; // 元に戻すキー
@@ -43,12 +48,27 @@ public class StageSelectControl : MonoBehaviour
         originalPosition = panel.anchoredPosition;
         Debug.Log(originalPosition);
 
-        StartBlinking(_state);
+        //StartBlinking(_state);
     }
 
     // Update is called once per frame
     void Update()
     {
+        //if (isSliding)
+        //{
+        //    elapsedTime += Time.deltaTime;
+
+        //    // 補間計算
+        //    float t = Mathf.Clamp01(elapsedTime / slideDuration);
+        //    panel.anchoredPosition = Vector2.Lerp(startPos, targetPos, t);
+
+        //    // スライド完了
+        //    if (t >= 1f)
+        //    {
+        //        isSliding = false;               
+        //    }
+        //}
+
         //方向キーを押されたら、パネルを移動
         switch (_state)
         {
@@ -58,6 +78,7 @@ public class StageSelectControl : MonoBehaviour
                     StopBlinking(_state);
                     _state = SelectState.SecondStage;
                     StopAllCoroutines(); // 途中のアニメーションを中断
+                    //StartSlide(targetPosition);
                     StartCoroutine(SlideTo(targetPosition, _state));
                 }
                 else if (Gamepad.current.buttonSouth.wasPressedThisFrame) 
@@ -72,6 +93,7 @@ public class StageSelectControl : MonoBehaviour
                     StopBlinking(_state);
                     _state = SelectState.FirstStage;
                     StopAllCoroutines(); // 途中のアニメーションを中断
+                    //StartSlide(originalPosition);
                     StartCoroutine(SlideTo(originalPosition, _state));
                 }
                 else if (Gamepad.current.buttonSouth.wasPressedThisFrame) 
@@ -88,6 +110,16 @@ public class StageSelectControl : MonoBehaviour
         {
             gameManager.TransitionScene((int)GameManager.GameScene.SceneSelect);
         }
+    }
+
+    public void StartSlide(Vector2 target)
+    {
+        if (isSliding) return; // 既にスライド中なら無視
+
+        startPos = panel.anchoredPosition;
+        targetPos = target;
+        elapsedTime = 0f;
+        isSliding = true;
     }
 
     //矢印の点滅を開始させる関数

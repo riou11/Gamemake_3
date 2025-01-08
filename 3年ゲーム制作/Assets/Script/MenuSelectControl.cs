@@ -54,13 +54,14 @@ public class MenuSelectControl : MonoBehaviour
     [SerializeField] private GameObject OptionPanel;
     [SerializeField] private GameObject PlayGuidePanel;
 
+    [SerializeField] private GameObject[] PlayGuideImages; //ゲーム説明スライド
     /// <summary>
     /// 初期ボタン取り込み
     /// </summary>
     [SerializeField] private GameObject MainMenuPanelFirstButton;
-    [SerializeField] private GameObject StageSelectPanelFirstButton;
-    [SerializeField] private GameObject OptionPanelFirstButton;
-    [SerializeField] private GameObject PlayGuidePanelFirstButton;
+    //[SerializeField] private GameObject StageSelectPanelFirstButton;
+    //[SerializeField] private GameObject OptionPanelFirstButton;
+    //[SerializeField] private GameObject PlayGuidePanelFirstButton;
 
     [SerializeField] private ButtonScaler stageSelect;
     [SerializeField] private ButtonScaler playGuide;
@@ -74,6 +75,7 @@ public class MenuSelectControl : MonoBehaviour
     private Dictionary<SubPanel, bool> _subMenuData = new Dictionary<SubPanel, bool>(); //各サブメニュー（StageSelect,Option,PlayGuide）の表示状態の保持
     private Dictionary<GameManager.GameScene, UnityEngine.UI.Button> _stageButtonsData = new Dictionary<GameManager.GameScene, UnityEngine.UI.Button>(); //(追伸)これ、いらないかも。 このスクリプト上で保持する各ステージに飛ぶボタンの情報
 
+    private int slideCount = 0;
     bool _subSelected;
     SubPanel _subPanel;
     //private bool _isActiveMainMenu;
@@ -82,16 +84,32 @@ public class MenuSelectControl : MonoBehaviour
     void Start()
     {
         SetUp();
-        LoadOnClickData();
+        //LoadOnClickData();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Gamepad.current.buttonEast.wasPressedThisFrame) 
+        //PlayGuideかOptionが開かれたときに行う処理
+        if (_subMenuData[SubPanel.PlayGuide])
         {
-            manager.TransitionScene((int)GameManager.GameScene.Title);
+            UnitPlayGuide();          
         }
+        else if (_subMenuData[SubPanel.Option])
+        {
+            if (Gamepad.current.buttonEast.wasPressedThisFrame)
+            {
+                SelectedMenuPanel(SubPanel.Option);
+            }
+        }
+        else
+        {
+            //一つ前の画面に戻る処理
+            if (Gamepad.current.buttonEast.wasPressedThisFrame)
+            {
+                manager.TransitionScene((int)GameManager.GameScene.Title);
+            }
+        }  
     }
 
 
@@ -117,6 +135,46 @@ public class MenuSelectControl : MonoBehaviour
         LoadStageButtonsData();
     }
 
+    //PlayGuide画面の時の処理
+    void UnitPlayGuide()
+    {
+        foreach (var img in PlayGuideImages)
+        {
+            img.SetActive(false);
+        }
+
+        if ((Gamepad.current.dpad.right.wasPressedThisFrame) || (Gamepad.current.leftStick.right.wasPressedThisFrame))
+        {
+            if (slideCount < 3)
+            {
+                slideCount++;
+            }
+        }
+        else if ((Gamepad.current.dpad.left.wasPressedThisFrame) || (Gamepad.current.leftStick.left.wasPressedThisFrame))
+        {
+            if (slideCount > 0)
+            {
+                slideCount--;
+            }
+        }
+
+        if (Gamepad.current.buttonEast.wasPressedThisFrame)
+        {
+            SelectedMenuPanel(SubPanel.PlayGuide);
+        }
+
+        if (slideCount > 3)
+        {
+            slideCount = 3;
+        }
+        else if (slideCount < 0)
+        {
+            slideCount = 0;
+        }
+
+        PlayGuideImages[slideCount].SetActive(true);
+    }
+
     //ステージボタン情報のロード
     void LoadStageButtonsData()
     {
@@ -132,35 +190,35 @@ public class MenuSelectControl : MonoBehaviour
     }
 
     //Stage選択ボタンにOnClick関数を追加（GameManagerの関数をアタッチするが、シングルトンの影響で消えてしまうため）
-    void LoadOnClickData()
-    {
-        if (IsButtonActive())
-        {
-            foreach (var _stageData in _stageButtonsData)
-            {
-                if (_stageData.Value != null)
-                {
-                    Debug.Log(_stageData.Key);
-                    Debug.Log((int)_stageData.Key);
-                    //_stageData.Value.onClick.AddListener(() => manager.TransitionScene((int)_stageData.Key));
-                }
-            }
-        }
-    }
+    //void LoadOnClickData()
+    //{
+    //    if (IsButtonActive())
+    //    {
+    //        foreach (var _stageData in _stageButtonsData)
+    //        {
+    //            if (_stageData.Value != null)
+    //            {
+    //                Debug.Log(_stageData.Key);
+    //                Debug.Log((int)_stageData.Key);
+    //                //_stageData.Value.onClick.AddListener(() => manager.TransitionScene((int)_stageData.Key));
+    //            }
+    //        }
+    //    }
+    //}
 
     //Stage選択ボタンがアクティブになっているか
-    bool IsButtonActive()
-    {
-        foreach (var data in _stageButtonsData)
-        {
-            if (!data.Value.gameObject.activeSelf)
-            {
-                return false;
-            }
-        }
+    //bool IsButtonActive()
+    //{
+    //    foreach (var data in _stageButtonsData)
+    //    {
+    //        if (!data.Value.gameObject.activeSelf)
+    //        {
+    //            return false;
+    //        }
+    //    }
 
-        return true;
-    }
+    //    return true;
+    //}
 
     //ボタンが押されたら（全ボタン共通）(numは行先)
     public void SelectedPanel(int num)
@@ -236,22 +294,19 @@ public class MenuSelectControl : MonoBehaviour
         {
             case SubPanel.StageSelect:
                 manager.TransitionScene((int)GameManager.GameScene.StageSelect);
-                //EventSystem.current.SetSelectedGameObject(StageSelectPanelFirstButton);
-                //MainMenuPanel.SetActive(false);
-                //StageSelectPanel.SetActive(true);
-                //_subMenuData[subPanel] = true;
                 break;
             case SubPanel.Option:
-                EventSystem.current.SetSelectedGameObject(OptionPanelFirstButton);
+                //EventSystem.current.SetSelectedGameObject(OptionPanelFirstButton);
                 MainMenuPanel.SetActive(false);
                 OptionPanel.SetActive(true);
                 _subMenuData[subPanel] = true;
                 break;
             case SubPanel.PlayGuide:
-                EventSystem.current.SetSelectedGameObject(PlayGuidePanelFirstButton);
+                //EventSystem.current.SetSelectedGameObject(PlayGuidePanelFirstButton);
                 MainMenuPanel.SetActive(false);
                 PlayGuidePanel.SetActive(true);
                 _subMenuData[subPanel] = true;
+                slideCount = 0;
                 break;
             default:
                 break;

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using System.Threading;
+using UnityEngine.InputSystem;
 
 //インゲーム中の、進行度等に応じたUI遷移の管理クラス
 
@@ -453,6 +454,7 @@ public class StageCtrl : MonoBehaviour
         Time.timeScale = 0f;
     }
 
+    //チーズ取得率による評価計算
     int CalcEvalution(int score)
     {
         _evalution = 0f;
@@ -486,7 +488,7 @@ public class StageCtrl : MonoBehaviour
         //「Press Any Key」と表示されたら
         if (_messageText.activeSelf)
         {
-            if (Input.anyKey)
+            if (Gamepad.current.buttonSouth.wasPressedThisFrame) 
             {
                 ResultImgPassive();
                 TransSelecImgActive();
@@ -516,9 +518,9 @@ public class StageCtrl : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_nextStageButton.gameObject);
     }
 
-    public void ToNextStage()
-    {
-        SceneManager.LoadScene(nextStage);
-    }
+    //public void ToNextStage()
+    //{
+    //    SceneManager.LoadScene(nextStage);
+    //}
 
 }
