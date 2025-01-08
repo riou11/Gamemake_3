@@ -26,6 +26,7 @@ public class Globe : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+
         // AudioSourceの初期化
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = rollingSound;
@@ -53,6 +54,7 @@ public class Globe : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.None;
         rb.AddForce(initialForce.normalized * forceMultiplier, ForceMode2D.Impulse);
         Debug.Log("Rigidbodyの制約解除");
+
         // 音を再生開始
         if (audioSource != null)
         {
@@ -63,28 +65,42 @@ public class Globe : MonoBehaviour
     // ぶつかったときの処理を追加
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Enemyタグを持つオブジェクトと衝突した場合
+        // EnemyタグまたはPlayerタグを持つオブジェクトと衝突した場合
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Player"))
         {
-            DisableColliders(collision.gameObject);
-        }
-        // 音を停止
-        if (audioSource != null && audioSource.isPlaying)
-        {
-            audioSource.Stop();
+            DisableSelfColliders();
+            // 音をフェードアウト
+            if (audioSource != null && audioSource.isPlaying)
+            {
+                StartCoroutine(FadeOutAndStopAudio(1f)); // フェードアウト時間を1秒に設定
+            }
         }
     }
 
-    // 指定されたオブジェクトとその子オブジェクトのコライダーを無効化
-    private void DisableColliders(GameObject obj)
+    // 自分自身のコライダーを無効化
+    private void DisableSelfColliders()
     {
-        Collider2D[] colliders = obj.GetComponentsInChildren<Collider2D>();
-
+        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
         foreach (var collider in colliders)
         {
             collider.enabled = false;
         }
 
-        Debug.Log($"コライダーを無効化しました: {obj.name}");
+        Debug.Log("自身のコライダーを無効化しました");
+    }
+
+    // 音をフェードアウトさせる
+    private IEnumerator FadeOutAndStopAudio(float duration)
+    {
+        float startVolume = audioSource.volume;
+
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            audioSource.volume = Mathf.Lerp(startVolume, 0, t / duration);
+            yield return null;
+        }
+
+        audioSource.Stop();
+        audioSource.volume = startVolume; // 次回再生に備えて音量を元に戻す
     }
 }

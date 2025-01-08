@@ -34,6 +34,18 @@ public class CatMove : MonoBehaviour
 
     private bool inNoCatZone = false; // NoCatZoneにいるかどうかを判定するフラグ
     private bool ignoreTrigger = false;
+
+    public float warpUnlockX; // ワープを再解禁するX座標
+    private bool warpAllowed = false; // ワープが許可されているか
+
+    public float tableX; // テーブルのX座標
+    public float tableY; // テーブルのY座標（上に乗る高さ）
+    private bool isWaiting = false; // 待機中かどうか
+
+    private Coroutine jumpCoroutine = null; // JumpToTableコルーチンを保存
+
+
+    bool hasWaitedAtTable = false;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -80,7 +92,16 @@ public class CatMove : MonoBehaviour
             // 障害物があった場合の処理
             MoveJump();
         }
+        if (player.transform.position.x >= warpUnlockX)
+        {
+            warpAllowed = true; // ワープを許可
+        }
 
+        if (!hasWaitedAtTable&&!isWaiting && (transform.position.x >= tableX || player.transform.position.y >= tableY))
+        {
+            StartWaiting();
+            hasWaitedAtTable = true;
+        }
         // Rayを可視化（デバッグ用）
         Vector2 rayOrigin = (Vector2)transform.position + direction * 5.5f + new Vector2(0, rayHeightOffset);
         Debug.DrawRay(rayOrigin, direction * rayDistance, rayColor); // オフセットした位置からRayを描画
@@ -89,13 +110,13 @@ public class CatMove : MonoBehaviour
     // カメラからの距離をチェックする関数
     private void CheckDistanceFromCamera()
     {
-        if (playerCollision.isInNoCatZone)
+        if (!warpAllowed || playerCollision.isInNoCatZone)
         {
             return;
         }
+
         float distanceFromCamera = Vector2.Distance(transform.position, mainCamera.transform.position);
 
-        // カメラから一定距離離れたらワープ処理
         if (distanceFromCamera > maxDistanceFromCamera)
         {
             WarpToPlayer();
@@ -204,7 +225,7 @@ public class CatMove : MonoBehaviour
         }
 
         // Trapタグのオブジェクトにぶつかった場合の処理
-        if (collision.gameObject.CompareTag("Trap") || collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Trap"))
         {
             Debug.Log("Trap!!");
             // 斜め後ろに跳ね返る処理
@@ -256,6 +277,45 @@ public class CatMove : MonoBehaviour
         gameObject.transform.rotation = initialRotation;
         Debug.DrawLine(startPosition, endPosition, Color.red);
         return Physics2D.Linecast(startPosition, endPosition, StageLayer);
+    }
+    private void StartWaiting()
+    {
+        isWaiting = true;
+        isStopped = true; // 動作を停止
+        rb.velocity = Vector2.zero;
+        anim.SetBool("run", false);
+
+        // 待機後ジャンプ開始
+        jumpCoroutine=StartCoroutine(JumpToTable());
+    }
+    private IEnumerator JumpToTable()
+    {
+        float jumpPowerStrong = 75.0f; // 通常より強いジャンプ力
+        yield return new WaitForSeconds(5.0f); // 待機時間（必要に応じて調整）
+        isStopped = false;
+        Vector2 direction = (player.transform.position - transform.position).normalized;
+        Vector2 jumpDirection = new Vector2(direction.x * speed, jumpPowerStrong);
+        rb.velocity = jumpDirection;
+        anim.SetBool("run", true);
+        rb.velocity = new Vector2(rb.velocity.x, jumpPowerStrong); // ジャンプ
+
+        //yield return new WaitForSeconds(0.5f); // 少し時間を置いて動作再開
+        isWaiting = false;
+        jumpCoroutine = null;
+    }
+
+    public void OnPlayerTriggered()
+    {
+        // ジャンプ処理中なら停止
+        if (jumpCoroutine != null)
+        {
+            StopCoroutine(jumpCoroutine);
+            jumpCoroutine = null;
+        }
+
+        // 待機状態を解除し、追跡を再開
+        isStopped = false;
+        anim.SetBool("run", true);
     }
 
 }
