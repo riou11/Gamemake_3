@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
         SceneSelect,//Menu,StageSelect,Option,PlayGuideを、このシーンのなかで切り替え
         StageSelect,
         ReFirstStage,
-        SecondStage,
+        SecondStageGimmick,
     }
 
     //[SerializeField] private List<StageData> _stages; // インスペクターでシーンをロックするか設定（ステージ以外（ + firstStage）はtrue）
@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
             case GameScene.ReFirstStage:
                 ProcessStage();
                 break;
-            case GameScene.SecondStage:
+            case GameScene.SecondStageGimmick:
                 ProcessStage();
                 break;
         }
@@ -201,7 +201,7 @@ public class GameManager : MonoBehaviour
                 _getReady = false;
                 _isStageCtrlGet = false;
                 break;
-            case GameScene.SecondStage:
+            case GameScene.SecondStageGimmick:
                 _getReady = false;
                 _isStageCtrlGet = false;
                 break;

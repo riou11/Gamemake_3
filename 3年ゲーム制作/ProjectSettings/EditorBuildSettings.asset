@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/KariStage/ReFirstStage.unity
     guid: d9d01a02c6138c64590fd25e74ab8b35
   - enabled: 1
+    path: Assets/KariStage/SecondStageGimmick.unity
+    guid: 16fb73feb9d531044bda14a50555f5d7
+  - enabled: 1
     path: Assets/KariStage/FirstStage.unity
     guid: f71c229121bd5ba4ba41ee9f23506b78
   m_configObjects: {}
