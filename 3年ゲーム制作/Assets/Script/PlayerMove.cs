@@ -134,6 +134,10 @@ public class PlayerMove : MonoBehaviour
         {
             StartCoroutine(OnEnemyCollision());
         }
+        if(collision.gameObject.CompareTag("Globe"))
+        {
+            StartCoroutine(OnEnemyCollision());
+        }
 
         if (collision.gameObject.CompareTag("Finish"))
         {
