@@ -5629,7 +5629,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1324410068}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5420daf8285285241be5f6d8085e4852, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ddb1416836ff6a44ba56037959a19de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 716025153}
@@ -5646,10 +5646,8 @@ MonoBehaviour:
   stopDuration: 3
   mainCamera: {fileID: 519420031}
   maxDistanceFromCamera: 50
+  warpOffset: {x: 0, y: -10, z: 0}
   jumpPower: 50
-  warpOffsetLower: {x: 0, y: -10, z: 0}
-  warpOffsetUpper: {x: 0, y: 10, z: 0}
-  upperLayerThreshold: 5
 --- !u!1001 &1330262693
 PrefabInstance:
   m_ObjectHideFlags: 0
