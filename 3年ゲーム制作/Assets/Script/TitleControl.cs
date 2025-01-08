@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class TitleControl : MonoBehaviour
@@ -12,6 +13,9 @@ public class TitleControl : MonoBehaviour
     [SerializeField] private GameObject _creditPanel;
     [SerializeField] private UnityEngine.UI.Button _startButton;
     [SerializeField] private UnityEngine.UI.Button _creditButton;
+
+    private GameInputs _gameInputs;
+    private Vector2 _moveInputValue;
 
     ButtonScaler start;
     ButtonScaler credit;

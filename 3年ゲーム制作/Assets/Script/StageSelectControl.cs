@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class StageSelectControl : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class StageSelectControl : MonoBehaviour
     [SerializeField] private Vector2 targetPosition; // 目標位置
     [SerializeField] private float slideDuration = 0.5f; // スライドにかかる時間
     [SerializeField] private float blinkInterval = 0.5f;
-    [SerializeField] private KeyCode slideKey = KeyCode.RightArrow; // スライドさせるキー
-    [SerializeField] private KeyCode resetKey = KeyCode.LeftArrow; // 元に戻すキー
+    //[SerializeField] private KeyCode slideKey = KeyCode.RightArrow; // スライドさせるキー
+    //[SerializeField] private KeyCode resetKey = KeyCode.LeftArrow; // 元に戻すキー
     [SerializeField] private Image _rightArrow;
     [SerializeField] private Image _leftArrow;
 
@@ -52,28 +53,28 @@ public class StageSelectControl : MonoBehaviour
         switch (_state)
         {
             case SelectState.FirstStage:
-                if (Input.GetKeyDown(slideKey))
+                if ((Gamepad.current.dpad.right.wasPressedThisFrame) || (Gamepad.current.leftStick.right.wasPressedThisFrame))
                 {
                     StopBlinking(_state);
                     _state = SelectState.SecondStage;
                     StopAllCoroutines(); // 途中のアニメーションを中断
                     StartCoroutine(SlideTo(targetPosition, _state));
                 }
-                else if (Input.GetKey(KeyCode.Return))
+                else if (Gamepad.current.buttonSouth.wasPressedThisFrame) 
                 {
                     StopAllCoroutines();
                     gameManager.TransitionScene((int)GameManager.GameScene.ReFirstStage);
                 }
                 break;
             case SelectState.SecondStage:
-                if (Input.GetKeyDown(resetKey))
+                if ((Gamepad.current.dpad.left.wasPressedThisFrame) || (Gamepad.current.leftStick.left.wasPressedThisFrame))
                 {
                     StopBlinking(_state);
                     _state = SelectState.FirstStage;
                     StopAllCoroutines(); // 途中のアニメーションを中断
                     StartCoroutine(SlideTo(originalPosition, _state));
                 }
-                else if (Input.GetKey(KeyCode.Return))
+                else if (Gamepad.current.buttonSouth.wasPressedThisFrame) 
                 {
                     StopAllCoroutines();
                     gameManager.TransitionScene((int)GameManager.GameScene.SecondStage);
@@ -83,9 +84,9 @@ public class StageSelectControl : MonoBehaviour
                 break;
         }
 
-        if (Input.GetKey(KeyCode.Backspace))
+        if (Gamepad.current.buttonEast.wasPressedThisFrame) 
         {
-            gameManager.TransitionScene((int)GameManager.GameScene.Title);
+            gameManager.TransitionScene((int)GameManager.GameScene.SceneSelect);
         }
     }
 
