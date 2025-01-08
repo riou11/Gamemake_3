@@ -77,7 +77,7 @@ public class StageSelectControl : MonoBehaviour
                 else if (Gamepad.current.buttonSouth.wasPressedThisFrame) 
                 {
                     StopAllCoroutines();
-                    gameManager.TransitionScene((int)GameManager.GameScene.SecondStage);
+                    gameManager.TransitionScene((int)GameManager.GameScene.SecondStageGimmick);
                 }
                 break;
             default:

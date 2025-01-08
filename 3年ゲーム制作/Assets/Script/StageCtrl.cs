@@ -194,9 +194,9 @@ public class StageCtrl : MonoBehaviour
             switch (gameManager.currentScene)
             {
                 case GameManager.GameScene.ReFirstStage:
-                    _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene((int)GameManager.GameScene.SecondStage));
+                    _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene((int)GameManager.GameScene.SecondStageGimmick));
                     break;
-                case GameManager.GameScene.SecondStage:                    
+                case GameManager.GameScene.SecondStageGimmick:                    
                     //SecondStageの次を調べようとすると配列が範囲外になるため、ここでは前のステージに戻るようにしている
                     _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene((int)GameManager.GameScene.ReFirstStage));
                     break;
