@@ -155,6 +155,7 @@ public class GameManager : MonoBehaviour
         StopCoroutine(currentScene);
         SceneManager.LoadScene(_gameScene.ToString());
         currentScene = _gameScene;
+        Time.timeScale = 1.0f;
 
         //クリア時はステージを開放する
         //if (_stageCtrl != null)
