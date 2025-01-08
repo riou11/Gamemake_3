@@ -45,17 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 656b1e58d40aab34aaa02b0703485255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stages:
-  - gameScene: 0
-    isUnlocked: 1
-  - gameScene: 1
-    isUnlocked: 1
-  - gameScene: 2
-    isUnlocked: 1
-  - gameScene: 3
-    isUnlocked: 0
-  - gameScene: 4
-    isUnlocked: 0
+  inputActions: {fileID: -944628639613478452, guid: b5e1a98211e64fb41a140c34f64b9c0e, type: 3}
 --- !u!114 &1497516715
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
@@ -87,7 +88,7 @@ public class MenuSelectControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Backspace))
+        if (Gamepad.current.buttonEast.wasPressedThisFrame) 
         {
             manager.TransitionScene((int)GameManager.GameScene.Title);
         }

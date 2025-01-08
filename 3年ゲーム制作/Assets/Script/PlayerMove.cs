@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
     //GameManager gameManager => GameManager.Instance;
     [SerializeField] StageCtrl stageCtrl;
     //public GameObject Enemy;
+    public InputActionAsset inputActions;
+
+    private Vector2 moveInput;
+    private bool isJumping = false;
     private bool isAttached = false;
     private bool isControllable = true; // 操作可能かどうかのフラグ
     private Animator anim = null;
@@ -30,6 +36,24 @@ public class PlayerMove : MonoBehaviour
         isControllable = true;
     }
 
+    private void OnEnable()
+    {
+        var playerMap = inputActions.FindActionMap("Player");
+        playerMap.Enable();
+        playerMap["Move"].performed += OnMove;
+        playerMap["Move"].canceled += OnMove;
+        playerMap["Jump"].performed += OnJump;
+    }
+
+    private void OnDisable()
+    {
+        var playerMap = inputActions.FindActionMap("Player");
+        playerMap.Disable();
+        playerMap["Move"].performed -= OnMove;
+        playerMap["Move"].canceled -= OnMove;
+        playerMap["Jump"].performed -= OnJump;
+    }
+
     void Update()
     {
         // プレイヤーが固定されていない場合のみ移動とジャンプを許可
@@ -40,10 +64,11 @@ public class PlayerMove : MonoBehaviour
         }
 
         // Spaceキーで解放とジャンプ
-        if (isAttached && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")))
+        if (isAttached && isJumping/*(Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))*/)
         {
             SoundManager.Instance.PlaySFX(SoundManager.SoundType.jump);
             anim.SetBool("hook", false);
+            isJumping = false;
             ReleaseObject(); // 固定を解除
         }
 
@@ -58,7 +83,7 @@ public class PlayerMove : MonoBehaviour
         // アニメーション処理（固定されていない場合のみ）
         if (!isAttached)
         {
-            float horizontalKey = Input.GetAxis("Horizontal");
+            float horizontalKey = moveInput.x/*Input.GetAxis("Horizontal")*/;
 
             if (horizontalKey > 0)
             {
@@ -85,6 +110,16 @@ public class PlayerMove : MonoBehaviour
         {
             anim.SetBool("Jumping", true); // 空中状態にフラグを立てる
         }
+    }
+
+    private void OnMove(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>();
+    }
+
+    private void OnJump(InputAction.CallbackContext context)
+    {
+        isJumping = true;
     }
 
     // 衝突処理で特定タグのオブジェクトに接触した際の挙動
@@ -162,7 +197,7 @@ public class PlayerMove : MonoBehaviour
         rb.velocity = Vector2.zero;
 
         // プレイヤーの入力方向を取得
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float horizontalInput = moveInput.x/*Input.GetAxisRaw("Horizontal")*/;
 
         // ジャンプ力を一定にする
         float jumpPower = 22.5f;
@@ -178,25 +213,26 @@ public class PlayerMove : MonoBehaviour
     // 左右移動関数
     private void MoveRight()
     {
-        float horizontalKey = Input.GetAxis("Horizontal");
+        //float horizontalKey = Input.GetAxis("Horizontal");
         //GameManagerから返ってきた、currentSpeedを適用
         speed = stageCtrl.GetCurrentSpeed();
         Debug.Log(speed);
 
         currentSpeed = speed;
 
-        transform.Translate(Input.GetAxisRaw("Horizontal") * currentSpeed * Time.deltaTime, 0, 0);
+        transform.Translate(moveInput.x * currentSpeed * Time.deltaTime, 0, 0);
     }
 
     // ジャンプ関数
     private void MoveJump()
     {
-        if (GroundChk() && (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")))
+        if (GroundChk() && isJumping/*(Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump"))*/)
         {
             SoundManager.Instance.PlaySFX(SoundManager.SoundType.jump);
             float jumpPower = 22.5f;
             rb.velocity = new Vector2(0, jumpPower);
             anim.SetTrigger("Jump");
+            isJumping = false;
         }
     }
 

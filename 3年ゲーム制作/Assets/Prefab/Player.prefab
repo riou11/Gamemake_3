@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageCtrl: {fileID: 0}
+  inputActions: {fileID: -944628639613478452, guid: b5e1a98211e64fb41a140c34f64b9c0e, type: 3}
   StageLayer:
     serializedVersion: 2
     m_Bits: 64

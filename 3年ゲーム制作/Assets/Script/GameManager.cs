@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
     }
 
     //[SerializeField] private List<StageData> _stages; // インスペクターでシーンをロックするか設定（ステージ以外（ + firstStage）はtrue）
-    
+
     public GameScene currentScene { get; private set; } //現在のシーン
 
     private TitleControl titleControl;
@@ -93,6 +94,7 @@ public class GameManager : MonoBehaviour
     }
 
     //-----------------------------------ステージ遷移に関する処理-----------------------------------//
+
 
     void ProcessTitle()
     {
