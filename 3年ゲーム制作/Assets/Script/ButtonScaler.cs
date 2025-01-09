@@ -55,6 +55,7 @@ public class ButtonScaler : MonoBehaviour
             StopCoroutine(scaleCoroutine);
         }
         scaleCoroutine = StartCoroutine(ScaleTo(selectedScale));
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.Select_SE);
     }
 
     private void OnDeselect()

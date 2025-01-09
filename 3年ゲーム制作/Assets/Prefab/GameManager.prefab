@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 656b1e58d40aab34aaa02b0703485255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputActions: {fileID: -944628639613478452, guid: b5e1a98211e64fb41a140c34f64b9c0e, type: 3}
 --- !u!114 &1497516715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,9 +57,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599eaaca2480a774d9c6e4900888c917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterVolume: 1
-  sfxVolume: 1
-  bgmVolume: 0.5
+  masterVolume: 100
+  sfxVolume: 100
+  bgmVolume: 0.1
   preloadedSounds:
   - type: 1
     clip: {fileID: 8300000, guid: 28ab2285af045364ba9030457b8a7970, type: 3}
@@ -71,7 +70,7 @@ MonoBehaviour:
   - type: 4
     clip: {fileID: 8300000, guid: 08e565590933e154891f48c94a48de8b, type: 3}
   - type: 5
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: e8e15477b81cfc14c99e9ee32e4bace7, type: 3}
   - type: 6
     clip: {fileID: 8300000, guid: 6618b0c59fb51cd44934c52c5dd5e1e4, type: 3}
   - type: 7
@@ -82,3 +81,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 61a8ac11c82da854dbbfb707a9aebd92, type: 3}
   - type: 10
     clip: {fileID: 8300000, guid: 96c4cca15decd8f46b596b60212ca747, type: 3}
+  - type: 12
+    clip: {fileID: 8300000, guid: 1b613cba886550844bfcaaef81bf2c32, type: 3}
+  - type: 0
+    clip: {fileID: 8300000, guid: 23b5019e7d5cac349949172e889d4992, type: 3}

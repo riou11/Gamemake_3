@@ -9,9 +9,9 @@ public class SoundManager : MonoBehaviour
     private static SoundManager _instance;
     public static SoundManager Instance { get { return _instance; } }
 
-    public float masterVolume = 1f;
-    public float sfxVolume = 1f;
-    public float bgmVolume = 1f;
+    public float masterVolume = 10f;
+    public float sfxVolume = 10f;
+    public float bgmVolume = 0.1f;
 
     private AudioSource bgmSource;
     private Dictionary<SoundType, AudioClip> audioClips = new();
@@ -29,7 +29,8 @@ public class SoundManager : MonoBehaviour
         Dead_nezumi,
         jump,
         gass,
-        globe
+        globe,
+        Clear
 
     }
 
@@ -93,14 +94,16 @@ public class SoundManager : MonoBehaviour
     {
         if (audioClips.TryGetValue(type, out AudioClip clip))
         {
-            AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position, volume * sfxVolume * masterVolume);
+            float amplifiedVolume = volume * sfxVolume * masterVolume * 10f; // SE音量を1.5倍
+            AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position, Mathf.Clamp01(amplifiedVolume));
         }
         else
         {
             Debug.LogWarning($"サウンド {type} が見つかりません。");
         }
-        //使用例：SoundManager.Instance.PlaySFX(SoundManager.SoundType.grasp);
     }
+    //使用例：SoundManager.Instance.PlaySFX(SoundManager.SoundType.grasp);
+
 
     public void PlayBGM(SoundType type, bool fade = false, float fadeDuration = 1f)
     {
@@ -113,7 +116,7 @@ public class SoundManager : MonoBehaviour
             else
             {
                 bgmSource.clip = clip;
-                bgmSource.volume = bgmVolume * masterVolume;
+                bgmSource.volume = bgmVolume * masterVolume * 0.04f;
                 bgmSource.Play();
             }
         }

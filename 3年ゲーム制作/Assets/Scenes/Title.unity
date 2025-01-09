@@ -183,6 +183,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1497516715, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: bgmVolume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1497516715, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: sfxVolume
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1497516715, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: masterVolume
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1497516715, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: preloadedSounds.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e8e15477b81cfc14c99e9ee32e4bace7, type: 3}
     - target: {fileID: 1538473632820727213, guid: 65183304ce22fea419549381db356ea5, type: 3}
       propertyPath: m_Name
       value: GameManager

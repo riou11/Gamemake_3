@@ -450,6 +450,8 @@ public class StageCtrl : MonoBehaviour
     {
         doGameClear = true;
         stageClrObj.SetActive(true);
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.Clear);
+        SoundManager.Instance.PlayBGM(SoundManager.SoundType.None);
         InGameUIObj.SetActive(false);
         StartCoroutine(ClearEvent());
     }

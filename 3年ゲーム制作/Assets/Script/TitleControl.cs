@@ -24,6 +24,7 @@ public class TitleControl : MonoBehaviour
     void Start()
     {
         SetUp();
+        SoundManager.Instance.PlayBGM(SoundManager.SoundType.Title);
     }
 
     void SetUp()
