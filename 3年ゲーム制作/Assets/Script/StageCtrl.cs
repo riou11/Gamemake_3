@@ -100,6 +100,7 @@ public class StageCtrl : MonoBehaviour
     private int _result = 0; //そのステージの評価値（星の数）、保存はされない
     private int[] _cheeseScores = { 20, 0}; //各ステージのチーズ上限数
     private float[] _firstStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f, 12f, 13f, 13.5f, 14f, 15.5f, 16f, 17f }; //firstStageの速度一覧  
+    private float[] _secondStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f, 12f, 13f, 13.5f, 14f, 15.5f, 16f, 17f }; //SecondStageの速度一覧
     private float _currentSpeed = 0f; //現在のプレイヤー速度保管用   
     private float _gaugeDecreRate = 0.3f; //体力ゲージ減少率
     private float _gaugeIncreRate = 0.1f; //体力ゲージ回復率
