@@ -86,7 +86,7 @@ public class StageCtrl : MonoBehaviour
     [SerializeField] private int stgNum; //現在のステージ番号(0か1)
     public float percentCheese { get; private set; } //チーズ取得率
 
-    public int cheeseScore { get; private set; }//チーズ取得数
+    public int cheeseScore { get; private set; }//動的なチーズ取得数
 
     public bool getReady = false;
     public bool doGameOver = false;
@@ -99,6 +99,7 @@ public class StageCtrl : MonoBehaviour
     private int _value = 0; //評価値計算過程の計算結果格納用（評価値の査定を、整数値で行いたいためint型）
     private int _result = 0; //そのステージの評価値（星の数）、保存はされない
     private int[] _cheeseScores = { 20, 0}; //各ステージのチーズ上限数
+    private int getCheeseCount = 0; //静的なチーズ獲得数
     private float[] _firstStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f, 12f, 13f, 13.5f, 14f, 15.5f, 16f, 17f }; //firstStageの速度一覧  
     private float[] _secondStgPlySpeeds = { 6f, 7f, 8f, 8.5f, 9f, 9.5f, 10f, 10.5f, 11f, 11.5f, 12f, 13f, 13.5f, 14f, 15.5f, 16f, 17f }; //SecondStageの速度一覧
     private float _currentSpeed = 0f; //現在のプレイヤー速度保管用   
@@ -148,6 +149,7 @@ public class StageCtrl : MonoBehaviour
         Time.timeScale = 1.0f;
 
         cheeseScore = 0;
+        getCheeseCount = 0;
         _playState = PlayState.Playing;
         SoundManager.Instance.PlayBGM(SoundManager.SoundType.Stage1);
 
@@ -171,6 +173,7 @@ public class StageCtrl : MonoBehaviour
                 _currentSpeed = _firstStgPlySpeeds[0];
                 break;
             case 1: //SecondStage
+                _currentSpeed = _firstStgPlySpeeds[0];
                 break;
         }
 
@@ -279,6 +282,7 @@ public class StageCtrl : MonoBehaviour
                 _currentSpeed = _firstStgPlySpeeds[cheeseScore];
                 break;
             case 1: //SecondStage
+                _currentSpeed = _firstStgPlySpeeds[cheeseScore];
                 break;
         }
     }
@@ -328,6 +332,7 @@ public class StageCtrl : MonoBehaviour
     public void GetCheese(int cheese)
     {
         cheeseScore += cheese;
+        getCheeseCount += cheese;
         //新しくチーズをゲットしたら、体力ゲージをリセット
         healthGaugeSlider.value = 1;
     }
@@ -452,7 +457,7 @@ public class StageCtrl : MonoBehaviour
     {
         //yield return new WaitForSeconds(0.5f);
         //_clearText.SetActive(true);
-        _result = CalcEvalution(cheeseScore);
+        _result = CalcEvalution(getCheeseCount);
 
         //yield return new WaitForSeconds(0.5f);
 
@@ -471,7 +476,7 @@ public class StageCtrl : MonoBehaviour
     {
         _evalution = 0f;
 
-        _evalution = score / RecentCheeseLimit();
+        _evalution = score / (float)RecentCheeseLimit();
 
         _value = (int)(_evalution * 10);
 
