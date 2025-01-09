@@ -3620,6 +3620,10 @@ PrefabInstance:
       value: Retry0
       objectReference: {fileID: 0}
     - target: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
+      propertyPath: stgNum
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7480889520219698958, guid: 56a1c72bd117acd4585a203a8be22c09, type: 3}
       propertyPath: _player
       value: 
       objectReference: {fileID: 287739705}
