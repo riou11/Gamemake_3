@@ -174,6 +174,7 @@ public class StageCtrl : MonoBehaviour
                 break;
             case 1: //SecondStage
                 _currentSpeed = _firstStgPlySpeeds[0];
+                //_currentSpeed = _secondStgPlySpeeds[0];
                 break;
         }
 
@@ -283,6 +284,7 @@ public class StageCtrl : MonoBehaviour
                 break;
             case 1: //SecondStage
                 _currentSpeed = _firstStgPlySpeeds[cheeseScore];
+                //_currentSpeed = _secondStgPlySpeeds[cheeseScore];
                 break;
         }
     }
