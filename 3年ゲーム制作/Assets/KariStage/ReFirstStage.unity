@@ -253,7 +253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402732, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.1
+      value: -19
       objectReference: {fileID: 0}
     - target: {fileID: 6646916755745402732, guid: 40689e5e4e08aaf44bb45c019dbfd798, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7939,6 +7939,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1497516715, guid: 65183304ce22fea419549381db356ea5, type: 3}
+      propertyPath: preloadedSounds.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: e8e15477b81cfc14c99e9ee32e4bace7, type: 3}
     - target: {fileID: 1538473632820727213, guid: 65183304ce22fea419549381db356ea5, type: 3}
       propertyPath: m_Name
       value: GameManager (1)

@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
     void ProcessTitle()
     {
         titleControl = FindObjectOfType<TitleControl>();
+        
     }
 
     void ProcessSceneSelect()
@@ -191,6 +192,7 @@ public class GameManager : MonoBehaviour
         {
             case GameScene.Title:
                 titleControl.StopCoroutine();
+                
                 break;
             case GameScene.SceneSelect:
                 menuSelectControl.StopCoroutine();

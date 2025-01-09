@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
 
     private void OnEnable()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.SoundType.ButtonClick);
         var uiMap = inputActions.FindActionMap("UI");
         uiMap.Enable();
     }
