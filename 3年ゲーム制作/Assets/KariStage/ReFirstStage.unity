@@ -5428,6 +5428,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 263371435}
     m_Modifications:
+    - target: {fileID: 357850478, guid: e609fb1d104360e429be4bb5d672771b, type: 3}
+      propertyPath: m_TagString
+      value: Globe
+      objectReference: {fileID: 0}
     - target: {fileID: 3188991089721192250, guid: e609fb1d104360e429be4bb5d672771b, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -5714,7 +5718,7 @@ MonoBehaviour:
   knockbackForce: 1000
   stopDuration: 3
   mainCamera: {fileID: 519420031}
-  maxDistanceFromCamera: 70
+  maxDistanceFromCamera: 50
   warpOffset: {x: 0, y: -10, z: 0}
   jumpPower: 50
 --- !u!1001 &1330262693
@@ -8426,7 +8430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 453333119650687607, guid: f843c6414d9a51a4c8c5e130ac9f2907, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 282.45
+      value: 284.91
       objectReference: {fileID: 0}
     - target: {fileID: 453333119650687607, guid: f843c6414d9a51a4c8c5e130ac9f2907, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8591,6 +8595,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 263371435}
     m_Modifications:
+    - target: {fileID: 357850478, guid: e609fb1d104360e429be4bb5d672771b, type: 3}
+      propertyPath: m_TagString
+      value: Globe
+      objectReference: {fileID: 0}
     - target: {fileID: 3188991089721192250, guid: e609fb1d104360e429be4bb5d672771b, type: 3}
       propertyPath: m_Enabled
       value: 1
