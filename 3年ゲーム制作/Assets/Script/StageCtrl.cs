@@ -213,7 +213,7 @@ public class StageCtrl : MonoBehaviour
                     break;
                 case GameManager.GameScene.SecondStageGimmick:                    
                     //SecondStageの次を調べようとすると配列が範囲外になるため、ここでは前のステージに戻るようにしている
-                    _nextStageButton.onClick.AddListener(() => gameManager.TransitionScene((int)GameManager.GameScene.ReFirstStage));
+                    //_nextStageButton.onClick.AddListener(() => gameManager.TransitionScene((int)GameManager.GameScene.ReFirstStage));
                     break;
             }
         }
@@ -535,8 +535,20 @@ public class StageCtrl : MonoBehaviour
     {
         _transSelectionUI.SetActive(true);
 
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(_nextStageButton.gameObject);
+        switch (stgNum)
+        {
+            case 0:
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(_nextStageButton.gameObject);
+                break;
+            case 1:
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(_gcBackToTitleButton.gameObject);
+                break;
+            default:
+                break;
+        }
+        
     }
 
     //public void ToNextStage()

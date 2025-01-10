@@ -51,7 +51,7 @@ public class MenuSelectControl : MonoBehaviour
     /// </summary>
     [SerializeField] private GameObject MainMenuPanel;
     [SerializeField] private GameObject StageSelectPanel;
-    [SerializeField] private GameObject OptionPanel;
+    //[SerializeField] private GameObject OptionPanel;
     [SerializeField] private GameObject PlayGuidePanel;
 
     [SerializeField] private GameObject[] PlayGuideImages; //ゲーム説明スライド
@@ -65,7 +65,7 @@ public class MenuSelectControl : MonoBehaviour
 
     [SerializeField] private ButtonScaler stageSelect;
     [SerializeField] private ButtonScaler playGuide;
-    [SerializeField] private ButtonScaler option;
+    //[SerializeField] private ButtonScaler option;
 
     [SerializeField] private StageButtonData[] StageButtons;
 
@@ -95,13 +95,13 @@ public class MenuSelectControl : MonoBehaviour
         {
             UnitPlayGuide();          
         }
-        else if (_subMenuData[SubPanel.Option])
-        {
-            if (Gamepad.current.buttonEast.wasPressedThisFrame)
-            {
-                SelectedMenuPanel(SubPanel.Option);
-            }
-        }
+        //else if (_subMenuData[SubPanel.Option])
+        //{
+        //    if (Gamepad.current.buttonEast.wasPressedThisFrame)
+        //    {
+        //        SelectedMenuPanel(SubPanel.Option);
+        //    }
+        //}
         else
         {
             //一つ前の画面に戻る処理
@@ -117,7 +117,7 @@ public class MenuSelectControl : MonoBehaviour
     void SetUp()
     {
         StageSelectPanel.SetActive(false);
-        OptionPanel.SetActive(false);
+        //OptionPanel.SetActive(false);
         PlayGuidePanel.SetActive(false);
         MainMenuPanel.SetActive(true);
 
@@ -271,10 +271,10 @@ public class MenuSelectControl : MonoBehaviour
                 StageSelectPanel.SetActive(false);
                 _subMenuData[subPanel] = false;
                 break;
-            case SubPanel.Option:
-                OptionPanel.SetActive(false);
-                _subMenuData[subPanel] = false;
-                break;
+            //case SubPanel.Option:
+            //    OptionPanel.SetActive(false);
+            //    _subMenuData[subPanel] = false;
+            //    break;
             case SubPanel.PlayGuide:
                 PlayGuidePanel.SetActive(false);
                 _subMenuData[subPanel] = false;
@@ -295,12 +295,12 @@ public class MenuSelectControl : MonoBehaviour
             case SubPanel.StageSelect:
                 manager.TransitionScene((int)GameManager.GameScene.StageSelect);
                 break;
-            case SubPanel.Option:
-                //EventSystem.current.SetSelectedGameObject(OptionPanelFirstButton);
-                MainMenuPanel.SetActive(false);
-                OptionPanel.SetActive(true);
-                _subMenuData[subPanel] = true;
-                break;
+            //case SubPanel.Option:
+            //    //EventSystem.current.SetSelectedGameObject(OptionPanelFirstButton);
+            //    MainMenuPanel.SetActive(false);
+            //    OptionPanel.SetActive(true);
+            //    _subMenuData[subPanel] = true;
+            //    break;
             case SubPanel.PlayGuide:
                 //EventSystem.current.SetSelectedGameObject(PlayGuidePanelFirstButton);
                 MainMenuPanel.SetActive(false);
@@ -317,6 +317,6 @@ public class MenuSelectControl : MonoBehaviour
     {
         stageSelect.OnDeleated();
         playGuide.OnDeleated();
-        option.OnDeleated();
+        //option.OnDeleated();
     }
 }

@@ -874,7 +874,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 1845197274}
-    m_SelectOnDown: {fileID: 1267267620}
+    m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -2168,7 +2168,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainMenuPanel: {fileID: 628817875}
   StageSelectPanel: {fileID: 190780434}
-  OptionPanel: {fileID: 1580375602}
   PlayGuidePanel: {fileID: 740907450}
   PlayGuideImages:
   - {fileID: 689379824}
@@ -2178,7 +2177,6 @@ MonoBehaviour:
   MainMenuPanelFirstButton: {fileID: 1845197272}
   stageSelect: {fileID: 1845197277}
   playGuide: {fileID: 349883764}
-  option: {fileID: 1267267623}
   StageButtons:
   - stage: 2
     button: {fileID: 1347438920}
