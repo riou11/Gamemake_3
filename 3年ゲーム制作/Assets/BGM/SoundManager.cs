@@ -102,8 +102,7 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning($"サウンド {type} が見つかりません。");
         }
     }
-    //使用例：SoundManager.Instance.PlaySFX(SoundManager.SoundType.grasp);
-
+        //使用例：SoundManager.Instance.PlaySFX(SoundManager.SoundType.grasp);
 
     public void PlayBGM(SoundType type, bool fade = false, float fadeDuration = 1f)
     {
