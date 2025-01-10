@@ -98,7 +98,7 @@ public class StageCtrl : MonoBehaviour
     private float _evalution = 0f; //（獲得チーズ数 / そのステージの上限チーズ数）の計算結果
     private int _value = 0; //評価値計算過程の計算結果格納用（評価値の査定を、整数値で行いたいためint型）
     private int _result = 0; //そのステージの評価値（星の数）、保存はされない
-    private int[] _cheeseScores = { 20, 7}; //各ステージのチーズ上限数
+    private int[] _cheeseScores = { 20, 9}; //各ステージのチーズ上限数
     private float[] _firstStgPlySpeeds = { 9f, 10f, 11f, 12f, 13f, 14f, 15f, 16f, 17f, 18f, 19f, 20f,20f,20f,20f,20f,20f,20f,20f,20f }; //firstStageの速度一覧  
     private float[] _secondStgPlySpeeds = { 9f, 10f, 11f, 12f, 13f, 14f, 15f, 16f, 17f, 18f, 19f, 20f, 20f, 20f, 20f, 20f, 20f, 20f, 20f, 20f }; //SecondStageの速度一覧
     private int getCheeseCount = 0; //静的なチーズ獲得数
